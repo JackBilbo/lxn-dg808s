@@ -1,0 +1,101 @@
+
+[SIMVARS.0]
+pvelbodyaxis = 0 ; 
+bvelbodyaxis = 0 ; 
+hvelbodyaxis = 0 ; 
+xvelbodyaxis = 0 ; 
+yvelbodyaxis = 0 ; 
+zvelbodyaxis = 0 ; 
+simonground = True ; 
+
+[CONTROLS.0]
+spoilershandle = 000.00 ; 
+FlapsHandle=050.00
+LeftFlap=000.00
+RightFlap=000.00 
+gearshandle = 100.00 ; 
+gear1 = 100.00 ; 
+gear2 = 100.00 ; 
+gear3 = 100.00 ; 
+leftbrake = 0.00 ; 
+rightbrake = 0.00 ; 
+parkingbrake = 0.00 ; 
+yokey = 050.00 ; 
+yokex = 050.00 ; 
+rudder = 050.00 ; 
+
+[Fuel.0]
+TankSelector=Center
+TankSelector1=Center
+Center=50
+LeftMain=0
+RightMain=0
+LeftAux=0
+RightAux=0
+LeftTip=60
+RightTip=60
+Center 2=0
+Center 3=0
+External 1=0
+External 2=0
+
+[Engine Parameters.1.0]
+ThrottleLeverPct=0
+PropellerLeverPct=0
+MixtureLeverPct=0
+Pct Engine RPM=0
+MaxReachedEngineRPM=0
+Pct N1=0
+Pct N2=0
+LeftMagneto=False
+RightMagneto=False
+GeneratorSwitch=True
+CowlFlapPct=0
+FuelPumpSwitch=False
+FuelPumpSwitch_EX1=0
+FuelValveOpen=False
+CarbHeat/DeiceSwitch=False
+EngineMasterSwitch=False
+GlowPlugTemperaturePct=1
+IgnitionSwitch=0
+StarterSwitch=False
+EGT_DegR=518.2720947265625
+ITT_DegR=582.95394115593887818
+Afterburner=0
+
+[Systems.0]
+BatterySwitch=True
+
+[Switches.0]
+PitotHeat=False
+PitotHeat_EX1=2
+WindshieldDeice=2
+BeaconLights=True
+LandingLights=True
+LogoLights=True
+NavLights=True
+PanelLights=True
+PanelLightsNight=True
+RecognitionLights=False
+StrobeLights=True
+TaxiLights=False
+WingLights=True
+CabinLights=False
+GlareshieldLights=False
+PedestalLights=False
+Potentiometer.15 = 0
+
+[LocalVars.0]
+UNITS_IMPERIAL=100
+NAV_SCREEN=100
+YAWSTRING_1=50
+CANOPY_EJECT=0
+VARIO_TONE_ACTIVE=40
+PILOT_TOGGLE=1
+STICK_TOGGLE=0
+CANOPY OPEN=0
+SLIDING_WINDOW=0
+THUMB_ANIM=0
+VARIO_MODE=100
+YAWSTRING_TOGGLE=0
+WINDSTRING_TOGGLE=0

@@ -1,0 +1,188 @@
+<ModelBehaviors>
+	<Include ModelBehaviorFile="Asobo\Generic\FX.xml"/>
+	<Include ModelBehaviorFile="Asobo\Exterior.xml"/>
+	<Template Name="DG808S_FX">
+		
+		<Component ID="WATER_BALLAST_1">
+			<OverrideTemplateParameters>
+					<FX_CODE>(A:LIGHT RECOGNITION ON:1, Bool) (A:LIGHT RECOGNITION:1, Bool) or</FX_CODE>
+					<FX_GUID>{ca11ceb7-8ac1-4c28-84e6-613dc8ebcf55}</FX_GUID>
+					<FX_NAME>WaterBallastDump1</FX_NAME>
+					<FX_GRAPH_PARAM_0>AIRSPEED, (A:TOTAL WORLD VELOCITY, meters per second) (A:GROUND VELOCITY, meters per second) max</FX_GRAPH_PARAM_0>
+			</OverrideTemplateParameters>
+			<Component ID="WATER_BALLAST_1_NODE" Node="water_ballast_1">
+				<UseTemplate Name="ASOBO_GT_FX">
+				</UseTemplate>
+			</Component>
+			<Component ID="WATER_BALLAST_2_NODE" Node="water_ballast_2">
+				<UseTemplate Name="ASOBO_GT_FX">
+				</UseTemplate>
+			</Component>
+			<Component ID="WATER_BALLAST_3_NODE" Node="water_ballast_3">
+				<UseTemplate Name="ASOBO_GT_FX">
+				</UseTemplate>
+			</Component>
+			<Component ID="WATER_BALLAST_4_NODE" Node="water_ballast_4">
+				<UseTemplate Name="ASOBO_GT_FX">
+				</UseTemplate>
+			</Component>
+		</Component>
+		
+		<Component ID="FX_SMOKE_WHITE">
+			<Component ID="FX_SMOKE_WHITE_NODE" Node="smoke_node">
+				<UseTemplate Name="ASOBO_GT_FX">
+					<FX_CODE>(A:FUEL DUMP ACTIVE, bool) (A:LIGHT PEDESTRAL ON, bool) or (A:LIGHT PEDESTRAL, bool) or</FX_CODE>
+					<FX_GUID>{8cb5d631-9639-4a6f-8394-5ebb4908c36f}</FX_GUID>
+					<FX_ROTATION_OFFSET_P>-90</FX_ROTATION_OFFSET_P>
+				</UseTemplate>
+			</Component>
+		</Component>
+		<Component ID="FX_SMOKE_NEAR_WHITE">
+			<Component ID="FX_SMOKE_NEAR_WHITE_NODE" Node="smoke_node">
+				<UseTemplate Name="ASOBO_GT_FX">
+					<FX_CODE>(A:FUEL DUMP ACTIVE, bool) (A:LIGHT PEDESTRAL ON, bool) or (A:LIGHT PEDESTRAL, bool) or</FX_CODE>
+					<FX_GUID>{d0def3e8-81b8-49ed-88c1-4d133e2a2b79}</FX_GUID>
+					<FX_ROTATION_OFFSET_P>-90</FX_ROTATION_OFFSET_P>
+					<FX_GRAPH_PARAM_0>AIRSPEED, (A:TOTAL WORLD VELOCITY, meters per second) (A:GROUND VELOCITY, meters per second) max</FX_GRAPH_PARAM_0>
+				</UseTemplate>
+			</Component>
+		</Component>
+		
+		<Component ID="WINGTIP_VORTEX">
+			<OverrideTemplateParameters>
+				<FX_GUID>{77462370-C2EF-46CE-B628-8CAD0A951561}</FX_GUID>
+				<FX_CODE>1</FX_CODE>
+				<FX_GRAPH_PARAM_0>VAPOR_MODIFIER, 
+					1
+					(A:TOTAL AIR TEMPERATURE, celsius) (A:AMBIENT PRECIP RATE, millimeter of water) - (A:AMBIENT IN CLOUD, percent) 3 / -
+					50 + 100 /
+					0 max 1 min	- 0.75 pow
+					
+					(A:AIRSPEED MACH, mach) 0.1 - 0.9 / 0 max 1 min *
+					
+					(A:WING FLEX PCT:1, percent over 100) abs (A:WING FLEX PCT:2, percent over 100) abs + 2 / 0 max 1 min 0.75 pow * 
+				</FX_GRAPH_PARAM_0>
+			</OverrideTemplateParameters>
+			<Component ID="WINGTIP_VORTEX_LEFT" Node="LEFT_WING_TIP">
+				<UseTemplate Name="ASOBO_GT_FX">
+				</UseTemplate>
+			</Component>
+			<Component ID="WINGTIP_VORTEX_RIGHT" Node="RIGHT_WING_TIP">
+				<UseTemplate Name="ASOBO_GT_FX">
+				</UseTemplate>
+			</Component>
+		</Component>		
+		
+		<Component ID="LANDING_FX">
+
+			<UseTemplate Name="ASOBO_DUST_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>0</FX_CONTACT_POINT_ID>
+				<FX_NODE>MAIN_WHEEL_CONTACT</FX_NODE>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_DUST_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>3</FX_CONTACT_POINT_ID>
+				<FX_NODE>TAIL_WHEEL_CONTACT</FX_NODE>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_DUST_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>1</FX_CONTACT_POINT_ID>
+				<FX_NODE>LEFT_WING_WHEEL</FX_NODE>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_DUST_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>2</FX_CONTACT_POINT_ID>
+				<FX_NODE>RIGHT_WING_WHEEL</FX_NODE>
+			</UseTemplate>
+
+			<UseTemplate Name="ASOBO_GRASS_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>0</FX_CONTACT_POINT_ID>
+				<FX_NODE>MAIN_WHEEL_CONTACT</FX_NODE>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_GRASS_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>3</FX_CONTACT_POINT_ID>
+				<FX_NODE>TAIL_WHEEL_CONTACT</FX_NODE>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_GRASS_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>1</FX_CONTACT_POINT_ID>
+				<FX_NODE>LEFT_WING_WHEEL</FX_NODE>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_GRASS_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>2</FX_CONTACT_POINT_ID>
+				<FX_NODE>RIGHT_WING_WHEEL</FX_NODE>
+			</UseTemplate>
+
+			<UseTemplate Name="ASOBO_SNOW_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>0</FX_CONTACT_POINT_ID>
+				<FX_NODE>MAIN_WHEEL_CONTACT</FX_NODE>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_SNOW_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>3</FX_CONTACT_POINT_ID>
+				<FX_NODE>TAIL_WHEEL_CONTACT</FX_NODE>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_SNOW_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>1</FX_CONTACT_POINT_ID>
+				<FX_NODE>LEFT_WING_WHEEL</FX_NODE>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_SNOW_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>2</FX_CONTACT_POINT_ID>
+				<FX_NODE>RIGHT_WING_WHEEL</FX_NODE>
+			</UseTemplate>
+
+			<UseTemplate Name="ASOBO_WATER_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>0</FX_CONTACT_POINT_ID>
+				<FX_NODE>MAIN_WHEEL_CONTACT</FX_NODE>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_WATER_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>3</FX_CONTACT_POINT_ID>
+				<FX_NODE>TAIL_WHEEL_CONTACT</FX_NODE>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_WATER_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>1</FX_CONTACT_POINT_ID>
+				<FX_NODE>LEFT_WING_WHEEL</FX_NODE>
+			</UseTemplate>
+			<UseTemplate Name="ASOBO_WATER_GR_LANDING_FX">
+				<FX_CONTACT_POINT_ID>2</FX_CONTACT_POINT_ID>
+				<FX_NODE>RIGHT_WING_WHEEL</FX_NODE>
+			</UseTemplate>
+
+		</Component>
+		
+		<Component ID="FX_HEAT">
+			<OverrideTemplateParameters>
+				<FX_GUID>{26d7172f-d74f-4253-bada-99c27a9cead6}</FX_GUID>
+				<FX_GRAPH_PARAM_1>OPACITY, 1 (A:GROUND VELOCITY, meters per second) 100 / 1 + / (A:AMBIENT TEMPERATURE, celsius) 200 / -</FX_GRAPH_PARAM_1>
+			</OverrideTemplateParameters>
+			<Component ID="FX_HEAT_1" Node="fx_exhaust_1">
+				<UseTemplate Name="ASOBO_GT_FX">
+					<FX_CODE>(A:ENG N1 RPM:1, percent) (A:ENG COMBUSTION:1, bool) 5 * + 5 &gt;</FX_CODE>
+					<FX_GRAPH_PARAM_0>RPM, (A:ENG N1 RPM:1, percent over 100) </FX_GRAPH_PARAM_0>
+					<FX_GRAPH_PARAM_1>OPACITY, (A:ENG N1 RPM:1, percent over 100) 0.5 pow</FX_GRAPH_PARAM_1>
+				</UseTemplate>
+			</Component>
+		</Component>	
+		
+		<Component ID="FX_HEAT_LARGE">
+			<OverrideTemplateParameters>
+				<FX_GUID>{d0e012d6-c2bd-439e-9ead-6568d9272257}</FX_GUID>
+				<FX_GRAPH_PARAM_1>OPACITY, 1 (A:GROUND VELOCITY, meters per second) 100 / 1 + / (A:AMBIENT TEMPERATURE, celsius) 200 / -</FX_GRAPH_PARAM_1>
+			</OverrideTemplateParameters>
+			<Component ID="FX_HEAT_LARGE_L" Node="fx_exhaust_left">
+				<UseTemplate Name="ASOBO_GT_FX">
+					<FX_CODE>(A:ENG N1 RPM:1, percent) (A:ENG N1 RPM:2, percent) + 50 &gt;</FX_CODE>
+					<FX_GRAPH_PARAM_0>RPM, (A:ENG N1 RPM:1, percent over 100) (A:ENG N1 RPM:2, percent over 100) + 0.5 -</FX_GRAPH_PARAM_0>
+				</UseTemplate>
+			</Component>
+		</Component>	
+
+
+		<Component ID="ENGINE">
+			<UseTemplate Name="ASOBO_ENGINE_Turbine_Template">
+				<ID>1</ID>
+				<ANIM_NODE_ID>PROP_1</ANIM_NODE_ID>
+				<ANIM_NAME>PROP_1</ANIM_NAME>
+				<STILL_NODE_ID>PROP_STILL_1</STILL_NODE_ID>
+				<SLOW_NODE_ID>PROP_SLOW_1</SLOW_NODE_ID>
+				<BLURRED_NODE_ID>PROP_BLURRED_1</BLURRED_NODE_ID>
+			</UseTemplate>
+		</Component>
+
+	</Template>
+</ModelBehaviors>

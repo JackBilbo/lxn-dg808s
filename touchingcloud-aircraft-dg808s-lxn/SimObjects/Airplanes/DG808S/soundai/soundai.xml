@@ -1,0 +1,49 @@
+<!-- Copyright (c) Asobo Studio, All rights reserved. www.asobostudio.com -->
+
+<SoundInfo Version="0.1">
+
+	<WwisePackages>
+		<MainPackage Name="Asobo_VL3_AI"/>
+	</WwisePackages>
+
+    <AlwaysPlaySounds>
+		<Sound WwiseEvent="STALL_WARNING"  Wwisedata="false" FileName="JET_WHINE.1.00" FullScaleDistance="100" InsideConeAngle="60" OutsideConeAngle="160" ConePitch="0" ConeHeading="-120" OutsideConeVolume="9900">
+			<WwiseRTPC SimVar="ENG N1 RPM" Units="PERCENT" Index="1" RTPCName="ENG_N2_RPM" /> 
+			<VolumeCurve SimVar="ENG N1 RPM" Units="PERCENT" Index="1">
+			  <Point SimValue="2" Output="0" />
+			  <Point SimValue="3" Output="1" />
+			  <Point SimValue="15" Output="5" />
+			  <Point SimValue="20" Output="0" />
+			</VolumeCurve>
+			<PitchCurve SimVar="ENG N1 RPM" Units="PERCENT" Index="1">
+			  <Point SimValue="2" Output="0.5" />
+			  <Point SimValue="3" Output="0.9" />
+			  <Point SimValue="20" Output="1.1" />
+			</PitchCurve>
+		</Sound>
+
+		<Sound WwiseEvent="STALL_WARNING"  Wwisedata="false" FileName="JET_WHINE.1.01" FullScaleDistance="100" InsideConeAngle="60" OutsideConeAngle="160" ConePitch="0" ConeHeading="-120" OutsideConeVolume="9900">
+			<WwiseRTPC SimVar="ENG N1 RPM" Units="PERCENT" Index="1" RTPCName="ENG_N2_RPM" /> 
+			<VolumeCurve SimVar="ENG N1 RPM" Units="PERCENT" Index="1">
+			  <Point SimValue="10" Output="0" />
+			  <Point SimValue="20" Output="5" />
+			  <Point SimValue="40" Output="10" />
+			  <Point SimValue="60" Output="20" />
+			  <Point SimValue="80" Output="30" />
+			  <Point SimValue="100" Output="50" />
+			</VolumeCurve>
+			<PitchCurve SimVar="ENG N1 RPM" Units="PERCENT" Index="1">
+			  <Point SimValue="10" Output="0.5" />
+			  <Point SimValue="60" Output="0.9" />
+			  <Point SimValue="100" Output="1.1" />
+			</PitchCurve>
+		</Sound>
+	</AlwaysPlaySounds>
+		  
+  <GroundSounds>
+    <Sound WwiseEvent="CENTER_TOUCHDOWN" FadeOutType="2" FadeOutTime="0.5" WwiseData="true" />
+	<Sound WwiseEvent="LEFT_TOUCHDOWN" FadeOutType="2" FadeOutTime="0.5" WwiseData="true" />  
+    <Sound WwiseEvent="RIGHT_TOUCHDOWN" FadeOutType="2" FadeOutTime="0.5" WwiseData="true" />
+  </GroundSounds>
+
+</SoundInfo>
