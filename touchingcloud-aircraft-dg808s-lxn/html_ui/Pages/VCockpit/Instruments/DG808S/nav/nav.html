@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="/Pages/VCockpit/Instruments/DG808S/nav/nav.css" />
+<link rel="stylesheet" href="/Pages/VCockpit/Instruments/DG808S/nav/nav.css?aa" />
+
 
 <script type="text/html" id="lxn">
     <div id="Mainframe" class="map_northup">
@@ -56,10 +57,7 @@
 						<span class="livedata" data-value="mccready" showunit="no"></span>
 					</div>
 					<a href="#" class="datacell-clickspot"></a>
-					<div class="mcbuttons">
-						<button class="button inc">+</button>
-						<button class="button dec">-</button>
-					</div>
+					
 				</div>
 			</div>
 	
@@ -126,70 +124,29 @@
 						<div class="page">
 							<div class="content airportinfo">
 								<div class="icao"> <span class="livedata" data-value="sel_apt_icao" showunit="no"></span></div>
-								<h1><span class="livedata airportname" data-value="sel_apt_name" showunit="no"></span></h1>
+								<h2><span class="livedata airportname" data-value="sel_apt_name" showunit="no"></span></h2>
+								<div class="elevation">Elevation: <span class="livedata" data-value="sel_apt_alt"></span></div>
 								<div class="distancbearing"> <span class="livedata" data-value="sel_apt_bearing"></span> @  <span class="livedata" data-value="sel_apt_dist"></span></div>
 								<br><br>
-								<h4>Longest Runway:</h4>
-								<div class="runwaylength"></div>
-								<div class="runwayorientation"></div>
+								<h4>Runways:</h4>
+								<div class="runways"></div>
 							</div>
 							
 						</div>
 						<div class="page">
-							<div class="content">
-								<div id="NearestAirport" class="NrstContainer">
-									<table class="NearestList">
-										<caption>Nearest Airports</caption>
-										<thead>
-											<tr>
-												<th>Airport</th>
-												<th>BRG</th>
-												<th>DIS</th>
-												<th>APPR/RWY</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr id="SizeSetter">
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-											</tr>
-										</tbody>
-									</table>
-									<table class="SelectionMenu" state="Inactive">
-										<tr>
-											<td>
-												<div class="gradientButton" id="NrstAirport_Drct">
-													<div class="mainText"><img class="DrctImg" src="/Pages/VCockpit/Instruments/NavSystems/Shared/Images/TSC/Icons/ICON_MAP_DIRECT_TO_1.png" /></div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div class="gradientButton" id="NrstAirport_InsertInFpl">
-													<div class="mainText">Insert in Flight Plan</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div class="gradientButton" id="NrstAirport_AirportInfo" state="Hidden">
-													<div class="mainText">Airport Info</div>
-												</div>
-											</td>
-										</tr>
-									</table>
-								</div>
+							<div class="content hasScrollbars">
+								<ul id="nearestairports">
+									
+									
+								</ul>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="panel">
 					<div class="pageheader">
-						<div class="title">WPT: <span class="livedata wp_name" data-value="wp_name" showunit="no"></span> (<span class="livedata" data-value="wp_alt"></span>)</div>
-						<div id="wpselect"><a href="#" id="wp_back"><</a><a href="#" id="wp_next">></a></div>
-						<div class="time"><span class="livedata" data-value="localtime" showunit="no"></span></div>
+						<div class="title">WPT: <span class="livedata wp_name" data-value="wp_name" showunit="no"></span> (<span class="livedata" data-value="wp_alt"></span>)</div>	
+						<div class="time"><div id="wpselect"><a href="#" id="wp_back"><</a><a href="#" id="wp_next">></a></div><span class="livedata" data-value="localtime" showunit="no"></span></div>
 					</div>
 					<div class="pageframe">
 						<div class="page">
@@ -233,7 +190,7 @@
 							<div id="tasklist" class="task_not_started hasScrollbars">
 								<header>
 									<h1>
-										<span class="header_prestart">Task not startet</span>
+										<span class="header_prestart">Task not started</span>
 										<span class="header_running">Task running</span>
 										<span class="header_finished">Task finished</span>
 									</h1>
@@ -355,7 +312,8 @@
 						<div class="page">
 							<div id="systemconfig">
 								<div class="buttonwrapper">
-									<button class="lxconfigbtn" id="conf_wb" aria-controls="conf_panel_wb">Weight & Balance</button>
+									<button class="lxconfigbtn" id="conf_wb" aria-controls="conf_panel_wb">Ballast</button>
+									<!-- button class="lxconfigbtn" id="conf_system" aria-controls="conf_panel_system">System Settings</button -->
 									<button class="lxconfigbtn" id="conf_units" aria-controls="conf_panel_units">Units</button>
 									<!--
 									<button class="lxconfigbtn" id="conf_bugs" aria-controls="conf_panel_bugs">Bugs</button>
@@ -363,14 +321,58 @@
 									-->	
 								</div>
 								<div class="configpanel" id="conf_panel_wb" aria-controlledby="conf_wb">
-									<header>Weight & Balance</header>
+									<header>Water Ballast</header>
 									<div class="configpanel_content">
-										<table>
-											<caption>Weights</caption>
-											<tr><th>Empty</th><td>270kg (static Value in HTML)</td></tr>
-											<tr><th>Max </th><td>525kg (static Value in HTML)</td></tr>
-											<tr><th>Ballast</th><td><span class="livedata" data-value="ballast"></span>  (updated from SimVar)</td></tr>
-									   </table>
+										<div class="configpanel_content">
+											<div class="tanks">
+												<div class="ballasttank left" data-tank="left"><div class="level"></div><div class="number"></div></div>
+												<div class="ballasttank back" data-tank="back"><div class="level"></div><div class="number"></div></div>
+												<div class="ballasttank center" data-tank="center"><div class="level"></div><div class="number"></div></div>
+												<div class="ballasttank right" data-tank="right"><div class="level"></div><div class="number"></div></div>
+											</div>
+											<div id="ballastslider" class="rangeinput" data-min="0" data-max="100" data-value="50" data-callback="output"></div>
+											<div class="total">Total: <span class="livedata" data-value="ballast"></span></div>
+										</div>
+									</div>
+									<div class="configpanel_buttons">
+										<a href="#" class="configpanel_close">CLOSE</a>
+									</div>
+								</div>
+								<div class="configpanel" id="conf_panel_system" aria-controlledby="conf_system">
+									<header>System Settings</header>
+									<div class="configpanel_content">
+										<div class="config_entry">
+											<div class="config_label">
+												<div class="title">Canopy tint</div>
+												<div class="description">Toggles the glass color of your canopy</div>
+											</div>
+											<div class="config_toggle" state="off" data-var="canopy-tint">
+												<div class="handle"></div>
+											</div>
+										</div>
+										<div class="config_entry">
+											<div class="config_label">
+												<div class="title">Canopy cover</div>
+											</div>
+											<div class="config_toggle" state="off" data-var="canopy-cover">
+												<div class="handle"></div>
+											</div>
+										</div>
+										<div class="config_entry range">
+											<div class="config_label">
+												<div class="title">Display Brightness</div>
+												<div class="description">Brightness of all cockpit displays</div>
+											</div>
+											<div id="brightnesslider" class="rangeinput" data-min="0" data-max="1" data-value="1"></div>
+										</div>
+										<div class="config_entry range">
+											<div class="config_label">
+												<div class="title">Glareshield Light Brightness</div>
+											</div>
+											<div id="glareshieldslider" class="rangeinput" data-min="0" data-max="1" data-value="0.5"></div>
+										</div>
+										
+
 									</div>
 									<div class="configpanel_buttons">
 										<a href="#" class="configpanel_close">CLOSE</a>
@@ -529,4 +531,8 @@
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Shared/FlightElements/NearestWaypoint.js"></script>
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/Shared/FlightElements/Waypoint.js"></script>
 
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/nav.js?jkh"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/navmap.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/interface.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/navpanel.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/configpanel.js"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/nav.js?ag"></script>

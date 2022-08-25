@@ -109,6 +109,11 @@ lxn-nav {
 	justify-content: space-between;
 }
 
+.time { display: flex; }
+#wpselect {
+	padding-right: 1rem;
+}
+
 .current {
 	opacity: 1;
 }
@@ -150,8 +155,22 @@ lxn-nav {
 	align-self: baseline;
 	font-size: 55px;
 	text-align:center;
-	position: relative; width: 100%;
+	position: relative; 
+	width: 100%;
+	overflow: hidden;
 }
+
+.datacell .number {
+	position: relative;
+	max-width: 100%;
+	max-height: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.datacell.smallfont .number { font-size: 0.9em; }
+.datacell.smallfont .unit { display: none; }
 
 .datacell .unit {
 	font-size: 0.4em;
@@ -533,12 +552,63 @@ lxn-nav {
             padding: 5px 0;
         }
 
+		/* Ballast settings */
+
+.tanks {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 400px;
+    margin-bottom: 4rem;
+	margin-top: 10rem;
+}
+
+.ballasttank {
+    border: 2px solid #ccc;
+    height: 100%;
+    position: relative;
+}
+
+.left, .right {
+    width:30%;
+}
+
+.tail {
+    width: 20%;
+    height: 50%;
+}
+
+.level {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+    background-color: #2656a3;
+}
+
+.ballasttank .number {
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+    font-size: 2.6rem;
+    width: 100%;
+    text-align: center;
+}
+
+.total {
+	font-size: 2.6rem;
+}
+
 /* Togglebuttons for system settings */
 
 .config_entry {
     position: relative;
     display: flex;
+	flex-wrap: wrap;
     margin-bottom: var(--horizontalpadding);
+	margin-bottom: 2rem;
 }
 
 .config_label {
@@ -546,27 +616,31 @@ lxn-nav {
     padding-right: var(--horizontalpadding);
 }
 
-.config_label .title { font-size: 1.4em; }
+.range .config_label {
+	width: 100%;
+}
+
+.config_label .title { font-size: 1.2em; }
 .config_label .description { color: #aaa; }
 
 .config_toggle {
     width: 17%;
     position: relative;
-    height: 40px;
-    border: 3px solid #fff;
-    border-radius: 20px;
+    height: 4rem;
+    border: 2px solid #ccc;
+    border-radius: 40px;
 }
 
 .config_toggle[state="on"] {
-    background-color: #00d7fe;
+    background-color: #2656a3;
 }
 
 .config_toggle .handle {
-    height: 28px;
-    width: 28px;
+    height: 3.4rem;
+    width: 3.4rem;
     background-color: #fff;
-    left: 4px;
-    top: 3px;
+    left: 0.3rem;
+    top: 0.3rem;
     border-radius: 50%;
     position: absolute;
     transition: all 0.2s;
@@ -579,6 +653,60 @@ lxn-nav {
 }
 
 /* /Togglebuttons for system settings */
+
+/* Range Inputs */
+
+.rangeinput {
+    display: block;
+    width: 100%;
+    border: 2px solid #ccc;
+    height: 4rem;
+    border-radius: 2rem;
+	position: relative;
+	margin: 1rem 0;
+}
+
+.rail {
+    position: absolute;
+    width: calc(100% - 0.5rem);
+    height: 4rem;
+    left: 0.3rem;
+    top:0;
+
+}
+
+.marker {
+        background-color: #2656a3;
+        height: 3.8rem;
+        position: absolute;
+        left: 0;
+        top: 0;
+        border-top-left-radius: 2rem;
+        border-bottom-left-radius: 2rem;
+    }
+
+.rangeinput .handle {
+    position: absolute;
+    height: 3.4rem;
+    width: 3.4rem;
+    top: 0.3rem;
+    left: 0;
+    border: 1px solid #ccc;
+    background-color: #ccc;
+    border-radius: 50%;
+
+}
+
+.interact {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+}
+
+/* /range inputs */
 
 .content {
 	background-color: #333;
@@ -624,42 +752,45 @@ lxn-nav {
 	
 }
 
+.airportinfo {
+	font-size: 3rem;
+	line-height: 5rem;
+	padding: 50px;
+}
 
 /* AIRPORT LIST */
 
-.NearestList thead {
-	display: none;
-}
+#nearestairports ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            border-top: 1px solid #ccc;
+        }
 
-.NearestList td {
-	padding: var(--verticalpadding) var(--horizontalpadding);
-	border-bottom: 1px solid #888;
-}
+#nearestairports li {
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            padding: 0 0.5rem;
+            cursor:pointer;
+            font-size: 2.5rem;
+        }
 
-.NearestList tr { border: 2px solid transparent; }
-.NearestList tr.selected {
-	background-color: #ffcc00;
-	color: #000;
-	border: 2px solid #ffcc00;
-}
+#nearestairports li.selected {
+            outline: 2px solid #ffcc00;
+            color: #ffcc00;
+        }
 
-.gradientButton {
-	display: flex;
-}
+#nearestairports li>span { padding: 1rem 0.5rem; }
+        .apt_icao { width: 4em;  }
+        .apt_direction { width: 2em; }
+        .apt_name { width: 100%; }
+        .apt_dist { width: 4em; }
 
-.gradientButton div {
-	padding: 0 var(--horizontalpadding);
-}
+#nearestairports li.empty, #airportlist li.template {
+            display: none;
+        }
 
-.gradientButton img { order: 0; }
-.gradientButton .mainValue { order: 1; }
-.gradientButton .title { order: 2; }
-
-#aplist {
-	width: 100%;
-}
-
-.SelectionMenu { display: none; }
+.apt_direction span { position: relative; }
 
  #Map {
     position: absolute;
@@ -977,39 +1108,6 @@ lxn-nav {
 	height: 120px;
 	background-color:rgb(15, 86, 18);
 	transition: all 0.3s;
-}
-
-.mccready .datacell-clickspot {
-	position: absolute;
-	width: calc(var(--devicewidth) / 6);
-	height: 100%;
-	left: 0;
-	top: 0;
-}
-
-.mccready .value {
-	width: 124px;
-}
-
-.mcbuttons {
-	display: none;
-	position: absolute;
-	top: 20px;
-	right: 10px;
-	width: 120px;
-	height: 80%;
-
-	flex-direction: column;
-	justify-content: space-between;
-}
-
-.mccready.expanded {
-	width: 200%;
-	height: 240px;
-}
-
-.mccready.expanded .mcbuttons {
-	display: flex;
 }
 
 .speedgauge .label { font-size: 32px;  }

@@ -6,24 +6,79 @@
       "date": 133030537117555671
     },
     {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/backupscripts.js",
+      "size": 45558,
+      "date": 133057526392595277
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/configpanel.js",
+      "size": 9530,
+      "date": 133059100360267151
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/interface.js",
+      "size": 11044,
+      "date": 133059088772411225
+    },
+    {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/mapConfig.json",
       "size": 3409,
       "date": 133054510414862032
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.css",
-      "size": 19118,
-      "date": 133054510414935417
+      "size": 22082,
+      "date": 133059088772421095
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.html",
-      "size": 26972,
-      "date": 133054510414995189
+      "size": 28802,
+      "date": 133059100499790636
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.js",
-      "size": 122185,
-      "date": 133054510415063530
+      "size": 46103,
+      "date": 133059112953536969
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navmap.js",
+      "size": 19287,
+      "date": 133058909238062752
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navpanel.js",
+      "size": 6755,
+      "date": 133059088772411225
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_includes/geo.js",
+      "size": 5135,
+      "date": 132994449563621107
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_includes/geo_test.html",
+      "size": 246,
+      "date": 132994449563761672
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_soaring_engine/b21_settings.js",
+      "size": 1508,
+      "date": 133056700665209924
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_soaring_engine/b21_soaring_engine.html",
+      "size": 691,
+      "date": 133056701030640041
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_soaring_engine/b21_soaring_engine.js",
+      "size": 63130,
+      "date": 133057526077005628
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_soaring_engine/README.md",
+      "size": 1212,
+      "date": 132994449564279554
     },
     {
       "path": "SimObjects/Airplanes/DG808S/panel/FME.wasm",
