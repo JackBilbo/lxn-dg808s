@@ -1100,6 +1100,7 @@ lxn-nav {
 	transform: translate(0,500px);
 }
 
+
 .mccready {
 	padding: var(--verticalpadding) var(--horizontalpadding);
 	position: absolute;
@@ -1108,6 +1109,39 @@ lxn-nav {
 	height: 120px;
 	background-color:rgb(15, 86, 18);
 	transition: all 0.3s;
+}
+
+.mccready .datacell-clickspot {
+	position: absolute;
+	width: calc(var(--devicewidth) / 6);
+	height: 100%;
+	left: 0;
+	top: 0;
+}
+
+.mccready .value {
+	width: 124px;
+}
+
+.mcbuttons {
+	display: none;
+	position: absolute;
+	top: 20px;
+	right: 10px;
+	width: 120px;
+	height: 80%;
+
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.mccready.expanded {
+	width: 200%;
+	height: 240px;
+}
+
+.mccready.expanded .mcbuttons {
+	display: flex;
 }
 
 .speedgauge .label { font-size: 32px;  }

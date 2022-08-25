@@ -532,6 +532,22 @@ class lxn extends NavSystemTouch {
             this.querySelector(".speedladder.kts").prepend(t);
         }
 
+        this.querySelector(".mccready .datacell-clickspot").addEventListener("click", function(el) {
+            this.parentNode.classList.toggle("expanded");
+        })
+
+        let that = this;
+        this.querySelectorAll(".speedgauge .button").forEach((e)=> {
+            e.addEventListener("click", function (e) {
+
+                if(e.target.classList.contains("inc")) {
+                    that.vars.mccready.value += 0.2;
+                }
+                if(e.target.classList.contains("dec")) {
+                    that.vars.mccready.value = that.vars.mccready.value <= 0 ? 0 : that.vars.mccready.value - 0.2;
+                }
+            })
+        })
         
     }
 
