@@ -36,9 +36,9 @@ class navpanel {
         if(this.airportlister.loadState == 6 &&  this.oldairportlist != this.airportlister.airports) {
             this.oldairportlist = this.airportlister.airports;
             this.buildAirportList();
-            this.getSelectedAirport();
         }
         
+        this.getSelectedAirport();
         this.updateSelectedAirport();
 
         if(UI.pagepos_x == 0 && UI.pagepos_y == 2) {
@@ -132,7 +132,7 @@ class navpanel {
             item.setAttribute("data-airport", this.airportlister.airports[i].icao);
             item.innerHTML  = '<span class="apt_icao">' + this.airportlister.airports[i].ident + '</span>';
             item.innerHTML += '<span class="apt_name">' + this.airportlister.airports[i].name + '</span>';
-            item.innerHTML += '<span class="apt_direction"><span style="transform: rotate(' + this.airportlister.airports[i].infos.bearing + 'deg)">&#8593;</span></span>';
+            item.innerHTML += '<span class="apt_direction"><span style="transform: rotate(' + (this.airportlister.airports[i].bearing - this.instrument.vars.hdg.value ) + 'deg)">&#8593;</span></span>';
             item.innerHTML += '<span class="apt_dist">' + this.airportlister.airports[i].distance.toFixed(1) + '</span>';
             
             if(this.airportlister.airports[i].icao == this.manualselectedairport) {

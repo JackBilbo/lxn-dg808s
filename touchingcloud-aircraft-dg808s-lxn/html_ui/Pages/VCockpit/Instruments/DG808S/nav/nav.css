@@ -790,7 +790,7 @@ lxn-nav {
             display: none;
         }
 
-.apt_direction span { position: relative; }
+.apt_direction span { display: block; position: relative; }
 
  #Map {
     position: absolute;
