@@ -565,6 +565,13 @@ lxn-nav {
 	margin-top: 10rem;
 }
 
+.centertankframe {
+            width: 30%;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
 .ballasttank {
     border: 2px solid #ccc;
     height: 100%;
@@ -572,13 +579,12 @@ lxn-nav {
 }
 
 .left, .right {
-    width:30%;
+            width:30%;
+            height: 80%;
 }
 
-.tail {
-    width: 20%;
-    height: 50%;
-}
+.center { height: 70%; margin-bottom: 4rem; }
+.back { height: 25%; width: 100%; }
 
 .level {
     position: absolute;
