@@ -22,8 +22,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.html",
-      "size": 29244,
-      "date": 133059885188036842
+      "size": 29233,
+      "date": 133060140272239359
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.js",
@@ -39,6 +39,11 @@
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navpanel.js",
       "size": 6814,
       "date": 133059993588192861
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/touchcloud.png",
+      "size": 49493,
+      "date": 133037744850865759
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_includes/geo.js",
