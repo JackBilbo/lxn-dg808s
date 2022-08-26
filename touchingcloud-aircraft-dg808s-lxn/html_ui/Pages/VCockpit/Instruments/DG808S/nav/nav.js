@@ -39,8 +39,8 @@ class lxn extends NavSystemTouch {
             alt: { value: 13542, label: "ALT", longlabel: "Altitude", category: "alt", baseunit: "ft" },
             alt_gnd: { value: 3318, label: "ALT (GND)", longlabel: "Altitude above Ground", category: "alt", baseunit: "ft" },
             oat: { value: 1, label: "OAT", longlabel: "Outside Air Temperature",category:"temperature", baseunit: "F"},
-            ballast: { value: 348, label: "Ballast", longlabel: "Current Ballast",category:"weight", baseunit: "lbs"},
-            ballast_pct: { value: 50, label: "Ballast %", longlabel: "Current Ballast Percent",category:"percent", baseunit: "%"},
+            ballast: { value: 399, label: "Ballast", longlabel: "Current Ballast",category:"weight", baseunit: "lbs"},
+            ballast_pct: { value: 100, label: "Ballast %", longlabel: "Current Ballast Percent",category:"percent", baseunit: "%"},
             localtime: { value: 0, label: "Local", longlabel: "Local Time", category: "time_of_day", baseunit: "s"},
             tasktime: { value: 0, label: "Task Time", longlabel: "Task Time", category: "time_of_day", baseunit: "s"},
             sel_apt_icao: { value: "XXXX", label: "APT ICAO", longlabel: "Selected Airport ICAO", category: "plaintext", baseunit: "none" },
@@ -240,6 +240,8 @@ class lxn extends NavSystemTouch {
                 this.vars.task_arr_agl.value = (B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m ) / 0.3048;
             }
 
+            NAVPANEL.update()
+            CONFIGPANEL.update();
             this.updateKineticAssistant();
         }
 
@@ -251,9 +253,6 @@ class lxn extends NavSystemTouch {
             this.vars.localtime.value = SimVar.GetSimVarValue("E:LOCAL TIME","seconds");
 
             this.updateLiftdots();
-            
-            NAVPANEL.update()
-            CONFIGPANEL.update();
             
         }
 
@@ -461,7 +460,7 @@ class lxn extends NavSystemTouch {
 
     jbb_update_stf()  {
         // No "Bugs" on simulated wings so far
-        let bugs = 100;
+        let bugs = 75;
         let ballast = this.vars.ballast.value;
         let wf = Math.sqrt(eval(this.jbb_refwt + parseFloat(ballast)) / this.jbb_refwt);
     
@@ -882,7 +881,7 @@ class lxn extends NavSystemTouch {
 
 
     engine_event_callback(event_name, args) {
-        console.log("lx9050 engine event "+event_name, args);
+        console.log("Soaring engine event "+event_name, args);
         let WP = args["wp"];
 
         switch (event_name) {

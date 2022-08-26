@@ -71,15 +71,13 @@ class configpanel {
                 back: 26,
                 total: 399
          }
-        
-        
 
         this.ballastslider = new rangeinput(document.querySelector("#ballastslider"), function(val) {
             instrument.vars.ballast_pct.value = val;
 
             SimVar.SetSimVarValue("PAYLOAD STATION WEIGHT:3", "lbs", CONFIGPANEL.maxballast.center / 100 * val);
             SimVar.SetSimVarValue("PAYLOAD STATION WEIGHT:4", "lbs", CONFIGPANEL.maxballast.back / 100 * val)
-            SimVar.SetSimVarValue("PAYLOAD STATION WEIGHT:5", "lbs", CONFIGPANEL.maxballast.rigth / 100 * val);
+            SimVar.SetSimVarValue("PAYLOAD STATION WEIGHT:5", "lbs", CONFIGPANEL.maxballast.right / 100 * val);
             SimVar.SetSimVarValue("PAYLOAD STATION WEIGHT:6", "lbs", CONFIGPANEL.maxballast.left / 100 * val);
         })
 
@@ -130,11 +128,12 @@ class configpanel {
     }
 
     updateBallastDisplay() {
+        this.ballastslider.setValue(this.instrument.vars.ballast_pct.value);
         document. querySelectorAll(".ballasttank").forEach((el) => {
-            this.ballastslider.setValue(this.instrument.vars.ballast_pct.value);
             el.querySelector(".level").style.height = this.instrument.vars.ballast_pct.value + "%";
             el.querySelector(".number").innerHTML = this.instrument.displayValue((this.maxballast[el.getAttribute("data-tank")] / 100) * this.instrument.vars.ballast_pct.value,"lbs","weight") + this.instrument.units.weight.pref;
         })
+
     }
 }
 
