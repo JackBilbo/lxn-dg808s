@@ -51,7 +51,8 @@ The map can not be panned. To avoid collision with „click and drag“ page cha
 „Thermalling help“ through the typical green and red dots is a very basic „quick and dirty“ implementation. So far it can not be toggled. As soon as you are in the air the dotted trail will show.
 
 <h2>Developer Info:</h2>
-If you have a basic understanding of what HTML, Javascript ans CSS are, jump into the code and try your hand on it. There is no black magic involved :-)
+If you have a basic understanding of what HTML, Javascript and CSS are, jump into the code and try your hand on it. There is no black magic involved :-)
+
 
 The front end is intended to be easily extensible with new features. New pages and sub-pages can be added by simply copy/pasting the respective HTML-Structures.
 
