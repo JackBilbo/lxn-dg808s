@@ -530,6 +530,9 @@ lxn-nav {
 			font-size: 2.5rem;
         }
 
+		.configpanel_content * { font-size: 3rem; line-height: 4.5rem; }
+		.configpanel_content p { margin-bottom: 0.5em; }
+
         .configpanel_buttons {
             position: absolute;
             bottom: 0;
@@ -1193,7 +1196,6 @@ lxn-nav {
 }
 
 /* Kinetic Assistant */
-
 
 #ground_crew_menu {
 	position: relative;

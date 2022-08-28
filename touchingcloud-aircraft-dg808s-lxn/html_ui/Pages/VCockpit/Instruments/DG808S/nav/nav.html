@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="/Pages/VCockpit/Instruments/DG808S/nav/nav.css?aa" />
-
+<link rel="stylesheet" href="/Pages/VCockpit/Instruments/DG808S/nav/css/nav.css?aa" />
+<link rel="stylesheet" href="/Pages/VCockpit/Instruments/DG808S/nav/css/bignumbers.css" />
 
 <script type="text/html" id="lxn">
     <div id="Mainframe" class="map_northup">
@@ -318,6 +318,7 @@
 									<button class="lxconfigbtn" id="conf_wb" aria-controls="conf_panel_wb">Ballast</button>
 									<!-- button class="lxconfigbtn" id="conf_system" aria-controls="conf_panel_system">System Settings</button -->
 									<button class="lxconfigbtn" id="conf_units" aria-controls="conf_panel_units">Units</button>
+									<button class="lxconfigbtn" id="conf_interface" aria-controls="conf_panel_interface">Interface Options</button>
 									<!--
 									<button class="lxconfigbtn" id="conf_bugs" aria-controls="conf_panel_bugs">Bugs</button>
 									<button class="lxconfigbtn" id="conf_pc" aria-controls="conf_panel_pc">Polar Curve</button>
@@ -347,37 +348,7 @@
 								<div class="configpanel" id="conf_panel_system" aria-controlledby="conf_system">
 									<header>System Settings</header>
 									<div class="configpanel_content">
-										<div class="config_entry">
-											<div class="config_label">
-												<div class="title">Canopy tint</div>
-												<div class="description">Toggles the glass color of your canopy</div>
-											</div>
-											<div class="config_toggle" state="off" data-var="canopy-tint">
-												<div class="handle"></div>
-											</div>
-										</div>
-										<div class="config_entry">
-											<div class="config_label">
-												<div class="title">Canopy cover</div>
-											</div>
-											<div class="config_toggle" state="off" data-var="canopy-cover">
-												<div class="handle"></div>
-											</div>
-										</div>
-										<div class="config_entry range">
-											<div class="config_label">
-												<div class="title">Display Brightness</div>
-												<div class="description">Brightness of all cockpit displays</div>
-											</div>
-											<div id="brightnesslider" class="rangeinput" data-min="0" data-max="1" data-value="1"></div>
-										</div>
-										<div class="config_entry range">
-											<div class="config_label">
-												<div class="title">Glareshield Light Brightness</div>
-											</div>
-											<div id="glareshieldslider" class="rangeinput" data-min="0" data-max="1" data-value="0.5"></div>
-										</div>
-										
+																	
 
 									</div>
 									<div class="configpanel_buttons">
@@ -393,10 +364,32 @@
 										<a href="#" class="configpanel_close">CLOSE</a>
 									</div>
 								</div>
-								<div class="configpanel" id="conf_panel_bugs" aria-controlledby="conf_bugs"><header>Bugs</header>
+								<div class="configpanel" id="conf_panel_bugs" aria-controlledby="conf_bugs"><header>Bugs? Bugs!</header>
 									<div class="configpanel_content">
-										<h2>Guess what</h2>
-										<p>There are currently no simulated bugs on the wings of simulated aircraft.</p>
+										<p>Dead insects on the wings can seriously influence a gliders performance. Therefore the amount of dead bugs on the wings
+											is accounted for in arrival height estimation.
+										</p>
+										<p>Currently there are no simulated bugs on simulated wings, but we can use the value as a sort of correction factor for inaccuracies
+											of the flight model inefficiency of the pilot. So if you tend to arrive lower than estimated, try a bug value lower than 100 to
+											make the estimation more pessimistic.
+										</p>
+										<div style="text-align: center;"><input id="buginput" type="text" size="4" value="100" /></div>
+									</div>
+									<div class="configpanel_buttons">
+										<a href="#" class="configpanel_close">CLOSE</a>
+									</div>
+								</div>
+								<div class="configpanel" id="conf_panel_interface" aria-controlledby="conf_interface"><header>Interface Options</header>
+									<div class="configpanel_content">
+										<div class="config_entry">
+											<div class="config_label">
+												<div class="title">Improved Readability</div>
+												<div class="description">Use only six much larger datafields per page</div>
+											</div>
+											<div class="config_toggle" state="off" data-callback="toggleDatafieldSize">
+												<div class="handle"></div>
+											</div>
+										</div>
 									</div>
 									<div class="configpanel_buttons">
 										<a href="#" class="configpanel_close">CLOSE</a>

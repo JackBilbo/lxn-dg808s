@@ -32,12 +32,19 @@ class configpanel {
                 document.querySelectorAll(".configpanel").forEach((el)=>{
                     el.classList.remove("active");
                     UI.isswipeinteractive = true;
+                    CONFIGPANEL.savePersistentData();
                 })
             })
         });
             
         /* Unitswitching on systemspanel - simple buttons, while we don't have anything more sophisticated */
     
+        if(GetStoredData("Discus_unitsetting")) {
+            this.setUnitPrefs(GetStoredData("Discus_unitsetting"));           
+        } else {
+            this.setUnitPrefs("metric");
+        }
+
         document.getElementById("conf_units_imperial").addEventListener("click", function(e) {
             CONFIGPANEL.setUnitPrefs("imperial");
         })
@@ -52,16 +59,16 @@ class configpanel {
         document.querySelectorAll(".config_toggle .handle").forEach((el)=> {
             el.addEventListener("click", (e)=> {
                 let el = e.target.parentNode;
-                el.setAttribute("state", (el.getAttribute("state") == "on" ? "off" : "on"));
+                let callback = el.getAttribute("data-callback");
+                let state = el.getAttribute("state") == "on" ? "off" : "on";
+                el.setAttribute("state", state );
 
-                if(el.getAttribute("data-var") == "canopy-tint") { SimVar.SetSimVarValue("L:CANOPY_TOGGLE","bool", !SimVar.GetSimVarValue("L:CANOPY_TOGGLE","bool")) }
-                if(el.getAttribute("data-var") == "canopy-cover") { SimVar.SetSimVarValue("L:COVER_TOGGLE","bool", !SimVar.GetSimVarValue("L:COVER_TOGGLE","bool")) }
+                CONFIGPANEL[callback](state);
             })
         })
 
-        this.brightnessrange = new rangeinput(document.querySelector("#brightnesslider"), function(val) { SimVar.SetSimVarValue("L:NAV_BRIGHTNESS", "number", val); });
-        this.glareshiledrange = new rangeinput(document.querySelector("#glareshieldslider"), function(val) { SimVar.SetSimVarValue("A:LIGHT POTENTIOMETER:5", "number", val); });
-        
+        this.rangesliders = []
+
         let isFES = SimVar.GetSimVarValue("L:IsFES","bool");
        
         this.maxballast = {
@@ -81,6 +88,8 @@ class configpanel {
             SimVar.SetSimVarValue("PAYLOAD STATION WEIGHT:6", "lbs", CONFIGPANEL.maxballast.left / 100 * val);
         })
 
+        this.loadPersistentData();
+
         this.systeminitReady = true;
     }
 
@@ -98,8 +107,6 @@ class configpanel {
         
         if(UI.pageposX = 4) {
             this.updateBallastDisplay();
-            this.brightnessrange.setValue(SimVar.GetSimVarValue("L:NAV_BRIGHTNESS", "number"));
-            this.glareshiledrange.setValue(SimVar.GetSimVarValue("A:LIGHT POTENTIOMETER:5", "number"));
         }
         
     }
@@ -135,12 +142,66 @@ class configpanel {
         })
 
     }
+
+    toggleDatafieldSize(val) {
+        if (val == "on") {  document.querySelector("#panelframe").classList.add("bigdatafields") } else { document.querySelector("#panelframe").classList.remove("bigdatafields") }
+    }
+
+    
+    savePersistentData() {
+        let toggledata = {}
+        let sliderdata = {}
+
+        document.querySelectorAll(".configpanel .config_toggle").forEach((el)=> {
+            toggledata[el.getAttribute("data-callback")] = el.getAttribute("state")
+        })
+
+        this.rangesliders.forEach((el) => {
+            sliderdata[el.id] = el.getValue();
+        })
+
+        SetStoredData("Discus_configtoggle", JSON.stringify(toggledata));
+        SetStoredData("Discus_sliderdata", JSON.stringify(sliderdata));
+
+    }
+
+    loadPersistentData() {
+        console.log("GET DATA FROM STORAGE....");
+
+        let togglerawdata = GetStoredData("Discus_configtoggle");
+        let sliderrawdata = GetStoredData("Discus_sliderdata");
+
+        if(togglerawdata != "") {
+            try {
+                let toggledata = JSON.parse(togglerawdata);
+                for (var toggle in toggledata) {
+                    document.querySelector("[data-callback=" + toggle + "]").setAttribute("state", toggledata[toggle]);
+                    CONFIGPANEL[toggle](toggledata[toggle]);
+                  }
+            } catch(e) { console.log( "Could not load togglesettings: " + e )  }
+        }
+        
+        if(sliderrawdata != "") {
+            try {
+                let sliderdata = JSON.parse(sliderrawdata);
+                console.log(sliderdata);
+                this.rangesliders.forEach((el) => {
+                    if(sliderdata[el.id]) {
+                        el.setValue(sliderdata[el.id]);
+                        el.callback(sliderdata[el.id]);
+                    }
+                })
+            } catch(e) { console.log( "Could not load slidersettings: " + e )  }
+        }
+    }
+
 }
 
 
 class rangeinput {
     constructor(el, callback) {
         this.rangebg = el;
+        this.id = el.getAttribute("id");
         
         this.marker = document.createElement("div");
         this.marker.setAttribute("class","marker");
@@ -167,7 +228,7 @@ class rangeinput {
         this.callback = callback;
 
         this.initvalue = parseFloat(el.getAttribute("data-value"));
-        this.outputvalue = "";
+        this.outputvalue = this.initvalue;
 
         this.init();
         
@@ -221,4 +282,5 @@ class rangeinput {
         this.marker.style.width = (pos + this.handle.clientWidth / 2)  + "px";
     }
 
+    getValue() { return this.outputvalue; }
 }

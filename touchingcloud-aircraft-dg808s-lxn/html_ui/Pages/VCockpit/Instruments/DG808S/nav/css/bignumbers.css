@@ -1,0 +1,36 @@
+.bigdatafields .page { padding-top: 80px;}
+
+.bigdatafields .pageheader {
+	height: 80px;
+	font-size: 50px;
+	line-height: 80px;
+}
+
+.bigdatafields .datacells_top, .bigdatafields .datacells_bottom {
+	height: 210px;
+}
+
+/* Bigger datacells */
+
+.bigdatafields .datacell {
+	width: 33.3333%;
+	height: 210px;
+}
+
+.bigdatafields .label { font-size: 35px; }
+.bigdatafields .value { font-size: 100px; }
+
+.bigdatafields .datacell:nth-child(n+4) { display: none; }
+
+.bigdatafields #tasklist {
+    padding-top: calc(80px + 0.5rem);
+}
+
+.bigdatafields #systemconfig {
+    padding-top: 80px;
+}
+
+.bigdatafields .configpanel {
+	top: 80px;
+	height: calc(100% - 80px);
+}
