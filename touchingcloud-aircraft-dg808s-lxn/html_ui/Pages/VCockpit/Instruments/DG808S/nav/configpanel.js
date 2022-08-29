@@ -31,16 +31,28 @@ class configpanel {
             el.addEventListener("click", function(e) {
                 document.querySelectorAll(".configpanel").forEach((el)=>{
                     el.classList.remove("active");
-                    UI.isswipeinteractive = true;
-                    CONFIGPANEL.savePersistentData();
                 })
+                UI.isswipeinteractive = true;
+                CONFIGPANEL.savePersistentData();
             })
         });
             
         /* Unitswitching on systemspanel - simple buttons, while we don't have anything more sophisticated */
     
         if(GetStoredData("Discus_unitsetting")) {
-            this.setUnitPrefs(GetStoredData("Discus_unitsetting"));           
+            let unitsettings = GetStoredData("Discus_unitsetting");
+
+            if (unitsettings == "metric" || unitsettings == "imperial") {
+                this.setUnitPrefs(GetStoredData("Discus_unitsetting"));
+            } else {
+                try {
+                    let unitobject = JSON.parse(unitsettings);
+                    for(var unit in unitobject) {
+                        this.instrument.units[unit].pref = unitobject[unit];
+                    }
+                } catch(e) { console.log("couldn't restore unitsettings : " + e)}
+            }
+                       
         } else {
             this.setUnitPrefs("metric");
         }
@@ -89,6 +101,7 @@ class configpanel {
         })
 
         this.loadPersistentData();
+        this.buildUnitDetailSetting();
 
         this.systeminitReady = true;
     }
@@ -121,6 +134,7 @@ class configpanel {
         }
 
         SetStoredData("Discus_unitsetting", sys);
+        this.buildUnitDetailSetting();
         
         if(sys == "imperial") {
             document.getElementById("conf_units_imperial").classList.add("highlighted");
@@ -151,6 +165,7 @@ class configpanel {
     savePersistentData() {
         let toggledata = {}
         let sliderdata = {}
+        let unitprefs = {}
 
         document.querySelectorAll(".configpanel .config_toggle").forEach((el)=> {
             toggledata[el.getAttribute("data-callback")] = el.getAttribute("state")
@@ -160,6 +175,11 @@ class configpanel {
             sliderdata[el.id] = el.getValue();
         })
 
+        for(var unit in this.instrument.units) {
+            unitprefs[unit] = this.instrument.units[unit].pref;
+        }
+
+        SetStoredData("Discus_unitsetting", JSON.stringify(unitprefs));
         SetStoredData("Discus_configtoggle", JSON.stringify(toggledata));
         SetStoredData("Discus_sliderdata", JSON.stringify(sliderdata));
 
@@ -192,6 +212,41 @@ class configpanel {
                     }
                 })
             } catch(e) { console.log( "Could not load slidersettings: " + e )  }
+        }
+    }
+
+    buildUnitDetailSetting() {
+        let wrapper = document.querySelector("#unitdetailsetting");
+        wrapper.innerHTML = "";
+
+        for(var unit in this.instrument.units) {
+            if(this.instrument.units[unit].options.length > 1 && unit != "time" && unit != "time_of_day" ) {
+                let inputwrapper = document.createElement("div");
+                inputwrapper.classList.add("inputwrapper");
+
+                let label = document.createElement("label");
+                label.innerHTML = this.instrument.units[unit].label + ":";
+                inputwrapper.appendChild(label);
+                inputwrapper.setAttribute("data-unit",unit);
+
+                for(var i = 0; i<this.instrument.units[unit].options.length; i++) {
+                    let option = document.createElement("span");
+                    option.classList.add("unitselect");
+                    option.setAttribute("data-value", this.instrument.units[unit].options[i])
+                    if(this.instrument.units[unit].options[i] == this.instrument.units[unit].pref) { option.classList.add("selected"); }
+                    option.innerHTML = this.instrument.units[unit].options[i];
+                    option.addEventListener("click", (e) => { 
+                        console.log(e.target);
+                        let unit = e.target.parentNode.getAttribute("data-unit");
+                        CONFIGPANEL.instrument.units[unit].pref = e.target.getAttribute("data-value");
+                        inputwrapper.querySelector(".selected").classList.remove("selected");
+                        e.target.classList.add("selected");                       
+                    })
+                    inputwrapper.appendChild(option);
+                }
+
+                wrapper.appendChild(inputwrapper);
+            }
         }
     }
 

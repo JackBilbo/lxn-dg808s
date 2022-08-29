@@ -293,6 +293,68 @@ lxn-nav {
 	transition: all 0.2s;
 }
 
+
+.cellconfigbtn {
+	padding: 0.5rem 2rem;
+}
+
+#forceunit {
+	display: flex;
+}
+
+#forceunit label {
+	padding-top: 1rem;
+	width: 25%;
+	white-space: nowrap;
+	line-height: 1.1;
+	display: grid;
+	grid-template-columns: 1.5em auto;
+	gap: 0.5em;
+}
+
+#forceunit label:first-child { width: 50%; }
+
+input[type="radio"] {
+	/* Add if not using autoprefixer */
+	-webkit-appearance: none;
+	/* Remove most all native input styles */
+	appearance: none;
+	/* For iOS < 15 */
+	background-color: transparent;
+	/* Not removed via appearance */
+	margin: 0;
+  
+	font: inherit;
+	color: #fff;
+	width: 1.15em;
+	height: 1.15em;
+	border: 0.15em solid #fff;
+	border-radius: 50%;
+	transform: translateY(-0.075em);
+	display: grid;
+ 	place-content: center;
+  }
+  
+  input[type="radio"]::before {
+	content: "";
+	width: 0.65em;
+	height: 0.65em;
+	border-radius: 50%;
+	transform: scale(0);
+	transition: 120ms transform ease-in-out;
+	box-shadow: inset 1em 1em #fff;
+  }
+  
+  input[type="radio"]:checked::before {
+	transform: scale(1);
+  }
+  
+  input[type="radio"]:focus {
+	outline: max(2px, 0.15em) solid #fff;
+	outline-offset: max(2px, 0.15em);
+  }
+
+
 /* TASKPAGE */
 
 #tasklist {
@@ -555,7 +617,39 @@ lxn-nav {
             padding: 5px 0;
         }
 
-		/* Ballast settings */
+/* Unitdetailsettings */
+
+.quickselect {text-align: center; }
+
+#unitdetailsetting {
+	padding-top: 2rem;
+	margin-top: 2rem;
+	border-top: 2px solid #fff;
+}
+
+.inputwrapper { clear: both; }
+
+#unitdetailsetting label {
+	display: block; float: left;
+	width: 35%;
+	margin: 0.75rem 0;
+}
+
+#unitdetailsetting .unitselect {
+	background-color: #333;
+	border: 1px solid #666;
+	padding: 0.5rem 1rem;
+	margin: 0.75rem;
+}
+
+#unitdetailsetting .unitselect:hover { background-color: #555; }
+
+#unitdetailsetting .unitselect.selected {
+	background-color: #ccc;
+	color: #000;
+}		
+
+/* Ballast settings */
 
 .tanks {
     display: flex;

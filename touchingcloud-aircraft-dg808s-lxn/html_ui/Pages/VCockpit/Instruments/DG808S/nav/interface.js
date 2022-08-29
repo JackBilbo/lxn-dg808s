@@ -77,11 +77,13 @@ class ui {
         /* Form Action in config-Panel - prepare and set userconfig to data-attribute */
         document.querySelector("#cellconfig").addEventListener("submit", function(e) {
             e.preventDefault();
+
             let currentconfig = {
                 "back": document.querySelector("#cell-background").value,
                 "backneg": document.querySelector("#cell-backgroundneg").value,
                 "text": document.querySelector("#cell-text").value,
-                "value": document.querySelector("#cell-value").value
+                "value": document.querySelector("#cell-value").value,
+                "forceunit": document.querySelector("#forceunit input:checked").value
             }
     
             let cellid = this.getAttribute("data-cellrelation");
@@ -171,6 +173,14 @@ class ui {
         document.querySelector("#cell-backgroundneg").value = currentconfig.backneg;
         document.querySelector("#cell-text").value = currentconfig.text;
 
+        if(currentconfig.forceunit == "metric") {
+            document.querySelector("#forceunit-metric").setAttribute("checked", "checked");
+        } else if (currentconfig.forceunit == "imperial") {
+            document.querySelector("#forceunit-imperial").setAttribute("checked", "checked");
+        } else {
+            document.querySelector("#forceunit-none").setAttribute("checked", "checked");
+        }
+        
         let options = document.querySelectorAll("#cell-value option");
         let selectedoption = 0;
 

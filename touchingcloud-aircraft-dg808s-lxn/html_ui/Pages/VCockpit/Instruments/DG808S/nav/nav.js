@@ -63,18 +63,18 @@ class lxn extends NavSystemTouch {
         }
         
         this.units = {
-            speed: { pref: "kts", imperial: "kts", metric: "kmh", options: ["kts","kmh","ms","mph"] },
-            dist: { pref: "nm", imperial: "nm", metric: "km", options: ["nm","ml","km","m"] },
-            alt: { pref: "ft", imperial: "ft", metric: "m", options: ["ft","m"] },
-            windspeed: { pref: "kts", imperial: "kts", metric: "ms", options: ["kts","kmh","ms","fs"] },
-            verticalspeed: { pref: "kts", imperial: "kts", metric: "ms", options: ["kts","kmh","ms","fs"] },
-            direction: { pref: "deg", imperial: "deg", metric: "deg", options: ["deg"] },
-            weight: {  pref: "lbs", imperial: "lbs", metric: "kg", options: ["lbs", "kg"] },
-            temperature: {  pref: "F", imperial: "F", metric: "C", options: ["F", "C"] },
-            time: { pref: "min", imperial: "min", metric: "min", options: ["min","sec"] },
-            time_of_day:  { pref: "hms24", imperial: "hms12", metric: "hms24", options: ["hms12","hms24"] },
-            plaintext:  { pref: "none", imperial: "none", metric: "none", options: ["none"] },
-            percent:  { pref: "%", imperial: "%", metric: "%", options: ["%"] }
+            speed: { pref: "kts", imperial: "kts", metric: "kmh", options: ["kts","kmh","ms","mph"], label: "Speed" },
+            dist: { pref: "nm", imperial: "nm", metric: "km", options: ["nm","ml","km","m"], label: "Distance" },
+            alt: { pref: "ft", imperial: "ft", metric: "m", options: ["ft","m"], label: "Altitude" },
+            windspeed: { pref: "kts", imperial: "kts", metric: "ms", options: ["kts","kmh","ms","fs"], label: "Windspeed" },
+            verticalspeed: { pref: "kts", imperial: "kts", metric: "ms", options: ["kts","kmh","ms","fs"], label: "Vert. Speed" },
+            direction: { pref: "deg", imperial: "deg", metric: "deg", options: ["deg"], label: "Direction" },
+            weight: {  pref: "lbs", imperial: "lbs", metric: "kg", options: ["lbs", "kg"], label: "Weight" },
+            temperature: {  pref: "F", imperial: "F", metric: "C", options: ["F", "C"], label: "Temperature" },
+            time: { pref: "min", imperial: "min", metric: "min", options: ["min","sec"], label: "Time" },
+            time_of_day:  { pref: "hms24", imperial: "hms12", metric: "hms24", options: ["hms12","hms24"], label: "Time of Day" },
+            plaintext:  { pref: "none", imperial: "none", metric: "none", options: ["none"], label: "Plain Text" },
+            percent:  { pref: "%", imperial: "%", metric: "%", options: ["%"], label: "Percentage" }
         }
         
         this.factors = {
@@ -273,9 +273,11 @@ class lxn extends NavSystemTouch {
                 let currentconfig = JSON.parse(currentconfigstr);
                 if(currentconfig.value != "none") {
 
+                    let forceunit = currentconfig.forceunit != null ? currentconfig.forceunit : "";
+
                     let displaynumber; 
                     if(LXNAV.vars[currentconfig.value].category != "plaintext") {
-                        displaynumber = LXNAV.displayValue(LXNAV.vars[currentconfig.value].value, LXNAV.vars[currentconfig.value].baseunit, LXNAV.vars[currentconfig.value].category);
+                        displaynumber = LXNAV.displayValue(LXNAV.vars[currentconfig.value].value, LXNAV.vars[currentconfig.value].baseunit, LXNAV.vars[currentconfig.value].category, forceunit);
                     } 
                     
                     cell.style.backgroundColor = displaynumber > 0 ? currentconfig.back + "BB" : currentconfig.backneg + "BB";
@@ -291,7 +293,7 @@ class lxn extends NavSystemTouch {
 
                     if(LXNAV.vars[currentconfig.value].category != "plaintext") {
                         cell.querySelector(".number").innerHTML = displaynumber;
-                        cell.querySelector(".unit").innerHTML = LXNAV.units[LXNAV.vars[currentconfig.value].category].pref;
+                        cell.querySelector(".unit").innerHTML = forceunit != "" ? LXNAV.units[LXNAV.vars[currentconfig.value].category][forceunit] + "*" : LXNAV.units[LXNAV.vars[currentconfig.value].category].pref;
                     } else {
                         cell.querySelector(".number").innerHTML = LXNAV.vars[currentconfig.value].value;
                         cell.querySelector(".unit").innerHTML = "";
@@ -373,7 +375,13 @@ class lxn extends NavSystemTouch {
 
     displayValue(val,baseunit,category) {
         val = parseFloat(val); // better make sure, it's a number
-        let selected_unit = this.units[category].pref;
+        let selected_unit;
+
+        if(forceunit && this.units[category][forceunit]) {
+            selected_unit = this.units[category][forceunit];
+        } else {
+            selected_unit = this.units[category].pref;
+        }
         let result = 0;
 
         if(this.factors[category][baseunit] == 1) {

@@ -357,8 +357,14 @@
 								</div>
 								<div class="configpanel" id="conf_panel_units" aria-controlledby="conf_units"><header>Units</header>
 									<div class="configpanel_content">
-										<button class="lxsettingsbtn" id="conf_units_imperial">Imperial</button>
-										<button class="lxsettingsbtn" id="conf_units_metric">Metric</button>
+										<div class="quickselect">
+											<button class="lxsettingsbtn" id="conf_units_imperial">Imperial</button>
+											<button class="lxsettingsbtn" id="conf_units_metric">Metric</button>
+										</div>
+										<div id="unitdetailsetting">
+
+										</div>
+
 									</div>
 									<div class="configpanel_buttons">
 										<a href="#" class="configpanel_close">CLOSE</a>
@@ -504,7 +510,13 @@
 						<option value="none">No Display</option>
 					</select>
 	
-					<br /><br />
+					<br />
+						<div id="forceunit">
+							<label for="forceunit-none"><input type="radio" name="unitselect" value="" id="forceunit-none"> Unit as selected</label>
+							<label for="forceunit-metric"><input type="radio" name="unitselect" value="metric" id="forceunit-metric"> metric</label>
+							<label for="forceunit-imperial"><input type="radio" name="unitselect" value="imperial" id="forceunit-imperial"> imperial</label>
+						</div>
+					<br />
 					<input type="submit" id="configsubmit" value="SET">
 					<input type="reset" id="configreset" value="CANCEL">
 					<input type="button" id="resetall" value="RESET ALL">
