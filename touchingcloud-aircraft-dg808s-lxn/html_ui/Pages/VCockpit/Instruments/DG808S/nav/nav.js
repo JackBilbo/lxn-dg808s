@@ -228,7 +228,9 @@ class lxn extends NavSystemTouch {
 
             if (B21_SOARING_ENGINE.task_active()) {
 		    
-                this.update_task_page();
+                if(UI.pagepos_x == 2) {
+			this.update_task_page();
+		}  
 
                 this.vars.wp_name.value = B21_SOARING_ENGINE.current_wp().name;
                 this.vars.wp_dist.value = B21_SOARING_ENGINE.current_wp().distance_m / 1852; // convert to baseunit
