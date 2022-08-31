@@ -227,10 +227,8 @@ class lxn extends NavSystemTouch {
             this.jbb_update_stf();
 
             if (B21_SOARING_ENGINE.task_active()) {
-		    
-                if(UI.pagepos_x == 2) {
-			this.update_task_page();
-		}  
+
+			    this.update_task_page();
 
                 this.vars.wp_name.value = B21_SOARING_ENGINE.current_wp().name;
                 this.vars.wp_dist.value = B21_SOARING_ENGINE.current_wp().distance_m / 1852; // convert to baseunit
@@ -758,10 +756,10 @@ class lxn extends NavSystemTouch {
     }
 
     
-update_task_page() {
+    update_task_page() {
         if(!this.taskpage_built) { this.build_taskpage(); return; }
 	
-	let taskheader = document.querySelector("#tasklist header");    
+	    let taskheader = document.querySelector("#tasklist header");    
 	    
         if(!B21_SOARING_ENGINE.task_finished()) {
             taskheader.querySelector(".task-state .task-timer").innerHTML = this.displayValue(B21_SOARING_ENGINE.task_time_s(),"s","time_of_day");
@@ -786,22 +784,23 @@ update_task_page() {
 	     document.querySelector(".task-alerts").style.display = "block";    
         }
         
+        if(UI.pagepos_x != 2) { return; }
 
         taskheader.querySelector(".task-state .task-totaldistance .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.distance_m(),"m","dist");
         taskheader.querySelector(".task-state .task-totaldistance .unit").innerHTML = this.units.dist.pref;
-	taskheader.querySelector(".task-state .task-distanceleft .number").innerHTML = "n/a";
+	    taskheader.querySelector(".task-state .task-distanceleft .number").innerHTML = "n/a";
         taskheader.querySelector(".task-state .task-distanceleft .unit").innerHTML = this.units.dist.pref;        
         taskheader.querySelector(".task-state .task-arrivalheight .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m,"m","alt"); 
         taskheader.querySelector(".task-state .task-arrivalheight .unit").innerHTML = this.units.alt.pref;
 
-	if(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m < 0) {
-		taskheader.querySelector(".task-state .task-arrivalheight").classList.add("alert");
-	} else {
-	        taskheader.querySelector(".task-state .task-arrivalheight").classList.remove("alert");
-	}   
+        if(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m < 0) {
+            taskheader.querySelector(".task-state .task-arrivalheight").classList.add("alert");
+        } else {
+                taskheader.querySelector(".task-state .task-arrivalheight").classList.remove("alert");
+        }   
 	    
         if(B21_SOARING_ENGINE.task_started()) {
-            document.getElementById("tasklist").setAttribute("class","task_running hasScrollbars");
+            document.getElementById("tasklist").setAttribute("class","task_started hasScrollbars");
         } 
         
         if (B21_SOARING_ENGINE.task_finished()) {
@@ -826,50 +825,59 @@ update_task_page() {
             
                 wp_el.querySelector(".wp-name").innerHTML = wp.name + " (" + this.displayValue(wp.alt_m, "m", "alt") + this.units.alt.pref + ")"; 
                 wp_el.querySelector(".bearing .number").innerHTML = wp.leg_bearing_deg.toFixed(0);
-                wp_el.querySelector(".dist .number").innerHTML = this.displayValue(wp.leg_distance_m, "m", "dist");
+                
+                if(wp_index == B21_SOARING_ENGINE.task_index()) {
+                    wp_el.querySelector(".dist .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.current_wp().distance_m, "m", "dist");
+                } else {
+                    wp_el.querySelector(".dist .number").innerHTML = this.displayValue(wp.leg_distance_m, "m", "dist");
+                }
+                
                 wp_el.querySelector(".dist .unit").innerHTML = this.units.dist.pref;
                 wp_el.querySelector(".ete .number").innerHTML = (wp.ete_s / 60).toFixed(0);
                 wp_el.querySelector(".ete .unit").innerHTML = "min";
                 wp_el.querySelector(".wind .number").innerHTML = this.displayValue(wp.tailwind_ms, "ms", "windspeed");
                 wp_el.querySelector(".wind .unit").innerHTML = this.units.windspeed.pref;
-                wp_el.querySelector(".arr-msl .number").innerHTML = this.displayValue(wp.arrival_height_msl_m, "m", "alt");
-                wp_el.querySelector(".arr-msl .unit").innerHTML = this.units.alt.pref;
-		wp_el.querySelector(".arr-agl .number").innerHTML = this.displayValue(wp.arrival_height_msl_m - wp.alt_m, "m", "alt");
-                wp_el.querySelector(".arr-agl .unit").innerHTML = this.units.alt.pref;    
+                wp_el.querySelector(".arr_msl .number").innerHTML = this.displayValue(wp.arrival_height_msl_m, "m", "alt");
+                wp_el.querySelector(".arr_msl .unit").innerHTML = this.units.alt.pref;
+		        wp_el.querySelector(".arr_agl .number").innerHTML = this.displayValue(wp.arrival_height_msl_m - wp.alt_m, "m", "alt");
+                wp_el.querySelector(".arr_agl .unit").innerHTML = this.units.alt.pref;    
 
-		if( wp.arrival_height_msl_m - wp.alt_m < 0 ) { wp_el.querySelector(".arr-agl").classList.add("alert") } else { wp_el.querySelector(".arr-agl").classList.remove("alert")}   
+		        if( wp.arrival_height_msl_m - wp.alt_m < 0 ) { 
+                    wp_el.querySelector(".arr_agl").classList.add("alert") 
+                } else { 
+                    wp_el.querySelector(".arr_agl").classList.remove("alert")
+                }   
 		    
                 if(wp.min_alt_m != null) {
                     wp_el.querySelector(".wp-min").innerHTML = "Min: " + this.displayValue(wp.min_alt_m, "m", "alt") +  this.units.alt.pref;
-                    
-		    if( wp.arrival_height_msl_m < wp.min_alt_m ) { 
-			wp_el.querySelector(".arr-msl").classList.add("alert");
-		    	wp_el.querySelector(".wp-min").classList.add("alert");
-		    } else { 
-			wp_el.querySelector(".arr-msl").classList.remove("alert")}	
-			wp_el.querySelector(".wp-min").classList.remove("alert");
-			}
-	         }
+                        
+                    if( wp.arrival_height_msl_m < wp.min_alt_m ) { 
+                        wp_el.querySelector(".arr_msl").classList.add("alert");
+                        wp_el.querySelector(".wp-min").classList.add("alert");
+                    } else { 
+                        wp_el.querySelector(".arr_msl").classList.remove("alert");	
+                        wp_el.querySelector(".wp-min").classList.remove("alert");
+                    }
+                }
 		
-		if(wp.max_alt_m != null) {
+                if(wp.max_alt_m != null) {
                     wp_el.querySelector(".wp-max").innerHTML = "Max: " + this.displayValue(wp.max_alt_m, "m", "alt") +  this.units.alt.pref;
-                    
-		    if( wp.arrival_height_msl_m > wp.max_alt_m ) { 
-			wp_el.querySelector(".arr-msl").classList.add("alert");
-		    	wp_el.querySelector(".wp-max").classList.add("alert");
-		    } else { 
-			wp_el.querySelector(".arr-msl").classList.remove("alert")}	
-			wp_el.querySelector(".wp-max").classList.remove("alert");
-			}
-	          }
-				    
-		
-		} 
+                        
+                    if( wp.arrival_height_msl_m > wp.max_alt_m ) { 
+                        wp_el.querySelector(".arr_msl").classList.add("alert");
+                        wp_el.querySelector(".wp-max").classList.add("alert");
+                    } else { 
+                        wp_el.querySelector(".arr_msl").classList.remove("alert")
+                        wp_el.querySelector(".wp-max").classList.remove("alert");
+                    }
+                }	    
+
             } else {
                 wp_el.style.display = "none";
-            }  
-        }       
+            } 
+        }        
     }
+
     build_taskpage() {
         let template = document.getElementById("wp-template");
         let templateContent = template.innerHTML;
@@ -880,9 +888,9 @@ update_task_page() {
             wp_el.innerHTML = templateContent;
             wp_el.setAttribute("id","wp_" + wp_index);
 		
-		wp_el.querySelector(".wp-link").addEventlistener("click", (e)=> {
-			e.target.parentNode.classList.toggle("expanded");
-		})
+		    wp_el.querySelector(".wp-link").addEventListener("click", (e)=> {
+			    e.target.parentNode.classList.toggle("expanded");
+		    })
 		
             document.getElementById("tasklist").appendChild(wp_el);
             check++;
