@@ -24,6 +24,12 @@
             padding: 0.5em 0 1em 0;
         }
 
+        .task-alerts {
+            padding: 0.5em;
+            background-color: #e7a508;
+            color: #000;
+        }
+
         #tasklist .headline span { display: none; margin-bottom: 0.5em;}
         .task-failures, .task-alerts { display: none; }
         #tasklist.task_not_started .headline span.header_prestart { display: block; font-size: 2em;}
