@@ -227,6 +227,7 @@ class lxn extends NavSystemTouch {
             this.jbb_update_stf();
 
             if (B21_SOARING_ENGINE.task_active()) {
+		    
                 this.update_task_page();
 
                 this.vars.wp_name.value = B21_SOARING_ENGINE.current_wp().name;
@@ -755,23 +756,21 @@ class lxn extends NavSystemTouch {
     }
 
     
-	update_task_page() {
+update_task_page() {
         if(!this.taskpage_built) { this.build_taskpage(); return; }
+	
+	let taskheader = document.querySelector("#tasklist header");    
+	    
         if(!B21_SOARING_ENGINE.task_finished()) {
-            document.querySelector(".task-state .task-timer").innerHTML = this.displayValue(B21_SOARING_ENGINE.task_time_s(),"s","time_of_day");
+            taskheader.querySelector(".task-state .task-timer").innerHTML = this.displayValue(B21_SOARING_ENGINE.task_time_s(),"s","time_of_day");
             this.vars.tasktime.value = B21_SOARING_ENGINE.task_time_s();
         } else {
-            document.querySelector(".task-state .task-timer").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_time_s - B21_SOARING_ENGINE.task.start_time_s,"s","time_of_day");
-            document.querySelector(".task-state .taskaverage .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.finish_speed_ms(),"ms","speed");
-            document.querySelector(".task-state .taskaverage .unit").innerHTML = this.units.speed.pref;
+            taskheader.querySelector(".task-state .task-timer").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_time_s - B21_SOARING_ENGINE.task.start_time_s,"s","time_of_day");
+            taskheader.querySelector(".task-state .task-average .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.finish_speed_ms(),"ms","speed");
+            taskheader.querySelector(".task-state .task-average .unit").innerHTML = this.units.speed.pref;
             
             this.vars.tasktime.value = B21_SOARING_ENGINE.task.finish_time_s - B21_SOARING_ENGINE.task.start_time_s;
             
-            /*
-            let completion_time = B21_SOARING_ENGINE.finish_time_s - this.task.start_time_s
-            document.querySelector(".task-state .timer .number").innerHTML = this.displayValue(completion_time,"s","time_of_day");
-            
-            */
         }
 
         /* Cheat-Warnings */
@@ -784,12 +783,21 @@ class lxn extends NavSystemTouch {
 	     document.querySelector(".task-alerts").innerHTML = alert_msg;
 	     document.querySelector(".task-alerts").style.display = "block";    
         }
+        
 
-        document.querySelector(".task-state .distance .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.distance_m(),"m","dist");
-        document.querySelector(".task-state .distance .unit").innerHTML = this.units.dist.pref;
-        document.querySelector(".task-state .arrivalheight .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m,"m","alt"); 
-        document.querySelector(".task-state .arrivalheight .unit").innerHTML = this.units.alt.pref;
+        taskheader.querySelector(".task-state .task-totaldistance .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.distance_m(),"m","dist");
+        taskheader.querySelector(".task-state .task-totaldistance .unit").innerHTML = this.units.dist.pref;
+	taskheader.querySelector(".task-state .task-distanceleft .number").innerHTML = "n/a";
+        taskheader.querySelector(".task-state .task-distanceleft .unit").innerHTML = this.units.dist.pref;        
+        taskheader.querySelector(".task-state .task-arrivalheight .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m,"m","alt"); 
+        taskheader.querySelector(".task-state .task-arrivalheight .unit").innerHTML = this.units.alt.pref;
 
+	if(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m < 0) {
+		taskheader.querySelector(".task-state .task-arrivalheight").classList.add("alert");
+	} else {
+	        taskheader.querySelector(".task-state .task-arrivalheight").classList.remove("alert");
+	}   
+	    
         if(B21_SOARING_ENGINE.task_started()) {
             document.getElementById("tasklist").setAttribute("class","task_running hasScrollbars");
         } 
@@ -860,7 +868,6 @@ class lxn extends NavSystemTouch {
             }  
         }       
     }
-
     build_taskpage() {
         let template = document.getElementById("wp-template");
         let templateContent = template.innerHTML;
