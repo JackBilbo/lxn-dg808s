@@ -57,6 +57,8 @@
 
         /* TASK WP */
 
+        #wp-template { display: none; }
+        
         .task-waypoint.iscurrentwp {
              border: 2px solid orange;
         }

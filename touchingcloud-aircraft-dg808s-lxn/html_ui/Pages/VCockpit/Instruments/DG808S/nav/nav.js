@@ -762,10 +762,10 @@ class lxn extends NavSystemTouch {
 	    let taskheader = document.querySelector("#tasklist header");    
 	    
         if(!B21_SOARING_ENGINE.task_finished()) {
-            taskheader.querySelector(".task-state .task-timer").innerHTML = this.displayValue(B21_SOARING_ENGINE.task_time_s(),"s","time_of_day");
+            taskheader.querySelector(".task-state .task-timer .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task_time_s(),"s","time_of_day");
             this.vars.tasktime.value = B21_SOARING_ENGINE.task_time_s();
         } else {
-            taskheader.querySelector(".task-state .task-timer").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_time_s - B21_SOARING_ENGINE.task.start_time_s,"s","time_of_day");
+            taskheader.querySelector(".task-state .task-timer .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_time_s - B21_SOARING_ENGINE.task.start_time_s,"s","time_of_day");
             taskheader.querySelector(".task-state .task-average .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.finish_speed_ms(),"ms","speed");
             taskheader.querySelector(".task-state .task-average .unit").innerHTML = this.units.speed.pref;
             
@@ -774,21 +774,21 @@ class lxn extends NavSystemTouch {
         }
 
         /* Cheat-Warnings */
-            if (this.SIM_TIME_PAUSED || this.SIM_TIME_SLEWED || this.SIM_TIME_NEGATIVE || this.SIM_TIME_ENGINE) {
+        if (this.SIM_TIME_PAUSED || this.SIM_TIME_SLEWED || this.SIM_TIME_NEGATIVE || this.SIM_TIME_ENGINE) {
             let alert_msg = this.SIM_TIME_PAUSED ? "+PAUSED " : "";
             alert_msg += this.SIM_TIME_SLEWED ? "+SLEWED " : "";
             alert_msg += this.SIM_TIME_NEGATIVE ? "+TIME_SLIDE " : "";
             alert_msg += this.SIM_TIME_ENGINE ? "+MOTOR" : "";
 		
-	     document.querySelector(".task-alerts").innerHTML = alert_msg;
-	     document.querySelector(".task-alerts").style.display = "block";    
+	        document.querySelector(".task-alerts").innerHTML = alert_msg;
+	        document.querySelector(".task-alerts").style.display = "block";    
         }
         
         if(UI.pagepos_x != 2) { return; }
 
         taskheader.querySelector(".task-state .task-totaldistance .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.distance_m(),"m","dist");
         taskheader.querySelector(".task-state .task-totaldistance .unit").innerHTML = this.units.dist.pref;
-	    taskheader.querySelector(".task-state .task-distanceleft .number").innerHTML = "n/a";
+	    taskheader.querySelector(".task-state .task-distanceleft .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.remaining_distance_m(),"m","dist");;
         taskheader.querySelector(".task-state .task-distanceleft .unit").innerHTML = this.units.dist.pref;        
         taskheader.querySelector(".task-state .task-arrivalheight .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m,"m","alt"); 
         taskheader.querySelector(".task-state .task-arrivalheight .unit").innerHTML = this.units.alt.pref;

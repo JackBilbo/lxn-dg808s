@@ -1266,6 +1266,15 @@ class Task {
         return total_distance_m;
     }
 
+    remaining_distance_m() {
+        let remaining_distance_m = 0;
+        for (let i = this.index + 1; i <= this.finish_index; i++) {
+            remaining_distance_m += this.waypoints[i].leg_distance_m;
+        }
+        remaining_distance_m += this.waypoints[this.index].distance_m;
+        return remaining_distance_m
+    }
+
     // Return current waypoint object
     current_wp() {
         if (this.index < this.waypoints.length) {
