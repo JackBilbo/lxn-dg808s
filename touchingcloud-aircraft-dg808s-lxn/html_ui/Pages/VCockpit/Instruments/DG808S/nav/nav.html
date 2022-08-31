@@ -193,85 +193,112 @@
 
 							<div id="tasklist" class="task_not_started hasScrollbars">
 								<header>
-									<h1>
-										<span class="header_prestart">Task not started</span>
-										<span class="header_running">Task running</span>
-										<span class="header_finished">Task finished</span>
-									</h1>
-									<div class="task-state">
-										<div class="datacell">
-											<span class="label">TIMER</span>
-											<div class="value timer">
-												<span class="number task-timer"></span><span class="unit"></span>
-											</div>
-										</div>
-										<div class="datacell taskaverage">
-											<span class="label">AVG SPD</span>
-											<div class="value avg">
-												<span class="number"></span><span class="unit"></span>
-											</div>
-										</div>
-										<div class="datacell tasktotal">
-											<span class="label">TOTAL</span>
-											<div class="value distance">
-												<span class="number"></span><span class="unit"></span>
-											</div>
-										</div>
-										<div class="datacell">
-											<span class="label">ARR HGT</span>
-											<div class="value arrivalheight">
-												<span class="number"></span><span class="unit"></span>
-											</div>
-										</div>
-									</div>
-								</header>
+                                <div class="headline">
+                                    <span class="header_prestart">Task not started</span>
+                                    <span class="header_running">Task running</span>
+                                    <span class="header_finished">Task finished</span>
+                                    <span class="header_failed">Task failed</span>
+                                </div>
+                                <div class="task-state">
+                                    <div class="task-timer">
+                                        <span class="label">Time</span>
+                                        <div class="value">
+                                            <span class="number">00:00:00</span><span class="unit">h</span>
+                                        </div>
+                                    </div>
+                                    <div class="task-totaldistance">
+                                        <span class="label">Dist</span>
+                                        <div class="value">
+                                            <span class="number">315</span><span class="unit">km</span>
+                                        </div></div>
+                                    <div class="task-distanceleft">
+                                        <span class="label">To Go</span>
+                                        <div class="value">
+                                            <span class="number">188</span><span class="unit">km</span>
+                                        </div></div>
+                                    <div class="task-arrivalheight">
+                                        <span class="label">Arr. AGL</span>
+                                        <div class="value">
+                                            <span class="number">286</span><span class="unit">m</span>
+                                        </div>
+                                    </div>
+                                    <div class="task-average">
+                                        <span class="label">Avg.</span>
+                                        <div class="value">
+                                            <span class="number">128</span><span class="unit">kmh</span>
+                                        </div>
+                                    </div>
+                                    <div class="task-failures">Mist gebaut!</div>
+                                </div>
+                            </header>
+			    
+			    <div class="task-alerts">
+                                Attention: Slew activated!
+                            </div>
+			    
+			    <div id="wp-template" class="task-waypoint">
+                                <div class="header">
+                                    <div class="wp-name"></div>
+                                    <div class="badge wp-ok">OK</div>
+                                    <div class="badge wp-nok">FAIL</div>
+                                </div>
+
+                                <div class="wp-values">
+                                    <div class="wp-main">
+                                        <div class="wp-data dist">
+                                            <span class="label">Dist</span>
+                                            <div class="value">
+                                                <span class="number">0</span><span class="unit">km</span>
+                                            </div>
+                                        </div>
+                                        <div class="wp-data arr_agl">
+                                            <span class="label">Arr (agl)</span>
+                                            <div class="value">
+                                                <span class="number"></span><span class="unit"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="wp-details">
+                                        <div class="wp-data bearing">
+                                            <span class="label">Brg</span>
+                                            <div class="value">
+                                                <span class="number"></span><span class="unit"></span>
+                                            </div>
+                                        </div>
+                                        <div class="wp-data ete">
+                                            <span class="label">ETE</span>
+                                            <div class="value">
+                                                <span class="number"></span><span class="unit"></span>
+                                            </div>
+                                        </div>
+                                        <div class="wp-data wind">
+                                            <span class="label">Wind</span>
+                                            <div class="value">
+                                                <span class="number"></span><span class="unit"></span>
+                                            </div>
+                                        </div>
+                                        <div class="wp-data arr_msl">
+                                            <span class="label">Arr (msl)</span>
+                                            <div class="value">
+                                                <span class="number"></span><span class="unit"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="wp-minmax">
+                                    <span class="wp-min"></span>
+                                    <span class="wp-max"></span>
+                                </div>
+
+                                <div class="click-indicator"><span>▼</span></div>
+                                <a href="#" class="wp-link"></a>
+                            </div>
 	
-								<div id="wp-template" class="task-waypoint">
-									<div class="header">
-										<div class="wp-name">WP 2 - 288m</div>
-										<div class="badge wp-ok">OK</div>
-										<div class="badge wp-nok">FAIL</div>
-									</div>
-	
-									<div class="wp-details">
-										<div class="datacell">
-											<span class="label">BRG</span>
-											<div class="value bearing">
-												<span class="number">312</span><span class="unit">deg</span>
-											</div>
-										</div>
-										<div class="datacell">
-											<span class="label">DIST</span>
-											<div class="value distance">
-												<span class="number distance">12.2</span><span class="unit">km</span>
-											</div>
-										</div>
-										<div class="datacell">
-											<span class="label">ETE</span>
-											<div class="value ete">
-												<span class="number">8</span><span class="unit">min</span>
-											</div>
-										</div>
-										<div class="datacell">
-											<span class="label">Wind</span>
-											<div class="value wind">
-												<span class="number wind">+8</span><span class="unit">ms</span>
-											</div>
-										</div>
-										<div class="datacell">
-											<span class="label">Arr (msl)</span>
-											<div class="value arrivalheight">
-												<span class="number arrivalheight"></span><span class="unit">m</span>
-											</div>
-										</div>
-									</div>
-									<div class="wp-minmax">
-										<span class="wp-min"></span> 
-										<span class="wp-max"></span> 
-										<span class="wp-radius"></span>
-									</div>
-	
-								</div>
+								
 	
 							</div>
 
