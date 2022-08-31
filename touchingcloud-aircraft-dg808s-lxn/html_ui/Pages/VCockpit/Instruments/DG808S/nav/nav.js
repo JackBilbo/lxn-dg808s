@@ -754,13 +754,8 @@ class lxn extends NavSystemTouch {
         this.ex="K9";
     }
 
-
-
-
-   
-
-
-    update_task_page() {
+    
+	update_task_page() {
         if(!this.taskpage_built) { this.build_taskpage(); return; }
         if(!B21_SOARING_ENGINE.task_finished()) {
             document.querySelector(".task-state .task-timer").innerHTML = this.displayValue(B21_SOARING_ENGINE.task_time_s(),"s","time_of_day");
@@ -820,23 +815,45 @@ class lxn extends NavSystemTouch {
             
                 wp_el.querySelector(".wp-name").innerHTML = wp.name + " (" + this.displayValue(wp.alt_m, "m", "alt") + this.units.alt.pref + ")"; 
                 wp_el.querySelector(".bearing .number").innerHTML = wp.leg_bearing_deg.toFixed(0);
-                wp_el.querySelector(".distance .number").innerHTML = this.displayValue(wp.leg_distance_m, "m", "dist");
-                wp_el.querySelector(".distance .unit").innerHTML = this.units.dist.pref;
+                wp_el.querySelector(".dist .number").innerHTML = this.displayValue(wp.leg_distance_m, "m", "dist");
+                wp_el.querySelector(".dist .unit").innerHTML = this.units.dist.pref;
                 wp_el.querySelector(".ete .number").innerHTML = (wp.ete_s / 60).toFixed(0);
                 wp_el.querySelector(".ete .unit").innerHTML = "min";
                 wp_el.querySelector(".wind .number").innerHTML = this.displayValue(wp.tailwind_ms, "ms", "windspeed");
                 wp_el.querySelector(".wind .unit").innerHTML = this.units.windspeed.pref;
-                wp_el.querySelector(".arrivalheight .number").innerHTML = this.displayValue(wp.arrival_height_msl_m, "m", "alt");
-                wp_el.querySelector(".arrivalheight .unit").innerHTML = this.units.alt.pref;
+                wp_el.querySelector(".arr-msl .number").innerHTML = this.displayValue(wp.arrival_height_msl_m, "m", "alt");
+                wp_el.querySelector(".arr-msl .unit").innerHTML = this.units.alt.pref;
+		wp_el.querySelector(".arr-agl .number").innerHTML = this.displayValue(wp.arrival_height_msl_m - wp.alt_m, "m", "alt");
+                wp_el.querySelector(".arr-agl .unit").innerHTML = this.units.alt.pref;    
 
-
-                if(wp.radius_m != null || wp.min_alt_m != null || wp.max_alt_m != null) {
-                    wp_el.querySelector(".wp-min").innerHTML = wp.min_alt_m != null ? "Min: " + this.displayValue(wp.min_alt_m, "m", "alt") +  this.units.alt.pref : "";
-                    wp_el.querySelector(".wp-max").innerHTML = wp.max_alt_m != null ? "Max: " + this.displayValue(wp.max_alt_m, "m", "alt") +  this.units.alt.pref : "";
-                    wp_el.querySelector(".wp-radius").innerHTML = wp.radius_m != null ? "Radius: " + this.displayValue(wp.radius_m, "m", "alt") +  this.units.alt.pref : "";
-                } else {
-                    wp_el.querySelector(".wp-minmax").style.display = "none";
-                }
+		if( wp.arrival_height_msl_m - wp.alt_m < 0 ) { wp_el.querySelector(".arr-agl").classList.add("alert") } else { wp_el.querySelector(".arr-agl").classList.remove("alert")}   
+		    
+                if(wp.min_alt_m != null) {
+                    wp_el.querySelector(".wp-min").innerHTML = "Min: " + this.displayValue(wp.min_alt_m, "m", "alt") +  this.units.alt.pref;
+                    
+		    if( wp.arrival_height_msl_m < wp.min_alt_m ) { 
+			wp_el.querySelector(".arr-msl").classList.add("alert");
+		    	wp_el.querySelector(".wp-min").classList.add("alert");
+		    } else { 
+			wp_el.querySelector(".arr-msl").classList.remove("alert")}	
+			wp_el.querySelector(".wp-min").classList.remove("alert");
+			}
+	         }
+		
+		if(wp.max_alt_m != null) {
+                    wp_el.querySelector(".wp-max").innerHTML = "Max: " + this.displayValue(wp.max_alt_m, "m", "alt") +  this.units.alt.pref;
+                    
+		    if( wp.arrival_height_msl_m > wp.max_alt_m ) { 
+			wp_el.querySelector(".arr-msl").classList.add("alert");
+		    	wp_el.querySelector(".wp-max").classList.add("alert");
+		    } else { 
+			wp_el.querySelector(".arr-msl").classList.remove("alert")}	
+			wp_el.querySelector(".wp-max").classList.remove("alert");
+			}
+	          }
+				    
+		
+		} 
             } else {
                 wp_el.style.display = "none";
             }  
@@ -852,12 +869,21 @@ class lxn extends NavSystemTouch {
             let wp_el = template.cloneNode();
             wp_el.innerHTML = templateContent;
             wp_el.setAttribute("id","wp_" + wp_index);
+		
+		wp_el.querySelector(".wp-link").addEventlistener("click", (e)=> {
+			e.target.parentNode.classList.toggle("expanded");
+		})
+		
             document.getElementById("tasklist").appendChild(wp_el);
             check++;
         }
         console.log("Task page built. Number of WP: " + check);
         this.taskpage_built = true;
     }
+
+
+
+   
 
     popalert(headline,text,dur,col) {
         let d = dur != null ? dur : 5;
