@@ -28,6 +28,7 @@
             padding: 0.5em;
             background-color: #e7a508;
             color: #000;
+                margin-bottom: 0.5em;
         }
 
         #tasklist .headline span { display: none; margin-bottom: 0.5em;}
