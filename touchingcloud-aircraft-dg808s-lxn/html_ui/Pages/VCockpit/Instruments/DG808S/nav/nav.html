@@ -400,14 +400,8 @@
 								</div>
 								<div class="configpanel" id="conf_panel_bugs" aria-controlledby="conf_bugs"><header>Bugs? Bugs!</header>
 									<div class="configpanel_content">
-										<p>Dead insects on the wings can seriously influence a gliders performance. Therefore the amount of dead bugs on the wings
-											is accounted for in arrival height estimation.
-										</p>
-										<p>Currently there are no simulated bugs on simulated wings, but we can use the value as a sort of correction factor for inaccuracies
-											of the flight model inefficiency of the pilot. So if you tend to arrive lower than estimated, try a bug value lower than 100 to
-											make the estimation more pessimistic.
-										</p>
-										<div style="text-align: center;"><input id="buginput" type="text" size="4" value="100" /></div>
+										<p>IRL a factor for dirt and dead bugs on the wings. Can be used to adjust arrival height calculations. See README-file.</p>
+										<div style="text-align: center;"><input id="buginput" type="text" size="4" value="80" /></div>
 									</div>
 									<div class="configpanel_buttons">
 										<a href="#" class="configpanel_close">CLOSE</a>

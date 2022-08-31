@@ -469,7 +469,7 @@ class lxn extends NavSystemTouch {
 
     jbb_update_stf()  {
         // No "Bugs" on simulated wings so far
-        let bugs = 75;
+        let bugs = document.querySelector("#buginput").value;
         let ballast = this.vars.ballast.value;
         let wf = Math.sqrt(eval(this.jbb_refwt + parseFloat(ballast)) / this.jbb_refwt);
     
