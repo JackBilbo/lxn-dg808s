@@ -774,15 +774,16 @@ class lxn extends NavSystemTouch {
             */
         }
 
-        /* TBD later. Cheat-Warnings
+        /* Cheat-Warnings */
             if (this.SIM_TIME_PAUSED || this.SIM_TIME_SLEWED || this.SIM_TIME_NEGATIVE || this.SIM_TIME_ENGINE) {
             let alert_msg = this.SIM_TIME_PAUSED ? "+PAUSED " : "";
             alert_msg += this.SIM_TIME_SLEWED ? "+SLEWED " : "";
             alert_msg += this.SIM_TIME_NEGATIVE ? "+TIME_SLIDE " : "";
             alert_msg += this.SIM_TIME_ENGINE ? "+MOTOR" : "";
-            alert_str = '<br/><div class="lx_9050_task_page_small">ALERT: '+alert_msg+'</div>';
+		
+	     document.querySelector(".task-alerts").innerHTML = alert_msg;
+	     document.querySelector(".task-alerts").style.display = "block";    
         }
-        */
 
         document.querySelector(".task-state .distance .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.distance_m(),"m","dist");
         document.querySelector(".task-state .distance .unit").innerHTML = this.units.dist.pref;
