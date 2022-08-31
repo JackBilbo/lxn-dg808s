@@ -227,7 +227,8 @@ class lxn extends NavSystemTouch {
             this.jbb_update_stf();
 
             if (B21_SOARING_ENGINE.task_active()) {
-                this.update_task_page();
+
+			    this.update_task_page();
 
                 this.vars.wp_name.value = B21_SOARING_ENGINE.current_wp().name;
                 this.vars.wp_dist.value = B21_SOARING_ENGINE.current_wp().distance_m / 1852; // convert to baseunit
@@ -754,48 +755,52 @@ class lxn extends NavSystemTouch {
         this.ex="K9";
     }
 
-
-
-
-   
-
-
+    
     update_task_page() {
         if(!this.taskpage_built) { this.build_taskpage(); return; }
+	
+	    let taskheader = document.querySelector("#tasklist header");    
+	    
         if(!B21_SOARING_ENGINE.task_finished()) {
-            document.querySelector(".task-state .task-timer").innerHTML = this.displayValue(B21_SOARING_ENGINE.task_time_s(),"s","time_of_day");
+            taskheader.querySelector(".task-state .task-timer .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task_time_s(),"s","time_of_day");
             this.vars.tasktime.value = B21_SOARING_ENGINE.task_time_s();
         } else {
-            document.querySelector(".task-state .task-timer").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_time_s - B21_SOARING_ENGINE.task.start_time_s,"s","time_of_day");
-            document.querySelector(".task-state .taskaverage .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.finish_speed_ms(),"ms","speed");
-            document.querySelector(".task-state .taskaverage .unit").innerHTML = this.units.speed.pref;
+            taskheader.querySelector(".task-state .task-timer .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_time_s - B21_SOARING_ENGINE.task.start_time_s,"s","time_of_day");
+            taskheader.querySelector(".task-state .task-average .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.finish_speed_ms(),"ms","speed");
+            taskheader.querySelector(".task-state .task-average .unit").innerHTML = this.units.speed.pref;
             
             this.vars.tasktime.value = B21_SOARING_ENGINE.task.finish_time_s - B21_SOARING_ENGINE.task.start_time_s;
             
-            /*
-            let completion_time = B21_SOARING_ENGINE.finish_time_s - this.task.start_time_s
-            document.querySelector(".task-state .timer .number").innerHTML = this.displayValue(completion_time,"s","time_of_day");
-            
-            */
         }
 
-        /* TBD later. Cheat-Warnings
-            if (this.SIM_TIME_PAUSED || this.SIM_TIME_SLEWED || this.SIM_TIME_NEGATIVE || this.SIM_TIME_ENGINE) {
+        /* Cheat-Warnings */
+        if (this.SIM_TIME_PAUSED || this.SIM_TIME_SLEWED || this.SIM_TIME_NEGATIVE || this.SIM_TIME_ENGINE) {
             let alert_msg = this.SIM_TIME_PAUSED ? "+PAUSED " : "";
             alert_msg += this.SIM_TIME_SLEWED ? "+SLEWED " : "";
             alert_msg += this.SIM_TIME_NEGATIVE ? "+TIME_SLIDE " : "";
             alert_msg += this.SIM_TIME_ENGINE ? "+MOTOR" : "";
-            alert_str = '<br/><div class="lx_9050_task_page_small">ALERT: '+alert_msg+'</div>';
+		
+	        document.querySelector(".task-alerts").innerHTML = alert_msg;
+	        document.querySelector(".task-alerts").style.display = "block";    
         }
-        */
+        
+        if(UI.pagepos_x != 2) { return; }
 
-        document.querySelector(".task-state .distance .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.distance_m(),"m","dist");
-        document.querySelector(".task-state .distance .unit").innerHTML = this.units.dist.pref;
-        document.querySelector(".task-state .arrivalheight .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m,"m","alt"); 
-        document.querySelector(".task-state .arrivalheight .unit").innerHTML = this.units.alt.pref;
+        taskheader.querySelector(".task-state .task-totaldistance .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.distance_m(),"m","dist");
+        taskheader.querySelector(".task-state .task-totaldistance .unit").innerHTML = this.units.dist.pref;
+	    taskheader.querySelector(".task-state .task-distanceleft .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.remaining_distance_m(),"m","dist");;
+        taskheader.querySelector(".task-state .task-distanceleft .unit").innerHTML = this.units.dist.pref;        
+        taskheader.querySelector(".task-state .task-arrivalheight .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m,"m","alt"); 
+        taskheader.querySelector(".task-state .task-arrivalheight .unit").innerHTML = this.units.alt.pref;
 
+        if(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m < 0) {
+            taskheader.querySelector(".task-state .task-arrivalheight").classList.add("alert");
+        } else {
+                taskheader.querySelector(".task-state .task-arrivalheight").classList.remove("alert");
+        }   
+	    
         if(B21_SOARING_ENGINE.task_started()) {
-            document.getElementById("tasklist").setAttribute("class","task_running hasScrollbars");
+            document.getElementById("tasklist").setAttribute("class","task_started hasScrollbars");
         } 
         
         if (B21_SOARING_ENGINE.task_finished()) {
@@ -820,27 +825,57 @@ class lxn extends NavSystemTouch {
             
                 wp_el.querySelector(".wp-name").innerHTML = wp.name + " (" + this.displayValue(wp.alt_m, "m", "alt") + this.units.alt.pref + ")"; 
                 wp_el.querySelector(".bearing .number").innerHTML = wp.leg_bearing_deg.toFixed(0);
-                wp_el.querySelector(".distance .number").innerHTML = this.displayValue(wp.leg_distance_m, "m", "dist");
-                wp_el.querySelector(".distance .unit").innerHTML = this.units.dist.pref;
+                
+                if(wp_index == B21_SOARING_ENGINE.task_index()) {
+                    wp_el.querySelector(".dist .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.current_wp().distance_m, "m", "dist");
+                } else {
+                    wp_el.querySelector(".dist .number").innerHTML = this.displayValue(wp.leg_distance_m, "m", "dist");
+                }
+                
+                wp_el.querySelector(".dist .unit").innerHTML = this.units.dist.pref;
                 wp_el.querySelector(".ete .number").innerHTML = (wp.ete_s / 60).toFixed(0);
                 wp_el.querySelector(".ete .unit").innerHTML = "min";
                 wp_el.querySelector(".wind .number").innerHTML = this.displayValue(wp.tailwind_ms, "ms", "windspeed");
                 wp_el.querySelector(".wind .unit").innerHTML = this.units.windspeed.pref;
-                wp_el.querySelector(".arrivalheight .number").innerHTML = this.displayValue(wp.arrival_height_msl_m, "m", "alt");
-                wp_el.querySelector(".arrivalheight .unit").innerHTML = this.units.alt.pref;
+                wp_el.querySelector(".arr_msl .number").innerHTML = this.displayValue(wp.arrival_height_msl_m, "m", "alt");
+                wp_el.querySelector(".arr_msl .unit").innerHTML = this.units.alt.pref;
+		        wp_el.querySelector(".arr_agl .number").innerHTML = this.displayValue(wp.arrival_height_msl_m - wp.alt_m, "m", "alt");
+                wp_el.querySelector(".arr_agl .unit").innerHTML = this.units.alt.pref;    
 
-
-                if(wp.radius_m != null || wp.min_alt_m != null || wp.max_alt_m != null) {
-                    wp_el.querySelector(".wp-min").innerHTML = wp.min_alt_m != null ? "Min: " + this.displayValue(wp.min_alt_m, "m", "alt") +  this.units.alt.pref : "";
-                    wp_el.querySelector(".wp-max").innerHTML = wp.max_alt_m != null ? "Max: " + this.displayValue(wp.max_alt_m, "m", "alt") +  this.units.alt.pref : "";
-                    wp_el.querySelector(".wp-radius").innerHTML = wp.radius_m != null ? "Radius: " + this.displayValue(wp.radius_m, "m", "alt") +  this.units.alt.pref : "";
-                } else {
-                    wp_el.querySelector(".wp-minmax").style.display = "none";
+		        if( wp.arrival_height_msl_m - wp.alt_m < 0 ) { 
+                    wp_el.querySelector(".arr_agl").classList.add("alert") 
+                } else { 
+                    wp_el.querySelector(".arr_agl").classList.remove("alert")
+                }   
+		    
+                if(wp.min_alt_m != null) {
+                    wp_el.querySelector(".wp-min").innerHTML = "Min: " + this.displayValue(wp.min_alt_m, "m", "alt") +  this.units.alt.pref;
+                        
+                    if( wp.arrival_height_msl_m < wp.min_alt_m ) { 
+                        wp_el.querySelector(".arr_msl").classList.add("alert");
+                        wp_el.querySelector(".wp-min").classList.add("alert");
+                    } else { 
+                        wp_el.querySelector(".arr_msl").classList.remove("alert");	
+                        wp_el.querySelector(".wp-min").classList.remove("alert");
+                    }
                 }
+		
+                if(wp.max_alt_m != null) {
+                    wp_el.querySelector(".wp-max").innerHTML = "Max: " + this.displayValue(wp.max_alt_m, "m", "alt") +  this.units.alt.pref;
+                        
+                    if( wp.arrival_height_msl_m > wp.max_alt_m ) { 
+                        wp_el.querySelector(".arr_msl").classList.add("alert");
+                        wp_el.querySelector(".wp-max").classList.add("alert");
+                    } else { 
+                        wp_el.querySelector(".arr_msl").classList.remove("alert")
+                        wp_el.querySelector(".wp-max").classList.remove("alert");
+                    }
+                }	    
+
             } else {
                 wp_el.style.display = "none";
-            }  
-        }       
+            } 
+        }        
     }
 
     build_taskpage() {
@@ -852,12 +887,21 @@ class lxn extends NavSystemTouch {
             let wp_el = template.cloneNode();
             wp_el.innerHTML = templateContent;
             wp_el.setAttribute("id","wp_" + wp_index);
+		
+		    wp_el.querySelector(".wp-link").addEventListener("click", (e)=> {
+			    e.target.parentNode.classList.toggle("expanded");
+		    })
+		
             document.getElementById("tasklist").appendChild(wp_el);
             check++;
         }
         console.log("Task page built. Number of WP: " + check);
         this.taskpage_built = true;
     }
+
+
+
+   
 
     popalert(headline,text,dur,col) {
         let d = dur != null ? dur : 5;
