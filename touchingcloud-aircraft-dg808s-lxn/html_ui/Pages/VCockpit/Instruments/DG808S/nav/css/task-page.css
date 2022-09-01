@@ -1,143 +1,161 @@
 /* TASKPAGE */
 
-        #tasklist {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #444;
-            overflow: auto;
-            color: #fff;
-            padding-top: calc(25px + 0.5rem);
-            padding-right: 4px;
+#tasklist {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #444;
+    overflow: auto;
+    color: #fff;
+    padding-top: calc(25px + 0.5rem);
+    padding-right: 4px;
+    font-size: 1.8rem;
+}
 
-            font-size: 2rem;
-        }
+.bigdatafields #tasklist {
+    font-size: 2.8rem;
+}
 
-        /* Task Header in various states */
+/* Task Header in various states */
 
-        #tasklist header {
-            background-color: #222;
-            text-align: center;
-            margin-bottom: 0.5em;
-            padding: 0.5em 0 1em 0;
-        }
+#tasklist header {
+    background-color: #222;
+    text-align: center;
+    margin-bottom: 0.5em;
+    padding: 0.5em 0 1em 0;
+}
 
-        .task-alerts {
-            padding: 0.5em;
-            background-color: #e7a508;
-            color: #000;
-                margin-bottom: 0.5em;
-        }
+.task-alerts {
+    padding: 0.5em;
+    background-color: #e7a508;
+    color: #000;
+        margin-bottom: 0.5em;
+}
 
-        #tasklist .headline span { display: none; margin-bottom: 0.5em;}
-        .task-failures, .task-alerts { display: none; }
-        #tasklist.task_not_started .headline span.header_prestart { display: block; font-size: 2em;}
-        #tasklist.task_not_started .task-timer, #tasklist.task_not_started .task-distanceleft, #tasklist.task_not_started .task-average { display: none; }
+#tasklist .headline span { display: none; margin-bottom: 0.5em;}
+.task-failures, .task-alerts { display: none; }
+#tasklist.task_not_started .headline span.header_prestart { display: block; font-size: 2em;}
+#tasklist.task_not_started .task-timer, #tasklist.task_not_started .task-distanceleft, #tasklist.task_not_started .task-average { display: none; }
 
-        #tasklist.task_started .headline span.header_running { display: block; font-size: 1em;}
-        #tasklist.task_started .task-totaldistance, #tasklist.task_started .task-average { display: none;}
+#tasklist.task_started .headline span.header_running { display: block; font-size: 1em;}
+#tasklist.task_started .task-totaldistance, #tasklist.task_started .task-average { display: none;}
 
-        #tasklist.task_finished .headline span.header_finished { display: block; font-size: 1em; }
-        #tasklist.task_finished .task-totaldistance, #tasklist.task_finished .task-distanceleft, #tasklist.task_finished .task-arrivalheight { display: none;}
+#tasklist.task_finished .headline span.header_finished { display: block; font-size: 1em; }
+#tasklist.task_finished .task-totaldistance, #tasklist.task_finished .task-distanceleft, #tasklist.task_finished .task-arrivalheight { display: none;}
 
-        #tasklist.task_finished header { background-color: #0d8b3c; }
-        #tasklist.task_finished .task-state>div { border-color: #0d8b3c; }
+#tasklist.task_finished header { background-color: #0d8b3c; }
+#tasklist.task_finished .task-state>div { border-color: #0d8b3c; }
 
-        #tasklist.task_failed .headline span.header_failed { display: block; font-size: 2em; }
-        #tasklist.task_failed .task-state>div { display: none; }
-        #tasklist.task_failed .task-state .task-failures { display: block; }
-        #tasklist.task_failed header { background-color: #cc0000; }
-        #tasklist.task_failed .task-state>div { border-color: #cc0000; }
+#tasklist.task_failed .headline span.header_failed { display: block; font-size: 2em; }
+#tasklist.task_failed .task-state>div { display: none; }
+#tasklist.task_failed .task-state .task-failures { display: block; }
+#tasklist.task_failed header { background-color: #cc0000; }
+#tasklist.task_failed .task-state>div { border-color: #cc0000; }
 
-        .task-state { display: flex; justify-content: space-around; }
-        .task-state>div { padding: 0.5em; background-color: rgba(255,255,255,0.1); width: 100%; border: 2px solid #222; }
-        .task-state .number { font-size: 1.8em;}
+.task-state { display: flex; justify-content: space-around; }
+.task-state>div { padding: 0.5em; background-color: rgba(255,255,255,0.1); width: 100%; border: 2px solid #222; }
+.task-state .number { font-size: 1.8em;}
 
-        /* TASK WP */
+.task-state>div.finishalt_ok {
+    background-color: #0d8b3c;
+    color: #fff;
+}
 
-        #wp-template { display: none; }
-        
-        .task-waypoint.iscurrentwp {
-             border: 2px solid orange;
-        }
+/* TASK WP */
 
-        .task-waypoint {
-            position: relative;
-            background-color: #222;
-            margin-bottom: 0.5em;
-            padding: 0.5em;
-            cursor: pointer;
-        }
+#wp-template { display: none; }
 
-        .task-waypoint .header {
-            font-size: 1.5em;
-            padding-bottom: 0.2em;
-            padding-right: 1.8em;
-        }
+.task-waypoint.iscurrentwp {
+     border: 2px solid orange;
+}
 
-        .task-waypoint .badge {
-            display: none;
-            position: absolute;
-            top: var(--horizontalpadding);
-            right: var(--horizontalpadding);
-            padding: 0 var(--horizontalpadding);
-            border-radius: 3px;
-        }
+.task-waypoint {
+    position: relative;
+    background-color: #222;
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+}
 
-        .wp-main { display: flex; justify-content: space-around; }
-        .wp-main>div { padding: 0.5em; background-color: rgba(255,255,255,0.1); width: 100%; border: 2px solid #222; text-align:center; }
-        .wp-main .number { font-size: 2em;}
-        .wp-data .label { white-space: nowrap; }
+.task-waypoint .header {
+    font-size: 1.5em;
+    padding-bottom: 0.2em;
+    padding-right: 1.8em;
+}
 
-        .wp-data.alert, .wp-minmax .alert {
-            background-color: #cc0000;
-            color: #fff;
-        }
+.task-waypoint .badge {
+    display: none;
+    position: absolute;
+    top: var(--horizontalpadding);
+    right: var(--horizontalpadding);
+    padding: 0 var(--horizontalpadding);
+    border-radius: 3px;
+}
 
-        .wp-minmax .alert { padding: 0.1em 0.5em; }
+.wp-main { display: flex; justify-content: space-around; }
+.wp-main>div { padding: 0.5em; background-color: rgba(255,255,255,0.1); width: 100%; border: 2px solid #222; text-align:center; }
+.wp-main .number { font-size: 2em;}
+.wp-data .label { white-space: nowrap; }
 
+.wp-data.alert, .alert {
+    background-color: #cc0000;
+    color: #fff;
+}
 
-        .wp-details {
-            display: flex;
-            justify-content: space-between;
-            height: 1px;
-            overflow: hidden;
-            transition: all 0.2s;
-        }
+.wp-minmax .alert { padding: 0.1em 0.5em; }
 
-        .expanded .wp-details {
-            height: 5em;
-        }
+.bigdatafields .wp-data.ete { display: none; }
 
-        .wp-details>div { padding: 0.5em; background-color: rgba(255,255,255,0.1); width: 100%; border: 2px solid #222; text-align:center; }
-        .wp-details .number { font-size: 1.8em;}
+.wp-details {
+    display: flex;
+    justify-content: space-between;
+    height: 5em;
+    overflow: hidden;
+    transition: all 0.2s;
+}
 
-        .wp-minmax {
-            font-size: 1.5em;
-            padding: 0.2em 0;
-        }
+.bigdatafields .wp-details { height: 1px; }
 
-        .wp-ok .wp-details, .wp-ok .wp-minmax, .wp-ok .wp-main, .wp-ok .click-indicator, .wp-ok .wp-link { display: none; }
-        .wp-ok .wp-ok { display: block; background-color: #0d8b3c; font-weight: bold; }
+.bigdatafields .expanded .wp-details {
+    height: 5em;
+}
 
-        .click-indicator {
-            position: absolute;
-            top: 0.2em;
-            right: 0.5em;
-            font-size: 1.5em;
-            transition: all 0.2s;
-        }
+.wp-details>div { padding: 0.5em; background-color: rgba(255,255,255,0.1); width: 100%; border: 2px solid #222; text-align:center; }
+.wp-details .number { font-size: 1.8em;}
 
-        .expanded .click-indicator {
-            transform: rotate(180deg);
-        }
+.wp-minmax {
+    font-size: 1.5em;
+    padding: 0.2em 0;
+}
 
-        .wp-link {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+.wp-ok .wp-details, .wp-ok .wp-minmax, .wp-ok .wp-main, .wp-ok .click-indicator, .wp-ok .wp-link { display: none; }
+.wp-ok .wp-ok { display: block; background-color: #0d8b3c; font-weight: bold; }
+
+.click-indicator {
+    position: absolute;
+    top: 0.2em;
+    right: 0.5em;
+    font-size: 1.5em;
+    transition: all 0.2s;
+    display: none;
+}
+
+.bigdatafields .click-indicator { display: block; }
+
+.expanded .click-indicator {
+    transform: rotate(180deg);
+}
+
+.wp-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+ }
+
+.bigdatafields .wp-link {   
+    width: 100%;
+    height: 100%;
+}

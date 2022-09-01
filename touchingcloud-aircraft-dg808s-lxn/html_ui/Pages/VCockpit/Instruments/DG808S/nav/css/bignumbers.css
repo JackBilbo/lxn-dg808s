@@ -17,8 +17,8 @@
 	height: 210px;
 }
 
-.bigdatafields .label { font-size: 35px; }
-.bigdatafields .value { font-size: 100px; }
+.bigdatafields .datacell .label { font-size: 35px; }
+.bigdatafields .datacell .value { font-size: 100px; }
 
 .bigdatafields .datacell:nth-child(n+4) { display: none; }
 

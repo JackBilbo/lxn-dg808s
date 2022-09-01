@@ -374,7 +374,7 @@ class lxn extends NavSystemTouch {
     /* Unit abbreviation (and Batteries) not included */
     /* Unit abbreviation can be easily retrieved: units.category.pref */
 
-    displayValue(val,baseunit,category) {
+    displayValue(val,baseunit,category,forceunit) {
         val = parseFloat(val); // better make sure, it's a number
         let selected_unit;
 
@@ -793,10 +793,10 @@ class lxn extends NavSystemTouch {
         taskheader.querySelector(".task-state .task-arrivalheight .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m,"m","alt"); 
         taskheader.querySelector(".task-state .task-arrivalheight .unit").innerHTML = this.units.alt.pref;
 
-        if(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m < 0) {
-            taskheader.querySelector(".task-state .task-arrivalheight").classList.add("alert");
+        if(B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m > 0) {
+            taskheader.querySelector(".task-state .task-arrivalheight").classList.add("finishalt_ok");
         } else {
-                taskheader.querySelector(".task-state .task-arrivalheight").classList.remove("alert");
+            taskheader.querySelector(".task-state .task-arrivalheight").classList.remove("finishalt_ok");
         }   
 	    
         if(B21_SOARING_ENGINE.task_started()) {
@@ -888,9 +888,9 @@ class lxn extends NavSystemTouch {
             wp_el.innerHTML = templateContent;
             wp_el.setAttribute("id","wp_" + wp_index);
 		
-		    wp_el.querySelector(".wp-link").addEventListener("click", (e)=> {
-			    e.target.parentNode.classList.toggle("expanded");
-		    })
+		wp_el.querySelector(".wp-link").addEventListener("click", (e)=> {
+			e.target.parentNode.classList.toggle("expanded");
+		})
 		
             document.getElementById("tasklist").appendChild(wp_el);
             check++;
