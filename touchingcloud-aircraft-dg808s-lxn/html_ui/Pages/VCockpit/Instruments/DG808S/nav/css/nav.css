@@ -504,6 +504,12 @@ input[type="radio"] {
             padding: 5px 0;
         }
 
+		#buginput {
+			text-align: center;
+			font-size: 2rem;
+			padding: 0.5em;
+		}
+
 /* Unitdetailsettings */
 
 .quickselect {text-align: center; }
