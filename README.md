@@ -1,6 +1,14 @@
 # lxn-dg808s
 Replacement mod for the Touching Cloud DG808s Nav computer
 
+<h2>New from last version</h2>
+
+- detailed unit settings: instead of only metric/imperial you can now select your units of measurement for every category. You can have distance in statute miles, speed in knots and altitude in meters all at the same time - and your gliders perfomance measured in rabbit ear rotations per square ounce.
+- even more unit confusion: For any individual data field you can force metric or imperial measurement regardless of global settings. So you can fly all metric and still have one data field reading the altitude in feet to compare with map readings or multiplayer messages.
+- "readability mode": Less, but way bigger datafields and some more font-sizing to make the display easier on the eyes. I call it my "VR mode", btw. Far from perfect or finished.
+- Task page rework. Better readability on waypoint data. Waypoints only show distance and arrival height by default and can be clicked to see detail data. If your estimated arrival height is out of Min/Max range or your estimated arrival height AGL is negative you'll get a red warning. 
+- Config-Option "Bugs" can be used to adjust altitude estimation.
+
 <h2>Installation:</h2>
 Simply drop the included folder "touchingcloud-aircraft-dg808s-lxn" into your community folder. No need to change anything in your existing installation. To uninstall delete the folder and you're "back to normal".
 
@@ -20,6 +28,15 @@ Data field Configurations are persistent between simulator sessions. Click „re
 The task management system is Ian „B21“ Lewis’ Soaring Engine from the AS33. Some features like calculating glide ratios could not be recreated, as they are dependent of other instruments in the AS33. Others are still on the to do list.
 
 The wind indicator in the center of the map is loosely based on the real world LX-„Hawk“ system displaying current (blue) and average (grey) wind-arrows and a green/red column indicator for the vertical wind component.
+
+The Config-Page gives you access to various settings:
+
+- Ballast: A light version of ballast loading system that can even be used in flight - which would be shameless cheating of course!
+- Units: allows you to select the units of measurement to use for various categories or generally "metric" or "imperial" system. Only "metric" or "imperial" settings have an effect on other instruments in the cockpit. Detailled settings only work inside the nav computer.
+- Interface Options: Settings for the Nav Interface. "Readability Mode" can be activated here to get some bigger readouts (and less data fields) and the liftdot-trail on the map can be deactivated
+- Bugs: An experimental feature to control arrival height calculations. In real life gliders dead insects on the wing's leading edge will deteriorate glide perfomance. Therefore a "bug factor" can be used in arrival height calculations. While you won't kill any simulated insects on your simulated wings, you can still use this factor to account for inaccuracies in the flight model or inefficiencies of the pilot. If you find you are constantly arriving lower than the predicted altitude try flying with a lower "bugs" value. This value is not persistent between sessions, because we all know, that you are cleaning your wings after each flight. Values can range from 0 to 100, default for the DG808s is curently 80 - a value that produced acceptable results in na number of test flights. To point that out again: this setting does NOT affect your gliders performance in any way. ONLY the calculated arrival height.
+
+All config settings apart from bugs and ballast are persistent between sessions. Just make sure to click "close" after making any changes.
 
 <h2>Some more Details</h2>
 
@@ -49,6 +66,12 @@ Changing pages and subpages with "click and drag" in flight requires a lot of mo
 The map can not be panned. To avoid collision with „click and drag“ page changing another „mode switch“ would be needed. Considering the current quality of the ingame map, I don’t think it’s worth the added complexity.
 
 „Thermalling help“ through the typical green and red dots is a very basic „quick and dirty“ implementation. So far it can not be toggled. As soon as you are in the air the dotted trail will show.
+
+If you don't use a flightplan, the waypoint page uses the starting waypoint as "Home". This waypoint currently has no altitude, screwing up the estimation of arrival height above ground level in thie constellation.
+
+<h2>Conflicts with other mods</h2>
+
+Multiple mods changing the same aircraft are prone to conflict somehow. If you run into problems the first and easiest option is to decide, which modification is more important to you and remove the conflicting one. If you absolutely want to keep both, you can try to find out which files conflict. In the case of most livery modifications the conflicting file is the file panel.cfg, that is used to modify aircraft registration. This mod also changes panel.cfg. You can try to solve the conflict by either copying panel.cfg from this mod over to you livery completely, or only copy the section [VCockpit02] from this mod's panel.cfg and paste it to the same file in you livery mod. Sounds way more complicated than it is, but try it at your own risk, of course.
 
 <h2>Developer Info:</h2>
 
