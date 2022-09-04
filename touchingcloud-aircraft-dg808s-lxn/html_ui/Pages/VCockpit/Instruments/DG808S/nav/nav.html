@@ -38,8 +38,27 @@
 
 			<div class="speedgauge">
 				<div class="speedband">
-					<div class="speedladder kmh"><div class="stfmarker"></div></div>
-					<div class="speedladder kts"><div class="stfmarker"></div></div>
+					<div class="speedladder kmh">
+						<div class="flap_indicator">
+							<div class="flap_0">-3</div>
+							<div class="flap_1">-2</div>
+							<div class="flap_2">-1</div>
+							<div class="flap_3">0</div>
+							<div class="flap_4">T1</div>
+							<div class="flap_5">T2</div>
+						</div>
+						<div class="stfmarker"></div></div>
+					<div class="speedladder kts">
+						<div class="flap_indicator">
+							<div class="flap_0">-3</div>
+							<div class="flap_1">-2</div>
+							<div class="flap_2">-1</div>
+							<div class="flap_3">0</div>
+							<div class="flap_4">T1</div>
+							<div class="flap_5">T2</div>
+						</div>
+						<div class="stfmarker"></div>
+					</div>
 					<div class="currentspeed"><span>0</span>
 						<div class="currentspeed_arrow"></div>
 					</div>
@@ -217,15 +236,15 @@
                                             <span class="number">188</span><span class="unit">km</span>
                                         </div></div>
                                     <div class="task-arrivalheight"><div class="shine"></div>
-                                        <span class="label">Arr. AGL</span>
+                                        <span class="label">Finish Alt.</span>
                                         <div class="value">
-                                            <span class="number">286</span><span class="unit">m</span>
+                                            <span class="number"></span><span class="unit">m</span>
                                         </div>
                                     </div>
                                     <div class="task-average"><div class="shine"></div>
                                         <span class="label">Avg.</span>
                                         <div class="value">
-                                            <span class="number">128</span><span class="unit">kmh</span>
+                                            <span class="number"></span><span class="unit">kmh</span>
                                         </div>
                                     </div>
                                     <div class="task-failures"></div>
@@ -258,7 +277,7 @@
                                             </div>
                                         </div>
                                         <div class="wp-data arr_agl"><div class="shine"></div>
-                                            <span class="label">Arr (agl)</span>
+                                            <span class="label">Arr (WP)</span>
                                             <div class="value">
                                                 <span class="number"></span><span class="unit"></span>
                                             </div>
@@ -279,7 +298,7 @@
                                             </div>
                                         </div>
                                         <div class="wp-data arr_msl"><div class="shine"></div>
-                                            <span class="label">Arr (msl)</span>
+                                            <span class="label">Arr (MSL)</span>
                                             <div class="value">
                                                 <span class="number"></span><span class="unit"></span>
                                             </div>
@@ -419,6 +438,22 @@
 												<div class="handle"></div>
 											</div>
 										</div>
+										<div class="config_entry">
+											<div class="config_label">
+												<div class="title">Dotted Glider Path</div>
+											</div>
+											<div class="config_toggle" state="on" data-callback="toggleLiftdots">
+												<div class="handle"></div>
+											</div>
+										</div>
+										<div class="config_entry">
+											<div class="config_label">
+												<div class="title">Visual Stallwarning</div>
+											</div>
+											<div class="config_toggle" state="off" data-callback="toggleStallwarning">
+												<div class="handle"></div>
+											</div>
+										</div>
 									</div>
 									<div class="configpanel_buttons">
 										<a href="#" class="configpanel_close">CLOSE</a>
@@ -551,9 +586,11 @@
 				<p></p>
 			</div>
 
+			<div id="stallwarner"></div>
 			
 		</div>
 		<div id="nav_debug">DEBUG</div>
+
 	</div>
 </script>
 

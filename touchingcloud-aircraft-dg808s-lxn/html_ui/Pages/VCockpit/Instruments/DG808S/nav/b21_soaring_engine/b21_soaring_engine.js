@@ -1280,7 +1280,6 @@ class Task {
         let task_distance_m = 0;    // Distance around task in meters
         if (this.started && this.task_time_s() > 5) {
             task_speed_ms = (this.distance_m() - this.remaining_distance_m()) / this.task_time_s();
-            console.log(this.distance_m(), this.remaining_distance_m(), this.task_time_s());
         }
 
         return task_speed_ms / 0.51444;

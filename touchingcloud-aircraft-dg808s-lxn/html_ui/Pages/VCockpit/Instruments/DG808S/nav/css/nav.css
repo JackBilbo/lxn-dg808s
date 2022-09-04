@@ -998,6 +998,7 @@ input[type="radio"] {
 	transform: translate(0px, -180px);
 	display: none;
 	width: 100%;
+	padding-left: 1.3rem;
 }
 
 .kmh .speedladder.kmh { display: block; }
@@ -1040,11 +1041,11 @@ input[type="radio"] {
 	position: absolute;
 	background-color: #000;
 	color: #fff;
-	padding: var(--verticalpadding) var(--horizontalpadding);
+	padding: var(--verticalpadding) var(--verticalpadding);
 	text-align: center;
 	top: 50%;
-	left: 20px;
-	width: calc(100% - 20px);
+	left: 2.5rem;
+	width: calc(100% - 2.5rem);
 	height: 60px;
 	line-height: 50px;
 	margin-top: -30px;
@@ -1142,6 +1143,17 @@ input[type="radio"] {
 
 .speedgauge .label { font-size: 32px;  }
 
+.flap_indicator {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	color: #fff;
+	text-align: center;
+	width: 1.3rem;
+}
+
+.flap_indicator>div { font-size: 1.5rem; border-top: 2px solid #fff; }
+
 .button { 
 	font-size: 50px;
 	width: 100%; } 
@@ -1211,4 +1223,30 @@ input[type="radio"] {
 
 #touching_cloud img {
 	width: 45%;
+}
+
+/* Stallwarning */
+
+#stallwarner {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#stallwarner.active {
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+	background-color: #ff0000;
+  	animation-name: blink_1;
+  	animation-duration: 1s;
+	animation-iteration-count: infinite;
+}
+
+@keyframes blink_1 {
+    0% {  opacity: 0  }
+    5%   { opacity: 1 }
+	10% { opacity: 1 }
+	15% { opacity: 0 }
+	100% { opacity: 0 }
 }

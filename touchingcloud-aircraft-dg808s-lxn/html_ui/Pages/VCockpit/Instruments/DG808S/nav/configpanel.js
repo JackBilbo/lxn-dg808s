@@ -161,6 +161,14 @@ class configpanel {
         if (val == "on") {  document.querySelector("#panelframe").classList.add("bigdatafields") } else { document.querySelector("#panelframe").classList.remove("bigdatafields") }
     }
 
+    toggleLiftdots(val) {
+        if (val == "on") {  this.instrument.showLiftdots = true; } else { this.instrument.showLiftdots = false; }
+    }
+
+    toggleStallwarning(val) {
+        if (val == "on") {  this.stallwarning = true } else {  this.stallwarning = false }
+    }
+
     
     savePersistentData() {
         let toggledata = {}
@@ -179,14 +187,13 @@ class configpanel {
             unitprefs[unit] = this.instrument.units[unit].pref;
         }
 
-        SetStoredData("Discus_unitsetting", JSON.stringify(unitprefs));
+        SetStoredData("Discus_unitsetting_detail", JSON.stringify(unitprefs));
         SetStoredData("Discus_configtoggle", JSON.stringify(toggledata));
         SetStoredData("Discus_sliderdata", JSON.stringify(sliderdata));
 
     }
 
     loadPersistentData() {
-        console.log("GET DATA FROM STORAGE....");
 
         let togglerawdata = GetStoredData("Discus_configtoggle");
         let sliderrawdata = GetStoredData("Discus_sliderdata");
