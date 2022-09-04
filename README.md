@@ -11,6 +11,8 @@ Replacement mod for the Touching Cloud DG808s Nav computer
   - Page switch up/down: COM1-Frequency farcture inc/dec
   
 - New displayable variable: average task speed  
+- Visual stall warning
+- Recommended flap speed calculation and display in speed tape
 
 
 <h2>Installation:</h2>
