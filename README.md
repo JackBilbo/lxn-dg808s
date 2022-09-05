@@ -13,6 +13,8 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 - New displayable variable: average task speed  
 - Visual stall warning
 - Recommended flap speed calculation and display in speed tape
+- Bugfix: Metric/Imperial-Setting is now persisted correctly. User setting in .flt-File is overridden
+- Alert-Messages: Gear down with Ballast / Spoilers without gear extended below 600ft agl
 
 
 <h2>Installation:</h2>
