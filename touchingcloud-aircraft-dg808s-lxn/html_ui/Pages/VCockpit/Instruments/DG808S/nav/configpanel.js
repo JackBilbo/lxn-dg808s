@@ -111,16 +111,17 @@ class configpanel {
     update() {
         if(!this.systeminitReady) { this.initSystemSettings(); return; }
 
-        let masterunits = SimVar.GetSimVarValue("L:UNITS_IMPERIAL","percent");
-        if(this.unitstore != masterunits) {
-            if(masterunits == 100) { this.setUnitPrefs("imperial") } else { this.setUnitPrefs("metric") }
-            this.unitstore = masterunits;
-        }
+        // No harware unit switch in the dg. 
+        // let masterunits = SimVar.GetSimVarValue("L:UNITS_IMPERIAL","percent");
+        // if(this.unitstore != masterunits) {
+        //    if(masterunits == 100) { this.setUnitPrefs("imperial") } else { this.setUnitPrefs("metric") }
+        //    this.unitstore = masterunits;
+        // }
 
         this.instrument.vars.ballast.value = parseFloat(SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:3", "pounds") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:4", "pounds") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:6", "pounds") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:5", "pounds"));
         this.instrument.vars.ballast_pct.value = this.instrument.vars.ballast.value / this.maxballast.total * 100;
         
-        if(UI.pageposX = 4) {
+        if(UI.pageposX == 4) {
             this.updateBallastDisplay();
         }
         
@@ -211,7 +212,6 @@ class configpanel {
         if(sliderrawdata != "") {
             try {
                 let sliderdata = JSON.parse(sliderrawdata);
-                console.log(sliderdata);
                 this.rangesliders.forEach((el) => {
                     if(sliderdata[el.id]) {
                         el.setValue(sliderdata[el.id]);
