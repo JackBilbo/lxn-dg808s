@@ -2,8 +2,8 @@
   "content": [
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/configpanel.js",
-      "size": 13848,
-      "date": 133062726481673327
+      "size": 13947,
+      "date": 133068863945896248
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/interface.js",
@@ -17,18 +17,23 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.html",
-      "size": 33514,
-      "date": 133064245708225123
+      "size": 34417,
+      "date": 133069492480832091
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.js",
-      "size": 48786,
-      "date": 133064245708225123
+      "size": 56629,
+      "date": 133068863945906222
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navmap.js",
       "size": 19287,
       "date": 133058909238062752
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navmap_topomap.js",
+      "size": 19665,
+      "date": 133069497018789140
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navpanel.js",
@@ -62,8 +67,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_soaring_engine/b21_soaring_engine.js",
-      "size": 63130,
-      "date": 133057526077005628
+      "size": 65382,
+      "date": 133067978579021383
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_soaring_engine/README.md",
@@ -72,18 +77,18 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/bignumbers.css",
-      "size": 683,
-      "date": 133061873519974840
+      "size": 703,
+      "date": 133065341412961334
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/nav.css",
-      "size": 24672,
-      "date": 133062732012219068
+      "size": 23053,
+      "date": 133069486836752807
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/task-page.css",
-      "size": 4882,
-      "date": 133064245708225123
+      "size": 4733,
+      "date": 133065979486687434
     },
     {
       "path": "SimObjects/Airplanes/DG808S/panel/FME.wasm",

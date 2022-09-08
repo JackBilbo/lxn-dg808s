@@ -43,7 +43,7 @@
 #tasklist.task_started .task-totaldistance, #tasklist.task_started .task-average { display: none;}
 
 #tasklist.task_finished .headline span.header_finished { display: block; font-size: 1em; }
-#tasklist.task_finished .task-totaldistance, #tasklist.task_finished .task-distanceleft, #tasklist.task_finished .task-arrivalheight { display: none;}
+#tasklist.task_finished .task-distanceleft, #tasklist.task_finished .task-arrivalheight { display: none;}
 
 #tasklist.task_finished header { background-color: #0d8b3c; }
 #tasklist.task_finished .task-state>div { border-color: #0d8b3c; }

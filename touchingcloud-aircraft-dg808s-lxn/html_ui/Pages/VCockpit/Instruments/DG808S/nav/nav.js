@@ -1,4 +1,4 @@
-let NAVMAP, NAVPANEL, CONFIGPANEL, UI;
+let NAVMAP, NAVPANEL, CONFIGPANEL, UI, TOPOMAP;
 
 class lxn extends NavSystemTouch {
 
@@ -15,7 +15,6 @@ class lxn extends NavSystemTouch {
         this.jbb_mccready = 0;
         this.jbb_mccready_ms = 0;
         this.jbb_refwt = 779;
-        this.jbb_avg_wind_direction = 0;
         this.jbb_avg_wind_speed = 0;   
         
         this.jbb_lift_dot_delay = 3;
@@ -32,6 +31,7 @@ class lxn extends NavSystemTouch {
             stf: { value: 0, label: "STF", longlabel: "Speed to fly", category: "speed", baseunit: "kts" },
             sink_stf: { value: 0, label: "Sink at STF", longlabel: "Sink at Speed to fly", category: "verticalspeed", baseunit: "kts" },
             current_netto: { value: 0, label: "NETTO", longlabel: "Smoothed Netto", category: "verticalspeed", baseunit: "kts"},
+            aoa: { value: 0, label: "AoA", longlabel: "Angle of Attack", category: "direction", baseunit: "deg"},
             wind_direction: { value: 0, label: "Wind", longlabel: "Wind Direction", category: "direction", baseunit: "deg" },
             wind_spd: { value: 0, label: "Wind", longlabel: "Windspeed", category: "windspeed", baseunit: "kts" },
             wind_vertical: { value: 0, label: "Wind Vert.", longlabel: "Vertical Windspeed", category: "windspeed", baseunit: "kts" },
@@ -55,7 +55,8 @@ class lxn extends NavSystemTouch {
             wp_alt: { value: 0, label: "WP ALT", longlabel: "Waypoint Altitude", category: "alt", baseunit: "ft" },
             wp_bearing: { value: 0, label: "WP BRG", longlabel: "Waypoint Bearing", category: "direction", baseunit: "deg" },
             wp_dist: { value: 0, label: "WP DIST", longlabel: "Waypoint Distance", category: "dist", baseunit: "nm" },
-            wp_arr_agl: { value: 0, label: "WP ARR (WP)", longlabel: "Waypoint Arrival (WP) incl. min-height", category: "alt", baseunit: "ft" },
+            wp_arr_agl: { value: 0, label: "WP ARR (AGL)", longlabel: "Waypoint Arrival AGL (WP-Height)", category: "alt", baseunit: "ft" },
+            wp_arr_wpmin: { value: 0, label: "WP &#916; MIN", longlabel: "Waypoint Arrival (WP) incl. min-height", category: "alt", baseunit: "ft" },
             wp_arr_msl: { value: 0, label: "WP ARR (MSL)", longlabel: "Waypoint Arrival (MSL)", category: "alt", baseunit: "ft" },
             wp_ete: { value: 0, label: "WP ETE", longlabel: "Waypoint Time Enroute", category: "time", baseunit: "min" },
             task_arr_agl: { value: 0, label: "TSK FIN (AGL)", longlabel: "Task Finish Altitude (AGL)", category: "alt", baseunit: "ft" },
@@ -193,7 +194,8 @@ class lxn extends NavSystemTouch {
         this.vars.wind_direction.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees"));
         this.vars.wind_vertical.value = SimVar.GetSimVarValue("A:AMBIENT WIND Y", "knots");
         this.vars.current_netto.value = (this.vars.current_netto.value * 0.9) + (SimVar.GetSimVarValue("L:NETTO", "knots") * 0.1);
-
+        this.vars.aoa.value = SimVar.GetSimVarValue("INCIDENCE ALPHA", "radians") * (180/Math.PI);
+        
         /* Set Vars for B21 Functions */
 
         this.TIME_S = SimVar.GetSimVarValue("E:SIMULATION TIME","seconds");
@@ -204,6 +206,7 @@ class lxn extends NavSystemTouch {
         this.TOTAL_WEIGHT_KG = SimVar.GetSimVarValue("A:TOTAL WEIGHT", "kilograms");
         this.PLANE_POSITION = this.get_position(); // returns a MSFS LatLong()
         this.WIND_DIRECTION_DEG = SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees");
+        this.SLEW = SimVar.GetSimVarValue("A:IS SLEW ACTIVE", "bool");
         // Get wind speed with gust filtering
         if (this.WIND_SPEED_MS==null) {
             this.WIND_SPEED_MS = SimVar.GetSimVarValue("A:AMBIENT WIND VELOCITY", "meters per second");
@@ -242,7 +245,8 @@ class lxn extends NavSystemTouch {
                 this.vars.wp_arr_msl.value = B21_SOARING_ENGINE.current_wp().arrival_height_msl_m / 0.3048;
                 this.vars.wp_ete.value = B21_SOARING_ENGINE.current_wp().ete_s / 60;
                 this.vars.wp_alt.value = B21_SOARING_ENGINE.current_wp().alt_m / 0.3048;
-                this.vars.wp_arr_agl.value = (B21_SOARING_ENGINE.current_wp().arrival_height_msl_m - B21_SOARING_ENGINE.current_wp().alt_m - B21_SOARING_ENGINE.current_wp().min_alt_m) / 0.3048;
+                this.vars.wp_arr_agl.value = (B21_SOARING_ENGINE.current_wp().arrival_height_msl_m - B21_SOARING_ENGINE.current_wp().alt_m) / 0.3048;
+                this.vars.wp_arr_wpmin.value = (B21_SOARING_ENGINE.current_wp().arrival_height_msl_m - (B21_SOARING_ENGINE.current_wp().min_alt_m != null ? B21_SOARING_ENGINE.current_wp().min_alt_m : B21_SOARING_ENGINE.current_wp().alt_m)) / 0.3048;
                 this.vars.task_arr_msl.value = B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m / 0.3048;
                 this.vars.task_arr_agl.value = (B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m ) / 0.3048;
                 this.vars.task_spd.value = B21_SOARING_ENGINE.task.avg_task_speed_kts();
@@ -288,7 +292,7 @@ class lxn extends NavSystemTouch {
                         displaynumber = LXNAV.displayValue(LXNAV.vars[currentconfig.value].value, LXNAV.vars[currentconfig.value].baseunit, LXNAV.vars[currentconfig.value].category, forceunit);
                     } 
                     
-                    cell.style.backgroundColor = displaynumber > 0 ? currentconfig.back + "BB" : currentconfig.backneg + "BB";
+                    cell.style.backgroundColor = displaynumber > 0 ? currentconfig.back + "CC" : currentconfig.backneg + "CC";
                     cell.style.color = currentconfig.text;
         
                     cell.querySelector(".label").innerHTML = LXNAV.vars[currentconfig.value].label;
@@ -373,11 +377,11 @@ class lxn extends NavSystemTouch {
       
                if(this.prev_knobs_var[3] != this.KNOBS_VAR[3]) {
                 this.prev_knobs_var = this.KNOBS_VAR;
-                if(NAVMAP.map_rotation == 1) {
-                    NAVMAP.map_rotation = EMapRotationMode.NorthUp;
+                if(NAVMAP.map_rotation == "trackup") {
+                    NAVMAP.map_rotation = "northup";
                     document.querySelector("#battery_required").setAttribute("class","map_northup");
                 } else {
-                    NAVMAP.map_rotation = EMapRotationMode.TrackUp;
+                    NAVMAP.map_rotation = "trackup";
                     document.querySelector("#battery_required").setAttribute("class","map_trackup");
                 }
                 NAVMAP.set_map_rotation(NAVMAP.map_rotation);
@@ -715,15 +719,12 @@ class lxn extends NavSystemTouch {
 
     jbb_update_hawk() {
         let current_wind_direction = this.vars.wind_direction.value;
-        if (this.jbb_avg_wind_direction == 0) {
-            this.jbb_avg_wind_direction = current_wind_direction;
-        } else {
-            this.jbb_avg_wind_direction = ((0.99 * this.jbb_avg_wind_direction) + (0.01 * current_wind_direction));
-        }
+
+        this.jbb_avg_wind_direction = this.jbb_avg_wind_direction != null ? ((0.99 * this.jbb_avg_wind_direction) + (0.01 * current_wind_direction)) : current_wind_direction;
 
         let averageindicator = this.jbb_avg_wind_direction;
 
-        if(NAVMAP.map_rotation == 1) {
+        if(NAVMAP.map_rotation == "trackup") {
             current_wind_direction = current_wind_direction - this.vars.hdg.value;
             averageindicator = averageindicator - this.vars.hdg.value;
         }
@@ -760,35 +761,33 @@ class lxn extends NavSystemTouch {
         let svg_el = document.getElementById("lift_dots");
 
         let color = this.vars.current_netto.value > 0 ? "#14852c" : "#cc0000";
-        let radius = Math.max(3, Math.min(Math.abs(this.vars.current_netto.value) * 6, 15));
-        var newdot = NAVMAP.svg_circle(position, radius, 1, color);
-        newdot.setAttribute("fill", color);
+        let radius = Math.max(10, Math.min(Math.abs(this.vars.current_netto.value) * 20, 75));
     
-        this.lift_dots.unshift({
-            latlng: position,
-            radius: radius,
-            el: newdot
-        });
+        let newdot = L.circle([position.lat, position.long], radius, {
+            color: color,
+            stroke: 0,
+            fillColor: color,
+            fillOpacity: 1
+        }).addTo(TOPOMAP);
 
-        svg_el.prepend(newdot);
+        this.lift_dots.unshift( newdot );
+
+
     }
 
     updateLiftdots() {
-        let svg_el = document.getElementById("lift_dots");
 
         for(let i = 0; i < this.lift_dots.length; i++) {
-            let dot = this.lift_dots[i];
-            let xy = NAVMAP.LL_to_XY(dot.latlng);
-            dot.el.setAttribute("cx", "" + xy.x);
-            dot.el.setAttribute("cy", "" + xy.y);
-            dot.el.setAttribute("r", dot.radius);
-            dot.el.setAttribute("opacity", (40-i)/40);
+            this.lift_dots[i].setStyle({
+                fillOpacity: (40-i)/40
+            })
 
             if(i > this.lift_dots_max) {
-                svg_el.removeChild(dot.el);
+                TOPOMAP.removeLayer(this.lift_dots[i]);
                 this.lift_dots.length = this.lift_dots_max;
             }
-            if(!this.showLiftdots) { svg_el.removeChild(dot.el); }
+
+            if(!this.showLiftdots) { TOPOMAP.removeLayer(this.lift_dots[i]); }
         }
 
         // Dot Trail deactivated, clear Dot-Array
@@ -825,71 +824,7 @@ class lxn extends NavSystemTouch {
 		SimVar.SetSimVarValue("Z:MIC_POSITION", "", 0);
 	}
 
-    
-
-
-// ***********************************************************************
-    // ********** Sim time - stops on pause when airborn        **************
-    // **  Writes   this.SIM_TIME_S       --  absolute time (s) that pauses
-    // ***********************************************************************
-
-    init_sim_time() {
-        this.SIM_TIME_S = this.TIME_S;
-        this.SIM_TIME_PAUSED = false;
-        this.SIM_TIME_NEGATIVE = false;
-        this.SIM_TIME_SLEWED = false;
-        this.SIM_TIME_ENGINE = false;
-        this.SIM_TIME_ALERT = false;
-        this.SIM_TIME_LOCAL_OFFSET = this.TIME_S - this.LOCAL_TIME_S; // So local time is SIM_TIME - SIM_TIME_LOCAL_OFFSET
-        this.sim_time_delay_s = 0;
-        this.sim_time_prev_time_s = this.TIME_S;
-        this.sim_time_prev_update_s = (new Date())/1000;
-    }
-
-    update_sim_time() {
-        this.ex="K1";
-        if (this.SIM_TIME_S==null) {
-            this.init_sim_time();
-            return;
-        }
-
-        let update_s = (new Date())/1000;
-
-        this.ex="K2";
-        // Detect SLEWED, TIME_NEGATIVE
-        if (this.task_active() &&
-            this.task_started() &&
-            ! this.task_finished()) {
-            this.ex="K21";
-            if (this.SLEW_MODE) {
-                this.SIM_TIME_SLEWED = true;
-            }
-            // Detect time adjust backwards
-            this.ex="K22";
-            if (this.TIME_S < this.sim_time_prev_time_s) {
-                this.SIM_TIME_NEGATIVE = true;
-            }
-            this.ex="K23";
-            if (this.ENGINE_RUNNING) {
-                this.SIM_TIME_ENGINE = true;
-            }
-            this.ex="K24";
-            let delay_s = update_s - this.sim_time_prev_update_s;
-            if (delay_s > 5) { // Paused for more than 5 seconds
-                this.ex="K241";
-                this.SIM_TIME_PAUSED = true;
-                this.sim_time_delay_s += delay_s;
-            }
-        }
-
-        this.ex="K4";
-        this.sim_time_prev_time_s = this.TIME_S;
-        this.SIM_TIME_S = this.TIME_S - this.sim_time_delay_s;
-        this.sim_time_prev_update_s = update_s;
-        this.ex="K9";
-    }
-
-    
+        
     update_task_page() {
         if(!this.taskpage_built) { this.build_taskpage(); return; }
 	
@@ -1069,6 +1004,7 @@ class lxn extends NavSystemTouch {
         switch (event_name) {
             case "TASK_WP_CHANGE":
                 // this.update_task_page(); // { wp }
+                NAVMAP.updateTaskline();
                 break;
 
             case "TASK_WP_COMPLETED":
