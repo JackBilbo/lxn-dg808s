@@ -4,6 +4,8 @@ class navpanel {
         this.instrumentIdentifier = "lxn";
         this.oldairportlist;
         this.manualselectedairport = "";
+
+        this.airporticons = {}
     }
 
     init() {
@@ -120,7 +122,8 @@ class navpanel {
             this.instrument.vars.sel_apt_arr_msl.value = this.selectedAirport.arrival_height_msl_m / 0.3048 ;
             this.instrument.vars.sel_apt_arr_agl.value = this.instrument.vars.sel_apt_arr_msl.value - this.instrument.vars.sel_apt_alt.value;
             this.instrument.vars.sel_apt_ete.value =  time_to_wp_s / 60;
-        
+
+
     }
 
     buildAirportList() {
@@ -139,6 +142,11 @@ class navpanel {
                 item.setAttribute("class","selected");
             }
 
+            if(this.airporticons[this.airportlister.airports[i].ident] == null) {
+                let icon = this.airportlister.airports[i].airportClass == 1 ? NAVMAP.bigairportIcon : NAVMAP.smallairportIcon; 
+                this.airporticons[this.airportlister.airports[i].ident] = L.marker([this.airportlister.airports[i].coordinates.lat, this.airportlister.airports[i].coordinates.long], {icon: icon}).addTo(TOPOMAP);
+            }
+            
             aptlist.appendChild(item);
         }
 

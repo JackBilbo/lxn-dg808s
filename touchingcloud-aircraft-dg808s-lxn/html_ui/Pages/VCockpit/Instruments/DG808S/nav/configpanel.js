@@ -121,7 +121,7 @@ class configpanel {
         this.instrument.vars.ballast.value = parseFloat(SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:3", "pounds") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:4", "pounds") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:6", "pounds") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:5", "pounds"));
         this.instrument.vars.ballast_pct.value = this.instrument.vars.ballast.value / this.maxballast.total * 100;
         
-        if(UI.pageposX == 4) {
+        if(UI.pagepos_x == 4) {
             this.updateBallastDisplay();
         }
         
