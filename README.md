@@ -3,6 +3,8 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 
 <h2>New in the upcoming version</h2>
 
+- New topographic map. Takes a few seconds to load initially. If map fails to load, restart the flight (esc/restart).
+
 - new and changed Keybindings (identical to bindings in the AS33 to make binding life easier): 
   - Next/previous waypoint: transponder(1000) inc/dec
   - Map Zoom +/-: transponder(10) inc/dec
@@ -10,9 +12,14 @@ Replacement mod for the Touching Cloud DG808s Nav computer
   - Page switch left/right: COM1-Frequency whole inc/dec
   - Page switch up/down: COM1-Frequency farcture inc/dec
   
-- New displayable variable: average task speed  
+- New displayable variables: 
+  - average task speed
+  - Angle of attack
+  - "Waypoint Delta Min". Shows estimated arrival height above minimum height is available, if no min height is set, arrival above waypoint height is shown.
+  
 - Visual stall warning
 - Recommended flap speed calculation and display in speed tape
+- Waypoint arrival height calculation on task page accounts for min height.
 - Bugfix: Metric/Imperial-Setting is now persisted correctly. User setting in .flt-File is overridden
 - Alert-Messages: Gear down with Ballast / Spoilers without gear extended below 600ft agl
 
