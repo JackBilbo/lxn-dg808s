@@ -18,7 +18,7 @@ Replacement mod for the Touching Cloud DG808s Nav computer
   - "Waypoint Delta Min". Shows estimated arrival height above minimum height is available, if no min height is set, arrival above waypoint height is shown.
   
 - Visual stall warning
-- Recommended flap speed calculation and display in speed tape
+- Recommended flap speed calculation and display in speed tape: a colored bar is displayed on the left edge of the speed tape, indicating the recommended speed in grren when your speed is within this range, yellow, if you're outside. Recommended speeds depend on your carried ballast.
 - Waypoint arrival height calculation on task page accounts for min height.
 - Bugfix: Metric/Imperial-Setting is now persisted correctly. User setting in .flt-File is overridden
 - Alert-Messages: Gear down with Ballast / Spoilers without gear extended below 600ft agl
