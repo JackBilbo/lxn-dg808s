@@ -3,7 +3,7 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 
 <h2>New in this version</h2>
 
-- New topographic map. Takes a few seconds to load initially. If map fails to load, restart the flight (esc/restart).
+- New topographic map. Takes a few seconds to load initially. If map fails to load (i.e. no loading progress bar on startup), restart the flight (esc/restart).
 
 - new and changed Keybindings (identical to bindings in the AS33 to make binding life easier): 
   - Next/previous waypoint: transponder(1000) inc/dec
