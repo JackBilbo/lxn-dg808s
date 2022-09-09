@@ -93,8 +93,6 @@ class navmap {
 
                 console.log("MAP initialised");
                 this.map_instrument_loaded = true;
-                
-            }
 
                 let navmap = this;
                 document.querySelector("#map_orientation").addEventListener("click", function() {
@@ -116,6 +114,10 @@ class navmap {
                 document.querySelector("#map_zoomout").addEventListener("click", function() {
                     navmap.zoom_out();
                 })
+                
+            }
+
+                
         }
 
         if (this.map_instrument_loaded) {
