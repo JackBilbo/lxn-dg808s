@@ -1,7 +1,7 @@
 # lxn-dg808s
 Replacement mod for the Touching Cloud DG808s Nav computer
 
-<h2>New in the upcoming version</h2>
+<h2>New in this version</h2>
 
 - New topographic map. Takes a few seconds to load initially. If map fails to load, restart the flight (esc/restart).
 
