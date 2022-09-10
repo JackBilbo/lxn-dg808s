@@ -216,8 +216,6 @@ class lxn extends NavSystemTouch {
         B21_SOARING_ENGINE.MACCREADY_MS = this.vars.mccready.value * 0.51444;
         B21_SOARING_ENGINE.STF_SPEED_0_MS = this.vars.stf.value * 0.5144;
         B21_SOARING_ENGINE.STF_SINK_0_MS = this.vars.sink_stf.value * 0.5144;
-
-        NAVMAP.load_map();
         
         this.jbb_update_hawk();
         this.update_speedgauge();
@@ -251,7 +249,8 @@ class lxn extends NavSystemTouch {
                 this.vars.task_arr_agl.value = (B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - B21_SOARING_ENGINE.task.finish_wp().alt_m ) / 0.3048;
                 this.vars.task_spd.value = B21_SOARING_ENGINE.task.avg_task_speed_kts();
             }
-
+            
+            NAVMAP.load_map();
             NAVPANEL.update()
             CONFIGPANEL.update();
             this.updateKineticAssistant();

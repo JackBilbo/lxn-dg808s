@@ -67,7 +67,9 @@ class configpanel {
             CONFIGPANEL.setUnitPrefs("metric");
         })
     
-        
+        document.getElementById("mapreset").addEventListener("click", function() {
+            NAVMAP.resetMap();
+        })
         
         
         document.querySelectorAll(".config_toggle .handle").forEach((el)=> {

@@ -23,8 +23,8 @@ class navmap {
         this.WP_NON_TASK_COLOR = "#999999";
 
         this.map_zoom = 12;
-        this.map_maxzoom = 19;
-        this.map_minzoom = 5;
+        this.map_maxzoom = 16;
+        this.map_minzoom = 8;
         this.map_rotation = "northup";
         this.taskispainted = false;
         this.mapwaypoints = [];
@@ -45,12 +45,12 @@ class navmap {
     load_map() {
 
         // Map will be initialised on the 10th update cycle from aircraft load
-        if (this.load_map_called == null || this.load_map_called < 1000) {
+        if (this.load_map_called == null || this.load_map_called < 20) {
             this.load_map_called = this.load_map_called == null ? 1 : this.load_map_called + 1;
 
-            document.querySelector(".loader .bar").style.width = (this.load_map_called / 10) + "%";
+            document.querySelector(".loader .bar").style.width = (this.load_map_called * 5) + "%";
 
-            if (this.load_map_called == 1000) { // this is experimental code to delay the
+            if (this.load_map_called == 20) { // this is experimental code to delay the
                 // Map elements
 
                 this.smallairportIcon = L.icon({
@@ -72,7 +72,6 @@ class navmap {
                 });
 
                 // init Map
-                console.log("INIT POSITION: " + SimVar.GetSimVarValue("A:PLANE LATITUDE", "degrees latitude"),SimVar.GetSimVarValue("A:PLANE LONGITUDE", "degrees longitude"))
                 
                 let lat = parseFloat(SimVar.GetSimVarValue("A:PLANE LATITUDE", "degrees latitude"));
                 let long = parseFloat(SimVar.GetSimVarValue("A:PLANE LONGITUDE", "degrees longitude"));
@@ -81,8 +80,8 @@ class navmap {
                 
                 /* https://a.tile.opentopomap.org/{z}/{x}/{y}.png */
                 L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
-                        maxZoom: 16,
-                        minZoom: 8,
+                        maxZoom: this.map_maxzoom,
+                        minZoom: this.map_minzoom,
                         subdomains:['mt0','mt1','mt2','mt3'],
                         attribution: '© OpenStreetMap'
                 }).addTo(TOPOMAP);
@@ -91,7 +90,6 @@ class navmap {
 
                 NAVPANEL.buildAirportList();
 
-                console.log("MAP initialised");
                 this.map_instrument_loaded = true;
 
                 let navmap = this;
@@ -152,8 +150,6 @@ class navmap {
            this.draw_task();
            
         }
-
-
     }
 
     updateTaskline() {
@@ -242,7 +238,6 @@ class navmap {
     }
 
     draw_task() {
-        
         for (let wp_index = 0; wp_index < B21_SOARING_ENGINE.task_length(); wp_index++) {
 
             // Draw line p1 -> p2 (solid for current leg, dashed for other legs)
@@ -308,8 +303,7 @@ class navmap {
         }
 
         let wp = B21_SOARING_ENGINE.task.waypoints[wp_index];
-        console.log(wp);
-
+        
         // Check if we want to HIGHLIGHT this task line,
         // i.e. the line to the current waypoint (will choose color) or current WP is start and this is NEXT leg
         const current_task_line = wp_index == B21_SOARING_ENGINE.task_index() ||
@@ -334,7 +328,6 @@ class navmap {
     }
 
     add_wp_radius(wp_index) {
-        //console.log("add_wp_radius",wp_index);
         let wp = B21_SOARING_ENGINE.task.waypoints[wp_index];
         let wp_LL = wp.position;
         let radius_m = wp.radius_m;
@@ -348,7 +341,6 @@ class navmap {
 
     // Draw a line perpendicular to the leg to the NEXT waypoint
     add_start_line(wp_index) {
-        //console.log("add_start_line()");
         // Cannot draw a start line on last waypoint
         if (wp_index >= B21_SOARING_ENGINE.task_length() - 1) {
             return;
@@ -399,23 +391,36 @@ class navmap {
 
     draw_courseline() {
         let targetcoords;
-        if(this.courseline != null) {
-            TOPOMAP.removeLayer(this.courseline);
-        }
-
+        
         if(UI.pagepos_x == 0 && NAVPANEL.selectedAirport.coordinates.lat) { 
-            targetcoords = {lat: NAVPANEL.selectedAirport.coordinates.lat, long: NAVPANEL.selectedAirport.coordinates.long};
+            targetcoords = [[this.instrument.PLANE_POSITION.lat, this.instrument.PLANE_POSITION.long],[NAVPANEL.selectedAirport.coordinates.lat, NAVPANEL.selectedAirport.coordinates.long]];
         } else if(UI.pagepos_x == 1) {
-            targetcoords = B21_SOARING_ENGINE.current_wp().position;
+            targetcoords = [[this.instrument.PLANE_POSITION.lat, this.instrument.PLANE_POSITION.long],B21_SOARING_ENGINE.current_wp().position];
         } else {
             return;
         }
 
-        this.courseline = new L.Polyline([[this.instrument.PLANE_POSITION.lat, this.instrument.PLANE_POSITION.long],[targetcoords.lat, targetcoords.long]], {
-            color: this.TASK_LINE_CURRENT_COLOR,
-            weight: 3,
-            opacity: 1        
+        if(this.courseline != null) {
+            this.courseline.setLatLngs(targetcoords);
+        } else {
+            this.courseline = new L.Polyline(targetcoords, {
+                color: this.TASK_LINE_CURRENT_COLOR,
+                weight: 3,
+                opacity: 1        
             }).addTo(TOPOMAP);
+        }
+    }
+
+    resetMap() {
+        TOPOMAP.off()
+        TOPOMAP.remove();
+        document.getElementById("Map").innerHTML = "";
+
+        this.courseline = null;
+        this.load_map_called = 10;
+        this.map_instrument_loaded = false;
+        this.taskispainted = false;
+
 
     }
 }

@@ -1284,3 +1284,7 @@ input[type="radio"] {
 	15% { opacity: 0 }
 	100% { opacity: 0 }
 }
+
+#mapreset {
+	font-size: 2.5rem;
+}

@@ -39,7 +39,7 @@ class navpanel {
             this.oldairportlist = this.airportlister.airports;
             this.buildAirportList();
         }
-        
+
         this.getSelectedAirport();
         this.updateSelectedAirport();
 
@@ -49,6 +49,7 @@ class navpanel {
     }
 
     getSelectedAirport() {
+        // console.log("getSelectedAirport running");
         if(this.airportlister.airportslength == 0) { return false; }
 
         if(this.manualselectedairport != "") {
@@ -59,11 +60,6 @@ class navpanel {
       
         this.selectedAirport.UpdateInfos(null, false);
         // return this.selectedAirport;
-    }
-
-    setselectedAirport(apt) {
-        this.selectedAirport.icao = apt.icao
-        this.selectedAirport.UpdateInfos(null, false);
     }
 
     updateSelectedAirport() {
