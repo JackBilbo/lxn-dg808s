@@ -24,8 +24,6 @@ class navpanel {
                 el.classList.add("selected");
                 NAVPANEL.manualselectedairport = icao;
             }
-
-            NAVPANEL.getSelectedAirport();
         })
 
         this.navinit = true;
@@ -34,11 +32,6 @@ class navpanel {
     update() {
         if(!this.navinit) {  return; }
         this.airportlister.Update(20,200);
-
-        if(this.airportlister.loadState == 6 &&  this.oldairportlist != this.airportlister.airports) {
-            this.oldairportlist = this.airportlister.airports;
-            this.buildAirportList();
-        }
 
         this.getSelectedAirport();
         this.updateSelectedAirport();
@@ -49,8 +42,8 @@ class navpanel {
     }
 
     getSelectedAirport() {
-        // console.log("getSelectedAirport running");
         if(this.airportlister.airportslength == 0) { return false; }
+        let currentapt = this.selectedAirport.icao;
 
         if(this.manualselectedairport != "") {
             this.selectedAirport.icao = this.manualselectedairport;
@@ -58,8 +51,9 @@ class navpanel {
             this.selectedAirport.icao = this.airportlister.airports[0].icao;
         }
       
-        this.selectedAirport.UpdateInfos(null, false);
-        // return this.selectedAirport;
+        if(this.selectedAirport.icao != currentapt) {
+            this.selectedAirport.UpdateInfos(null, false);
+        }
     }
 
     updateSelectedAirport() {

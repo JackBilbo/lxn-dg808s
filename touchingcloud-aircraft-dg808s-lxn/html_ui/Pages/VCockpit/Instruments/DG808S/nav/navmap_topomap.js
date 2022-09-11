@@ -221,10 +221,6 @@ class navmap {
         this.map_zoom = this.map_zoom > this.map_minzoom ? this.map_zoom - 1 : this.map_minzoom;
     }
 
-    // Set current zoom index
-    set_zoom(i) {
-        this.map_instrument.setZoom(i);
-    }
 
     // Return current zoom index
     get_zoom() {
@@ -258,13 +254,12 @@ class navmap {
             
 
         }
-        
-        // this.draw_range_circles(newSVG);
 
         this.taskispainted = true;
     }
 
     // Draw distance circles around next WP (between plane position and WP)
+    // Currently not used to reduce clutter
     draw_range_circles(svg_parent) {
         if (!B21_SOARING_ENGINE.task_active()) {
             return;
@@ -395,7 +390,7 @@ class navmap {
         if(UI.pagepos_x == 0 && NAVPANEL.selectedAirport.coordinates.lat) { 
             targetcoords = [[this.instrument.PLANE_POSITION.lat, this.instrument.PLANE_POSITION.long],[NAVPANEL.selectedAirport.coordinates.lat, NAVPANEL.selectedAirport.coordinates.long]];
         } else if(UI.pagepos_x == 1) {
-            targetcoords = [[this.instrument.PLANE_POSITION.lat, this.instrument.PLANE_POSITION.long],B21_SOARING_ENGINE.current_wp().position];
+            targetcoords = [[this.instrument.PLANE_POSITION.lat, this.instrument.PLANE_POSITION.long],[B21_SOARING_ENGINE.current_wp().position.lat, B21_SOARING_ENGINE.current_wp().position.long]];
         } else {
             return;
         }
