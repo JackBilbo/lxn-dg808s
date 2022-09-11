@@ -836,55 +836,6 @@ input[type="radio"] {
 	top: 210px;
 }
 
-#MapInstrument {
-	position: absolute;
-	background-color: black;
-	width: 100%;
-	height: 100%;
-	overflow: hidden; 
-}
-
-#MapInstrument bing-map {
-  transform: rotateX(0);
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-}
-
-#MapInstrument #MapSVG {
-  transform: rotateX(0);
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%; /* 130% seems to align MapSVG with bing-map */
-  height: 100%;
-  /* border: 2px solid red; */
-}
-
-#MapInstrument #MapRange {
-    position: absolute;
-    left: 300px;
-    bottom: 20px;
-    color: white;
-    background-color: black;
-}
-
-#lx_9050_map_overlay, #liftdotcontainer {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-	display: none;
-}
-
-
-
-
-
-
 #hawk {
 	display: block;
 	position: absolute;
@@ -1287,4 +1238,5 @@ input[type="radio"] {
 
 #mapreset {
 	font-size: 2.5rem;
+	padding: 0.5rem 2rem;
 }

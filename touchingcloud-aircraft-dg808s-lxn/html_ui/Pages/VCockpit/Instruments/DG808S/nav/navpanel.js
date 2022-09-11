@@ -2,7 +2,6 @@ class navpanel {
     constructor(instrument) {
         this.instrument = instrument;
         this.instrumentIdentifier = "lxn";
-        this.oldairportlist;
         this.manualselectedairport = "";
 
         this.airporticons = {}

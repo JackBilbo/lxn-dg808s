@@ -245,10 +245,6 @@ class ui {
         }
     }
 
-    toggleDatafieldSize() {
-        document.querySelector("#panelframe").classList.toggle("bigdatafields");
-    }
-
 }
 
 

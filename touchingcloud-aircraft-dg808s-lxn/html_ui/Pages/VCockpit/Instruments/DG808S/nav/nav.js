@@ -182,6 +182,17 @@ class lxn extends NavSystemTouch {
             return;
         }
 
+        this.global_power();
+        if(this.power_switched) {
+            if(!this.power_status) {
+                document.getElementById("battery_required").style.display = "none";
+                return;
+            } else {
+                document.getElementById("battery_required").style.display = "block";
+            }
+        }
+
+
         let LXNAV = this;
         this.vars.ias.value = SimVar.GetSimVarValue("A:AIRSPEED INDICATED", "knots");
         this.vars.tas.value = SimVar.GetSimVarValue("A:AIRSPEED TRUE", "knots");
@@ -206,7 +217,6 @@ class lxn extends NavSystemTouch {
         this.TOTAL_WEIGHT_KG = SimVar.GetSimVarValue("A:TOTAL WEIGHT", "kilograms");
         this.PLANE_POSITION = this.get_position(); // returns a MSFS LatLong()
         this.WIND_DIRECTION_DEG = SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees");
-        this.SLEW = SimVar.GetSimVarValue("A:IS SLEW ACTIVE", "bool");
         // Get wind speed with gust filtering
         if (this.WIND_SPEED_MS==null) {
             this.WIND_SPEED_MS = SimVar.GetSimVarValue("A:AMBIENT WIND VELOCITY", "meters per second");
@@ -1134,16 +1144,20 @@ class lxn extends NavSystemTouch {
     }
 
 
+    global_power() {
+        this.power_switched = false;
+	    const new_power_status = SimVar.GetSimVarValue("ELECTRICAL MASTER BATTERY", "boolean") != 0 ? true : false;
+        if (typeof this.power_status === "undefined" ) {
+            this.power_switched = true;
+        } else if (new_power_status && !this.power_status) {
+            this.power_switched = true;
+        } else if (!new_power_status && this.power_status) {
+            this.power_switched = true;
+        }
+        this.power_status = new_power_status;
+    }
+
 }
-
-
-
-    
-
-
-
-
-
 
 
 registerInstrument("lxn-nav", lxn);
