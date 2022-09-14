@@ -2,15 +2,6 @@ class configpanel {
     constructor(instrument) {
         this.instrument = instrument;
 
-        this.settings = {
-            brightness: 100,
-            glareshiledLight: 0,
-            ballast: 50,
-            tint: false,
-            cover: false,
-            navlights: false
-        }
-
         this.ballastIsInit = false;
 
         this.unitstore = SimVar.GetSimVarValue("L:UNITS_IMPERIAL","percent");
@@ -18,6 +9,7 @@ class configpanel {
 
     initSystemSettings() {
         let instrument = this.instrument;
+        
         document.querySelectorAll(".lxconfigbtn").forEach((el)=> {
             el.addEventListener("click", function(e) {
                 e.stopPropagation();
@@ -66,11 +58,7 @@ class configpanel {
         document.getElementById("conf_units_metric").addEventListener("click", function(e) {
             CONFIGPANEL.setUnitPrefs("metric");
         })
-    
-        document.getElementById("mapreset").addEventListener("click", function() {
-            NAVMAP.resetMap();
-        })
-        
+      
         
         document.querySelectorAll(".config_toggle .handle").forEach((el)=> {
             el.addEventListener("click", (e)=> {
@@ -84,8 +72,6 @@ class configpanel {
         })
 
         this.rangesliders = []
-
-        let isFES = SimVar.GetSimVarValue("L:IsFES","bool");
        
         this.maxballast = {
                 left: 125,
@@ -112,13 +98,6 @@ class configpanel {
 
     update() {
         if(!this.systeminitReady) { this.initSystemSettings(); return; }
-
-        // No harware unit switch in the dg. 
-        // let masterunits = SimVar.GetSimVarValue("L:UNITS_IMPERIAL","percent");
-        // if(this.unitstore != masterunits) {
-        //    if(masterunits == 100) { this.setUnitPrefs("imperial") } else { this.setUnitPrefs("metric") }
-        //    this.unitstore = masterunits;
-        // }
 
         this.instrument.vars.ballast.value = parseFloat(SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:3", "pounds") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:4", "pounds") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:6", "pounds") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:5", "pounds"));
         this.instrument.vars.ballast_pct.value = this.instrument.vars.ballast.value / this.maxballast.total * 100;

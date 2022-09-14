@@ -157,8 +157,6 @@ class lxn extends NavSystemTouch {
         this.COMCODE = SimVar.GetSimVarValue("COM ACTIVE FREQUENCY:1","MHz").toString().split(".");
         this.prevcomcode = this.COMCODE;
 
-        this.v80_mcvalue = SimVar.GetSimVarValue("L:BEZEL_CAL", "percent");
-
         B21_SOARING_ENGINE.register_callback(this, this.engine_event_callback);
         
         this.stallwarner = document.querySelector("#stallwarner");
@@ -230,12 +228,6 @@ class lxn extends NavSystemTouch {
         this.jbb_update_hawk();
         this.update_speedgauge();
         
-        let mastermc = SimVar.GetSimVarValue("L:BEZEL_CAL","percent")
-        if(this.v80_mcvalue != mastermc) {
-            this.vars.mccready.value = mastermc / 10;
-            this.v80_mcvalue = mastermc;
-        }
-
         
         if(this.TIME_S - this.TIMER_05 > 0.5) {
             /* Stuff happening twice per second  */
