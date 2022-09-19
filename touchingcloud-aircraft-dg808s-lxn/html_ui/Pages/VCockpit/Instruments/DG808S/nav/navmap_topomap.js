@@ -24,10 +24,12 @@ class navmap {
 
         this.map_zoom = 12;
         this.map_maxzoom = 16;
-        this.map_minzoom = 8;
+        this.map_minzoom = 9;
         this.map_rotation = "northup";
         this.taskispainted = false;
         this.mapwaypoints = [];
+
+        this.maptimer = 0;
 
         this.taskgeojson = "";
 
@@ -71,47 +73,34 @@ class navmap {
                     popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
                 });
 
-                // init Map
-                
-                let lat = parseFloat(SimVar.GetSimVarValue("A:PLANE LATITUDE", "degrees latitude"));
-                let long = parseFloat(SimVar.GetSimVarValue("A:PLANE LONGITUDE", "degrees longitude"));
-
-                TOPOMAP = L.map('Map').setView([lat,long], this.map_zoom);
-                
-                /* https://a.tile.opentopomap.org/{z}/{x}/{y}.png */
-                L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
-                        maxZoom: this.map_maxzoom,
-                        minZoom: this.map_minzoom,
-                        subdomains:['mt0','mt1','mt2','mt3'],
-                        attribution: '© OpenStreetMap'
-                }).addTo(TOPOMAP);
-
-                this.taskgeojson = L.geoJSON("", {style: function(feature) { return feature.properties; }}).addTo(TOPOMAP); 
+                this.initMap(); 
 
                 NAVPANEL.buildAirportList();
 
                 this.map_instrument_loaded = true;
 
-                let navmap = this;
-                document.querySelector("#map_orientation").addEventListener("click", function() {
-                    if(navmap.map_rotation == "trackup") {
-                        navmap.map_rotation = "northup";
-                        document.querySelector("#battery_required").setAttribute("class","map_northup");
-                    } else {
-                        navmap.map_rotation = "trackup";
-                        document.querySelector("#battery_required").setAttribute("class","map_trackup");
-                    }
-            
-                    navmap.set_map_rotation(navmap.map_rotation);
-                });
-            
-                document.querySelector("#map_zoomin").addEventListener("click", function() {
-                    navmap.zoom_in();
-                })
-            
-                document.querySelector("#map_zoomout").addEventListener("click", function() {
-                    navmap.zoom_out();
-                })
+                    let navmap = this;
+                    document.querySelector("#map_orientation").addEventListener("click", function() {
+                        if(navmap.map_rotation == "trackup") {
+                            navmap.map_rotation = "northup";
+                            document.querySelector("#battery_required").setAttribute("class","map_northup");
+                        } else {
+                            navmap.map_rotation = "trackup";
+                            document.querySelector("#battery_required").setAttribute("class","map_trackup");
+                        }
+                
+                        navmap.set_map_rotation(navmap.map_rotation);
+                    });
+                
+                    document.querySelector("#map_zoomin").addEventListener("click", function() {
+                        navmap.zoom_in();
+                    })
+                
+                    document.querySelector("#map_zoomout").addEventListener("click", function() {
+                        navmap.zoom_out();
+                    })
+                
+                this.maptimer = this.instrument.TIME_S;
                 
             }
 
@@ -144,12 +133,10 @@ class navmap {
         this.update_map_center();
         this.draw_courseline();
 
-        this.ex=42;
-        // Before draw_task(), we need to check SvgMap (navMap) is ready after startup
         if (B21_SOARING_ENGINE.task_active() && this.taskispainted == false) {
            this.draw_task();
-           
         }
+
     }
 
     updateTaskline() {
@@ -406,16 +393,54 @@ class navmap {
         }
     }
 
+    paintAirports(airports) {
+        if(this.airportsgeojson) { TOPOMAP.removeLayer(this.airportsgeojson); }
+
+        if(typeof(TOPOMAP.addLayer) == "function") {
+            this.airportsgeojson = L.geoJSON(airports, {
+                pointToLayer: function (feature, latlng) {
+                    return L.marker(latlng, {icon: feature.properties.myicon});
+                }   
+            }).addTo(TOPOMAP);
+        }
+
+    }
+
+    initMap() {
+        let lat = parseFloat(SimVar.GetSimVarValue("A:PLANE LATITUDE", "degrees latitude"));
+        let long = parseFloat(SimVar.GetSimVarValue("A:PLANE LONGITUDE", "degrees longitude"));
+        TOPOMAP = L.map('Map').setView([lat,long], this.map_zoom);
+                
+        /* https://a.tile.opentopomap.org/{z}/{x}/{y}.png */
+        L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+                        maxZoom: this.map_maxzoom,
+                        minZoom: this.map_minzoom,
+                        subdomains:['mt0','mt1','mt2','mt3'],
+                        keyboard: false,
+                        dragging: false,
+                        zoomControl: false,
+                        boxZoom: false,
+                        doubleClickZoom: false,
+                        scrollWheelZoom: false,
+                        tap: false,
+                        touchZoom: false
+        }).addTo(TOPOMAP);
+
+        this.taskgeojson = L.geoJSON("", {style: function(feature) { return feature.properties; }}).addTo(TOPOMAP);
+        NAVPANEL.buildAirportList();
+
+    }
+
     resetMap() {
         TOPOMAP.off()
         TOPOMAP.remove();
         document.getElementById("Map").innerHTML = "";
 
+        this.initMap();
+
         this.courseline = null;
-        this.load_map_called = 10;
-        this.map_instrument_loaded = false;
         this.taskispainted = false;
-
-
+        this.maptimer = this.instrument.TIME_S;
+        
     }
 }

@@ -42,6 +42,7 @@ class lxn extends NavSystemTouch {
             ballast: { value: 399, label: "Ballast", longlabel: "Current Ballast",category:"weight", baseunit: "lbs"},
             ballast_pct: { value: 100, label: "Ballast %", longlabel: "Current Ballast Percent",category:"percent", baseunit: "%"},
             localtime: { value: 0, label: "Local", longlabel: "Local Time", category: "time_of_day", baseunit: "s"},
+            utctime: { value: 0, label: "UTC", longlabel: "UTC Time", category: "time_of_day", baseunit: "s"},
             tasktime: { value: 0, label: "Task Time", longlabel: "Task Time", category: "time_of_day", baseunit: "s"},
             sel_apt_icao: { value: "XXXX", label: "APT ICAO", longlabel: "Selected Airport ICAO", category: "plaintext", baseunit: "none" },
             sel_apt_name: { value: "NAME", label: "APT NAME", longlabel: "Selected Airport Name", category: "plaintext", baseunit: "none" },
@@ -142,7 +143,6 @@ class lxn extends NavSystemTouch {
     connectedCallback() {
         super.connectedCallback();
 
-        
         NAVMAP = new navmap(this);
         NAVPANEL = new navpanel(this); NAVPANEL.init();
         CONFIGPANEL = new configpanel(this); CONFIGPANEL.initSystemSettings();
@@ -161,6 +161,8 @@ class lxn extends NavSystemTouch {
         
         this.stallwarner = document.querySelector("#stallwarner");
         this.gearposition = SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool");
+
+        this.tick = 0;
 
         this._isConnected = true;
 	}
@@ -190,43 +192,51 @@ class lxn extends NavSystemTouch {
             }
         }
 
-
         let LXNAV = this;
-        this.vars.ias.value = SimVar.GetSimVarValue("A:AIRSPEED INDICATED", "knots");
-        this.vars.tas.value = SimVar.GetSimVarValue("A:AIRSPEED TRUE", "knots");
-        this.vars.hdg.value = SimVar.GetSimVarValue("A:PLANE HEADING DEGREES TRUE","degrees");
-        this.vars.trk.value = SimVar.GetSimVarValue("GPS GROUND TRUE TRACK","degrees");
-        this.vars.gndspd.value = SimVar.GetSimVarValue("A:GPS GROUND SPEED","knots");
-        this.vars.alt.value = SimVar.GetSimVarValue("A:PLANE ALTITUDE", "feet");
-        this.vars.alt_gnd.value = SimVar.GetSimVarValue("A:PLANE ALT ABOVE GROUND", "feet");
-        this.vars.wind_spd.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT WIND VELOCITY", "knots"));
-        this.vars.wind_direction.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees"));
-        this.vars.wind_vertical.value = SimVar.GetSimVarValue("A:AMBIENT WIND Y", "knots");
-        this.vars.current_netto.value = (this.vars.current_netto.value * 0.9) + (SimVar.GetSimVarValue("L:NETTO", "knots") * 0.1);
-        this.vars.aoa.value = SimVar.GetSimVarValue("INCIDENCE ALPHA", "radians") * (180/Math.PI);
-        
-        /* Set Vars for B21 Functions */
-
         this.TIME_S = SimVar.GetSimVarValue("E:SIMULATION TIME","seconds");
-        this.AIRSPEED_MS = SimVar.GetSimVarValue("A:AIRSPEED INDICATED", "meters per second");
-        this.AIRSPEED_TRUE_MS = SimVar.GetSimVarValue("A:AIRSPEED TRUE", "meters per second");
-        this.ALTITUDE_M = SimVar.GetSimVarValue("A:INDICATED ALTITUDE", "meters");
-        this.ON_GROUND = SimVar.GetSimVarValue("SIM ON GROUND", "bool") ? true : false;
-        this.TOTAL_WEIGHT_KG = SimVar.GetSimVarValue("A:TOTAL WEIGHT", "kilograms");
-        this.PLANE_POSITION = this.get_position(); // returns a MSFS LatLong()
-        this.WIND_DIRECTION_DEG = SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees");
-        // Get wind speed with gust filtering
-        if (this.WIND_SPEED_MS==null) {
-            this.WIND_SPEED_MS = SimVar.GetSimVarValue("A:AMBIENT WIND VELOCITY", "meters per second");
-        }
-        this.WIND_SPEED_MS = 0.99 * this.WIND_SPEED_MS  + 0.01 * SimVar.GetSimVarValue("A:AMBIENT WIND VELOCITY", "meters per second");
 
-        B21_SOARING_ENGINE.MACCREADY_MS = this.vars.mccready.value * 0.51444;
-        B21_SOARING_ENGINE.STF_SPEED_0_MS = this.vars.stf.value * 0.5144;
-        B21_SOARING_ENGINE.STF_SINK_0_MS = this.vars.sink_stf.value * 0.5144;
+
+        if(this.tick == 0) {
+            this.vars.ias.value = SimVar.GetSimVarValue("A:AIRSPEED INDICATED", "knots");
+            this.vars.tas.value = SimVar.GetSimVarValue("A:AIRSPEED TRUE", "knots");
+            this.vars.hdg.value = SimVar.GetSimVarValue("A:PLANE HEADING DEGREES TRUE","degrees");
+            this.vars.trk.value = SimVar.GetSimVarValue("GPS GROUND TRUE TRACK","degrees");
+            this.vars.gndspd.value = SimVar.GetSimVarValue("A:GPS GROUND SPEED","knots");
+            this.vars.alt.value = SimVar.GetSimVarValue("A:PLANE ALTITUDE", "feet");
+            this.vars.alt_gnd.value = SimVar.GetSimVarValue("A:PLANE ALT ABOVE GROUND", "feet");
+
+            this.AIRSPEED_MS = this.vars.ias.value * 0.51444;
+            this.AIRSPEED_TRUE_MS = this.vars.tas.value * 0.51444;
+            this.ALTITUDE_M = this.vars.alt.value * 0.3048;
+
+            this.update_speedgauge();
+        }
         
-        this.jbb_update_hawk();
-        this.update_speedgauge();
+        
+        if(this.tick == 1) {
+            this.vars.wind_spd.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT WIND VELOCITY", "knots"));
+            this.vars.wind_direction.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees"));
+            this.vars.wind_vertical.value = SimVar.GetSimVarValue("A:AMBIENT WIND Y", "knots");
+            this.vars.current_netto.value = (this.vars.current_netto.value * 0.9) + (SimVar.GetSimVarValue("L:NETTO", "knots") * 0.1);
+            this.vars.aoa.value = SimVar.GetSimVarValue("INCIDENCE ALPHA", "radians") * (180/Math.PI);
+
+            this.ON_GROUND = SimVar.GetSimVarValue("SIM ON GROUND", "bool") ? true : false;
+            this.TOTAL_WEIGHT_KG = SimVar.GetSimVarValue("A:TOTAL WEIGHT", "kilograms");
+            this.PLANE_POSITION = this.get_position(); // returns a MSFS LatLong()
+            this.WIND_DIRECTION_DEG = this.vars.wind_direction.value;
+            // Get wind speed with gust filtering
+            if (this.WIND_SPEED_MS==null) {
+                this.WIND_SPEED_MS = this.vars.wind_spd.value * 0.51444;
+            }
+            this.WIND_SPEED_MS = 0.99 * this.WIND_SPEED_MS  + 0.01 * (this.vars.wind_spd.value * 0.51444);
+
+            B21_SOARING_ENGINE.MACCREADY_MS = this.vars.mccready.value * 0.51444;
+            B21_SOARING_ENGINE.STF_SPEED_0_MS = this.vars.stf.value * 0.5144;
+            B21_SOARING_ENGINE.STF_SINK_0_MS = this.vars.sink_stf.value * 0.5144;
+
+            this.jbb_update_hawk();
+            
+        }
         
         
         if(this.TIME_S - this.TIMER_05 > 0.5) {
@@ -264,9 +274,26 @@ class lxn extends NavSystemTouch {
 
             this.vars.oat.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT TEMPERATURE", "fahrenheit"));
             this.vars.localtime.value = SimVar.GetSimVarValue("E:LOCAL TIME","seconds");
+            this.vars.utctime.value = SimVar.GetSimVarValue("E:ZULU TIME","seconds");
 
             this.updateLiftdots();
             
+            if(this.gearposition != SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool")) {
+                if(SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool") == true && this.vars.ballast.value > 84) {
+                    this.popalert("Gear Down. Check Ballast","");
+                }
+                this.gearposition = SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool")
+            }
+    
+            
+            if(SimVar.GetSimVarValue("A:SPOILERS HANDLE POSITION","percent over 100") > 0.1 && this.gearposition != true && this.vars.alt_gnd.value < 800) {
+                if(!this.gearwarnsilenced) {
+                    this.popalert("CHECK GEAR","");
+                    this.gearwarnsilenced = true; 
+                }
+                let instrument = this;
+                window.setTimeout(function() { instrument.gearwarnsilenced = false }, 10000);
+            }
         }
 
         if(this.lift_dots_timer_prev == null) {
@@ -279,7 +306,10 @@ class lxn extends NavSystemTouch {
         }
 
         /* now update all visible datacells with their selected values */
-        document.querySelectorAll(".current .datacell").forEach((cell)=> {
+        let datacells = document.querySelectorAll(".current .datacell");
+        
+        for(var i = this.tick; i < datacells.length; i = i + 2) {
+            let cell = datacells[i];
             let currentconfigstr = cell.getAttribute("data-userconfig") != "" ? cell.getAttribute("data-userconfig") : cell.getAttribute("data-default");
             
             if(currentconfigstr != null) {
@@ -293,7 +323,7 @@ class lxn extends NavSystemTouch {
                         displaynumber = LXNAV.displayValue(LXNAV.vars[currentconfig.value].value, LXNAV.vars[currentconfig.value].baseunit, LXNAV.vars[currentconfig.value].category, forceunit);
                     } 
                     
-                    cell.style.backgroundColor = displaynumber > 0 ? currentconfig.back + "CC" : currentconfig.backneg + "CC";
+                    cell.style.backgroundColor = displaynumber > 0 ? currentconfig.back + "BB" : currentconfig.backneg + "BB";
                     cell.style.color = currentconfig.text;
         
                     cell.querySelector(".label").innerHTML = LXNAV.vars[currentconfig.value].label;
@@ -316,10 +346,13 @@ class lxn extends NavSystemTouch {
                     cell.style.color = "transparent";
                 }
             }
-        })
+        }
+    
         
         /* same for any "livedata"- fields, that might be present in a currently selected panel */
-        document.querySelectorAll(".current .livedata, .pageheader .livedata").forEach((field)=> {
+        let livefields = document.querySelectorAll(".current .livedata, .pageheader .livedata");
+        for(var i = this.tick; i < livefields.length; i = i + 2) {
+            let field = livefields[i];
             let requestedvalue = field.getAttribute("data-value");
             let preferredunit;
             if(field.getAttribute("showunit") == "no") {
@@ -335,48 +368,39 @@ class lxn extends NavSystemTouch {
                 
                 field.innerHTML = LXNAV.vars[requestedvalue].value;
             }   
-     })
+        }
 
+        this.tick = this.tick == 0 ? 1 : 0;
 
               /* keybindings */
 
               this.KNOBS_VAR = ("0000" + SimVar.GetSimVarValue("TRANSPONDER CODE:1", "number")).slice(-4); // knobs encoded in 4 digits of XPNDR
-        
-              if (this.prev_knobs_var[2] > this.KNOBS_VAR[2] || (this.prev_knobs_var[2] == 0 && this.KNOBS_VAR[2] == 7)) {
-                  this.prev_knobs_var = this.KNOBS_VAR;
-                  NAVMAP.zoom_out();
-              }
-      
-              if (this.prev_knobs_var[2] < this.KNOBS_VAR[2] || (this.prev_knobs_var[2] == 7 && this.KNOBS_VAR[2] == 0)) {
-                  this.prev_knobs_var = this.KNOBS_VAR;
-                  NAVMAP.zoom_in();
-              }
-      
-              if (this.prev_knobs_var[0] > this.KNOBS_VAR[0] || (this.prev_knobs_var[0] == 0 && this.KNOBS_VAR[0] == 7)) {
-                  this.prev_knobs_var = this.KNOBS_VAR;
-                  if(B21_SOARING_ENGINE.task_index() > 0) {
-                      B21_SOARING_ENGINE.change_wp(-1);
-                  }
-               }
-       
-               if (this.prev_knobs_var[0] < this.KNOBS_VAR[0] || (this.prev_knobs_var[0] == 7 && this.KNOBS_VAR[0] == 0)) {
-                  this.prev_knobs_var = this.KNOBS_VAR;
-                  if(B21_SOARING_ENGINE.task_index() < B21_SOARING_ENGINE.task_length() -1 ) {
-                      B21_SOARING_ENGINE.change_wp(1);
-                  }
-               }
-      
-               if (this.prev_knobs_var[1] > this.KNOBS_VAR[1] || (this.prev_knobs_var[1] == 0 && this.KNOBS_VAR[1] == 7)) {
-                  this.prev_knobs_var = this.KNOBS_VAR;
-                  UI.pageDown();
-               }
-       
-               if (this.prev_knobs_var[1] < this.KNOBS_VAR[1] || (this.prev_knobs_var[1] == 7 && this.KNOBS_VAR[1] == 0)) {
-                  this.prev_knobs_var = this.KNOBS_VAR;
-                  UI.pageUp();
-               }
-      
-               if(this.prev_knobs_var[3] != this.KNOBS_VAR[3]) {
+
+              if (this.knob_delta(this.prev_knobs_var[2], this.KNOBS_VAR[2]) == -1) {
+                this.prev_knobs_var = this.KNOBS_VAR;
+                NAVMAP.zoom_out();
+            }
+    
+            if (this.knob_delta(this.prev_knobs_var[2], this.KNOBS_VAR[2]) == 1) {
+                this.prev_knobs_var = this.KNOBS_VAR;
+                NAVMAP.zoom_in();
+            }
+    
+            if (this.knob_delta(this.prev_knobs_var[0], this.KNOBS_VAR[0]) == -1) {
+                this.prev_knobs_var = this.KNOBS_VAR;
+                if(B21_SOARING_ENGINE.task_index() < B21_SOARING_ENGINE.task_length() -1 ) {
+                    B21_SOARING_ENGINE.change_wp(1);
+                }
+             }
+     
+             if (this.knob_delta(this.prev_knobs_var[0], this.KNOBS_VAR[0]) == 1) {
+                this.prev_knobs_var = this.KNOBS_VAR;
+                if(B21_SOARING_ENGINE.task_index() > 0) {
+                    B21_SOARING_ENGINE.change_wp(-1);
+                }
+             }
+    
+             if(this.prev_knobs_var[3] != this.KNOBS_VAR[3]) {
                 this.prev_knobs_var = this.KNOBS_VAR;
                 if(NAVMAP.map_rotation == "trackup") {
                     NAVMAP.map_rotation = "northup";
@@ -387,28 +411,28 @@ class lxn extends NavSystemTouch {
                 }
                 NAVMAP.set_map_rotation(NAVMAP.map_rotation);
              }
-                         
-               this.COMCODE = SimVar.GetSimVarValue("COM ACTIVE FREQUENCY:1","MHz").toString().split(".");
-      
-               if(parseInt(this.prevcomcode[0]) < parseInt(this.COMCODE[0])) {
-                  this.prevcomcode[0] = this.COMCODE[0];
-                  UI.pageRight();
-               }
-      
-               if(parseInt(this.prevcomcode[0]) > parseInt(this.COMCODE[0])) {
-                  this.prevcomcode[0] = this.COMCODE[0];
-                  UI.pageLeft();
-               }
-      
-               if(parseInt(this.prevcomcode[1]) < parseInt(this.COMCODE[1])) {
-                  this.prevcomcode[1] = this.COMCODE[1];
-                  UI.pageUp();
-               }
-      
-               if(parseInt(this.prevcomcode[1]) > parseInt(this.COMCODE[1])) {
-                  this.prevcomcode[1] = this.COMCODE[1];
-                  UI.pageDown();
-               }
+                       
+             this.COMCODE = SimVar.GetSimVarValue("COM ACTIVE FREQUENCY:1","MHz").toFixed(3).toString().split(".");
+    
+             if(parseInt(this.prevcomcode[0]) < parseInt(this.COMCODE[0])) {
+                this.prevcomcode[0] = this.COMCODE[0];
+                UI.pageRight();
+             }
+    
+             if(parseInt(this.prevcomcode[0]) > parseInt(this.COMCODE[0])) {
+                this.prevcomcode[0] = this.COMCODE[0];
+                UI.pageLeft();
+             }
+    
+             if(parseInt(this.prevcomcode[1]) < parseInt(this.COMCODE[1])) {
+                this.prevcomcode[1] = this.COMCODE[1];
+                UI.pageDown();
+             }
+    
+             if(parseInt(this.prevcomcode[1]) > parseInt(this.COMCODE[1])) {
+                this.prevcomcode[1] = this.COMCODE[1];
+                UI.pageUp();
+             }
     	           
         /* Warnings and alerts */
 
@@ -419,28 +443,18 @@ class lxn extends NavSystemTouch {
         } else {
             this.stallwarner.setAttribute("class","");
         }
-
-        if(this.gearposition != SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool")) {
-            if(SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool") == true && this.vars.ballast.value > 5) {
-                this.popalert("Gear Down. Check Ballast","");
-            }
-            this.gearposition = SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool")
-        }
-
-        
-        if(SimVar.GetSimVarValue("A:SPOILERS HANDLE POSITION","percent over 100") > 0.1 && this.gearposition != true && this.vars.alt_gnd.value < 800) {
-            
-            if(!this.gearwarnsilenced) {
-                this.popalert("CHECK GEAR","");
-                this.gearwarnsilenced = true; 
-            }
-            let instrument = this;
-            window.setTimeout(function() { instrument.gearwarnsilenced = false }, 10000);
-        }
 	
     }
 
-
+    // Given a,b as digit 0..7, return -1, 0, +1 for delta of a -> b, modulo 7
+    knob_delta(a,b) {
+        //console.log("knob_delta a:"+a+" b:"+b);
+        let delta = parseInt(b) - parseInt(a);
+        if (delta == 0) {
+            return delta;
+        }
+        return (delta < -4) || (delta > 0 && delta < 4) ? 1 : -1;
+    }
 
 
 
@@ -768,7 +782,8 @@ class lxn extends NavSystemTouch {
             color: color,
             stroke: 0,
             fillColor: color,
-            fillOpacity: 1
+            fillOpacity: 1,
+            type: "liftdot"
         }).addTo(TOPOMAP);
 
         this.lift_dots.unshift( newdot );
@@ -785,12 +800,12 @@ class lxn extends NavSystemTouch {
 
             if(i > this.lift_dots_max) {
                 TOPOMAP.removeLayer(this.lift_dots[i]);
-                this.lift_dots.length = this.lift_dots_max;
+                this.lift_dots.pop();
             }
 
             if(!this.showLiftdots) { TOPOMAP.removeLayer(this.lift_dots[i]); }
         }
-
+        
         // Dot Trail deactivated, clear Dot-Array
         if(!this.showLiftdots) { this.lift_dots = []; }
     }

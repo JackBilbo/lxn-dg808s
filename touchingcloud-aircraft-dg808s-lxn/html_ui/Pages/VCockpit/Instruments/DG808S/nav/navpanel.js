@@ -11,6 +11,8 @@ class navpanel {
         this.airportlister = new NearestAirportList(this);
         this.selectedAirport = new AirportInfo(this.instrument);
 
+        this.airportlister.Update(20,200);
+
         document.querySelector("#nearestairports").addEventListener("click",function(e) {
             let el = e.target.parentNode;
             let icao = el.getAttribute("data-airport");
@@ -30,17 +32,25 @@ class navpanel {
 
     update() {
         if(!this.navinit) {  return; }
+
         this.airportlister.Update(20,200);
+        
+        if(this.airportlister.loadState != 6) {
+            this.listerisloading = true;
+        }
+        
+        if(this.listerisloading && this.airportlister.loadState == 6) {
+            // Airportlister finished updating
+            this.buildAirportList();
+            this.listerisloading = false;
+        }
 
         this.getSelectedAirport();
         this.updateSelectedAirport();
-
-        if(UI.pagepos_x == 0 && UI.pagepos_y == 2) {
-            this.buildAirportList();
-        }
     }
 
     getSelectedAirport() {
+
         if(this.airportlister.airportslength == 0) { return false; }
         let currentapt = this.selectedAirport.icao;
 
@@ -52,6 +62,7 @@ class navpanel {
       
         if(this.selectedAirport.icao != currentapt) {
             this.selectedAirport.UpdateInfos(null, false);
+            this.buildAirportList();
         }
     }
 
@@ -118,6 +129,7 @@ class navpanel {
     buildAirportList() {
         let aptlist = document.querySelector("#nearestairports");
         aptlist.innerHTML = "";
+        let airporticons =  [];
         
         for(let i=0;i<this.airportlister.airports.length;i++) {
             let item = document.createElement("li");
@@ -131,14 +143,29 @@ class navpanel {
                 item.setAttribute("class","selected");
             }
 
-            if(this.airporticons[this.airportlister.airports[i].ident] == null) {
+            if(typeof(TOPOMAP.addLayer) == "function") {
                 let icon = this.airportlister.airports[i].airportClass == 1 ? NAVMAP.bigairportIcon : NAVMAP.smallairportIcon; 
-                this.airporticons[this.airportlister.airports[i].ident] = L.marker([this.airportlister.airports[i].coordinates.lat, this.airportlister.airports[i].coordinates.long], {icon: icon}).addTo(TOPOMAP);
+
+                airporticons.push({
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        this.airportlister.airports[i].coordinates.long,
+                        this.airportlister.airports[i].coordinates.lat
+                      ]
+                    },
+                    "properties": {
+                      "myicon": icon
+                    }
+                  })
             }
             
             aptlist.appendChild(item);
         }
 
+        NAVMAP.paintAirports(airporticons);
+        
         this.listisbulidt = true;
     }
 
