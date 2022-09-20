@@ -24,7 +24,7 @@ class navmap {
 
         this.map_zoom = 12;
         this.map_maxzoom = 16;
-        this.map_minzoom = 9;
+        this.map_minzoom = 8;
         this.map_rotation = "northup";
         this.taskispainted = false;
         this.mapwaypoints = [];
