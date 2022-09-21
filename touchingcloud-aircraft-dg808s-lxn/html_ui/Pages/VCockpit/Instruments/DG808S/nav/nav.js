@@ -218,7 +218,7 @@ class lxn extends NavSystemTouch {
             this.vars.wind_spd.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT WIND VELOCITY", "knots"));
             this.vars.wind_direction.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees"));
             this.vars.wind_vertical.value = SimVar.GetSimVarValue("A:AMBIENT WIND Y", "knots");
-            if(this.vars.current_netto.isUsed) {this.vars.current_netto.value = (this.vars.current_netto.value * 0.9) + (SimVar.GetSimVarValue("L:NETTO", "knots") * 0.1);}
+            this.vars.current_netto.value = (this.vars.current_netto.value * 0.9) + (SimVar.GetSimVarValue("L:NETTO", "knots") * 0.1);
             if(this.vars.aoa.isUsed) {this.vars.aoa.value = SimVar.GetSimVarValue("INCIDENCE ALPHA", "radians") * (180/Math.PI);}
 
             this.ON_GROUND = SimVar.GetSimVarValue("SIM ON GROUND", "bool") ? true : false;
@@ -779,17 +779,19 @@ class lxn extends NavSystemTouch {
         let svg_el = document.getElementById("lift_dots");
 
         let color = this.vars.current_netto.value > 0 ? "#14852c" : "#cc0000";
-        let radius = Math.max(10, Math.min(Math.abs(this.vars.current_netto.value) * 20, 75));
+        let radius = Math.max(15, Math.min(Math.abs(this.vars.current_netto.value) * 20, 75));
     
-        let newdot = L.circle([position.lat, position.long], radius, {
-            color: color,
-            stroke: 0,
-            fillColor: color,
-            fillOpacity: 1,
-            type: "liftdot"
-        }).addTo(TOPOMAP);
+        if(typeof(TOPOMAP.addLayer) == "function") {
+            let newdot = L.circle([position.lat, position.long], radius, {
+                color: color,
+                stroke: 0,
+                fillColor: color,
+                fillOpacity: 1,
+                type: "liftdot"
+            }).addTo(TOPOMAP);
 
-        this.lift_dots.unshift( newdot );
+            this.lift_dots.unshift( newdot );
+        }
 
 
     }

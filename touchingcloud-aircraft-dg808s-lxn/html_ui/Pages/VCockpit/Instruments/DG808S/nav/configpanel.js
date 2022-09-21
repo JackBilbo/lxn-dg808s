@@ -184,8 +184,10 @@ class configpanel {
             try {
                 let toggledata = JSON.parse(togglerawdata);
                 for (var toggle in toggledata) {
-                    document.querySelector("[data-callback=" + toggle + "]").setAttribute("state", toggledata[toggle]);
-                    CONFIGPANEL[toggle](toggledata[toggle]);
+                    if(document.querySelector("[data-callback=" + toggle + "]")) {
+                        document.querySelector("[data-callback=" + toggle + "]").setAttribute("state", toggledata[toggle]);
+                        CONFIGPANEL[toggle](toggledata[toggle]);
+                    }
                   }
             } catch(e) { console.log( "Could not load togglesettings: " + e )  }
         }
