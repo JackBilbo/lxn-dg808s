@@ -776,6 +776,13 @@ input[type="radio"] {
 
 /* AIRPORT LIST */
 
+.airportlist {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+}
+
 #nearestairports ul {
             margin: 0;
             padding: 0;
