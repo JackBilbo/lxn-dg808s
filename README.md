@@ -8,12 +8,14 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 - new displayable variable: UTC time
 - a touch of realism: Altitude is now barometric altitude, so make sure to set correct QNH (or hit "b" ;-))
 
+- Switched Keybind for Waypoint next/prev to stay in sync with AS33
 
 <h2>Installation:</h2>
 Simply drop the included folder "touchingcloud-aircraft-dg808s-lxn" into your community folder. No need to change anything in your existing installation. To uninstall delete the folder and you're "back to normal".
 
 <h2>Basic Features:</h2>
-All Information is organized in „pages“ (horizontally) and „sub-pages“ (vertically). Pages can be changed by „click and drag“ with the mouse or - more comfortably - through keybinding „transponder(100)“ for horizontal and transponder (1) for vertical scrolling. transponder(10) is used for map zoom.
+
+All Information is organized in „pages“ (horizontally) and „sub-pages“ (vertically). Pages can be changed by „click and drag“ with the mouse or - more comfortably - through keybinding „INCREASE/DECREASE COM1 (WHOLE)“ for horizontal and „INCREASE/DECREASE COM1 (FRACT)“ for vertical scrolling.
 
 Currently there are five main pages: „APT“ for navigation to the selected Airport, „WPT“ for navigating a task/flightplan, „TASK“ for the current state of the task, "Kinetic Assitant" for launching through KA and „CONFIG“ for Unit switching, ballast management and some system settings.
 
@@ -58,6 +60,16 @@ To make all this soaring task magic work, the flightplan needs to provide more i
 MacCready setting can be changed by clicking the green "MC" button beneath the speed tape.
 
 Why use that MacCready setting? There's a lot more theory around that than can be covered here, but on thing important: calculation of estimated arrival height and time enroute is based on the suggested speed to fly (indicated as STF under the speed tape instrument), which is in turn influenced by MacCready setting and carried ballast. In short: the more ballast and the higher MacCready, the higher the calculated speed to fly. The more your actual speed deviates from the calculated speed to fly, the less accurate your arrival height estimations will be. You can also turn that around: on final glide you can turn the MacCready value up and see the estimated arrival height go down (due to more sink at higher speeds) until you get a safe altitude estimation. Now your computer tells you the maximum speed to fly, that still gets you to finish safely.
+
+<h2>Keybinds</h2>
+
+Several functions can be operated by keybinds from joystick or throttle:
+
+Page left/right:    INCREASE/DECREASE COM1 (WHOLE)
+Page up/down:       INCREASE/DECREASE COM1 (FRACT)
+Waypoint next/prev: INCREASE/DECREASE TRANSPONDER (1000)
+Map Zoom:           INCREASE/DECREASE TRANSPONDER (10)
+Map Orientation:    INCREASE/DECREASE TRANSPONDER (1)
 
 <h2>Known Limitations:</h2>
 
