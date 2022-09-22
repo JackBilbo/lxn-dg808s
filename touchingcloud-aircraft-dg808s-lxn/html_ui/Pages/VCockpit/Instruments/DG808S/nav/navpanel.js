@@ -51,7 +51,7 @@ class navpanel {
 
     getSelectedAirport() {
 
-        if(this.airportlister.airportslength == 0) { return false; }
+        if(this.airportlister.airports.length == 0) { return false; }
         let currentapt = this.selectedAirport.icao;
 
         if(this.manualselectedairport != "") {

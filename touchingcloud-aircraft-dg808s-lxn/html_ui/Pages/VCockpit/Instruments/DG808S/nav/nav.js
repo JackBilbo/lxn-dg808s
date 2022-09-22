@@ -776,8 +776,6 @@ class lxn extends NavSystemTouch {
     addLiftdot() {
         let position = this.get_position();
         
-        let svg_el = document.getElementById("lift_dots");
-
         let color = this.vars.current_netto.value > 0 ? "#14852c" : "#cc0000";
         let radius = Math.max(15, Math.min(Math.abs(this.vars.current_netto.value) * 20, 75));
     
