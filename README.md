@@ -6,6 +6,7 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 - Various performance optimizations
 
 - new displayable variable: UTC time
+- a touch of realism: Altitude is now barometric altitude, so make sure to set correct QNH (or hit "b" ;-))
 
 
 <h2>Installation:</h2>
