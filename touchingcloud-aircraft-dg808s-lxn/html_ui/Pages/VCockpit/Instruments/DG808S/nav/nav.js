@@ -150,12 +150,6 @@ class lxn extends NavSystemTouch {
 
         this.init_speedgauge();
         this.jbb_init_calc_polar();
-                
-        this.KNOBS_VAR = ("0000" + SimVar.GetSimVarValue("TRANSPONDER CODE:1", "number")).slice(-4);
-        this.prev_knobs_var = this.KNOBS_VAR;
-
-        this.COMCODE = SimVar.GetSimVarValue("COM ACTIVE FREQUENCY:1","MHz").toString().split(".");
-        this.prevcomcode = this.COMCODE;
 
         B21_SOARING_ENGINE.register_callback(this, this.engine_event_callback);
         
@@ -377,7 +371,9 @@ class lxn extends NavSystemTouch {
 
               /* keybindings */
 
-              this.KNOBS_VAR = ("0000" + SimVar.GetSimVarValue("TRANSPONDER CODE:1", "number")).slice(-4); // knobs encoded in 4 digits of XPNDR
+            this.KNOBS_VAR = ("0000" + SimVar.GetSimVarValue("TRANSPONDER CODE:1", "number")).slice(-4); // knobs encoded in 4 digits of XPNDR
+            if(this.prev_knobs_var == null ) { this.prev_knobs_var = this.KNOBS_VAR; }
+
 
               if (this.knob_delta(this.prev_knobs_var[2], this.KNOBS_VAR[2]) == -1) {
                 this.prev_knobs_var = this.KNOBS_VAR;
@@ -416,6 +412,7 @@ class lxn extends NavSystemTouch {
              }
                        
              this.COMCODE = SimVar.GetSimVarValue("COM ACTIVE FREQUENCY:1","MHz").toFixed(3).toString().split(".");
+             if(this.prevcomcode == null) { this.prevcomcode = this.COMCODE;}
     
              if(parseInt(this.prevcomcode[0]) < parseInt(this.COMCODE[0])) {
                 this.prevcomcode[0] = this.COMCODE[0];
