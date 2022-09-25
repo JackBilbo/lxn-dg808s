@@ -110,6 +110,7 @@ lxn-nav {
 	flex-wrap: wrap;
 	flex-direction: row;
 	padding-top: 50px;
+	position: relative;
 }
 
 .pageheader {
@@ -844,7 +845,7 @@ input[type="radio"] {
 }
 
 #hawk {
-	display: block;
+	display: none;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -854,6 +855,8 @@ input[type="radio"] {
 	border: 5px solid red;
 	font-size: 45px;
 }
+
+#hawk.active { display: block; }
 
 .map_trackup #hawk {
 	top: calc(50% + 210px);

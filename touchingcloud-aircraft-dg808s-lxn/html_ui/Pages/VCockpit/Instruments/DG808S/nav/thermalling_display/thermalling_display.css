@@ -1,0 +1,179 @@
+
+
+.thermalling_display_abs {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+#thermalling_display {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.bigdatafields #thermalling_display {
+    top: 80px;
+}
+
+#thermalling_display_main {
+    position: absolute;
+    left: 267px;
+    top: 0px;
+    width: 600px;
+    height: 600px;
+    background-color: #cececeDD;
+    /* border: black; */
+}
+
+#thermalling_display_north_up {
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 40px;
+    color: black;
+}
+
+#thermalling_display_glider {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+#thermalling_display_glider_svg { transform-origin: 50% 50%; }
+
+
+#thermalling_display_left {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 267px;
+    height: 600px;
+    background-color: #000000BB;
+    color: #fff;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#thermalling_display_wind {
+    height: 25%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+#thermalling_display_wind_speed {
+    width: 50%;
+    height: 100%;
+    font-size: 65px;
+    line-height: 150px;
+    text-align: center;
+}
+
+#thermalling_display_wind_speed span {
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+#thermalling_display_wind_value {
+    width: 50%;
+    font-size: 55px;
+    text-align: center;
+    line-height: 150px;
+}
+
+#thermalling_display_wind_units {
+    display: none;
+}
+
+.thermalling_display_l_heading {
+    width: 100%;
+    text-align: center;
+    margin-top: 4px;
+    font-size: 25px;
+}
+
+.thermalling_display_l_units {
+    position: absolute;
+    left: 0px;
+    top: 83px;
+    width: 95%;
+    font-size: 0.4em;
+    text-align: right;
+}
+
+.thermalling_display_l_value {
+    width: 100%;
+    text-align: center;
+    font-size: 85px;
+    font-weight: bold;
+}
+
+.thermalling_display_l_value_small {
+    width: 100%;
+    text-align: center;
+    font-size: 55px;
+    font-weight: bold;
+}
+
+#thermalling_display_l_top {
+    height: 25%;
+}
+
+#thermalling_display_l_middle {
+    height: 25%;
+}
+
+#thermalling_display_l_bottom {
+
+    height: 25%;
+}
+
+#thermalling_display_bottom {
+    position: absolute;
+    left: 0px;
+    top: 600px;
+    width: 100%;
+    height: 300px;
+    border-top: 2px solid black;
+    background-color: #cececeDD;
+}
+
+#thermalling_display_mc_line_svg {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    font-size: 40px;
+    width: 100%;
+}
+
+#thermalling_display_0_line_svg {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    font-size: 40px;
+    width: 100%;
+}
+
+#thermalling_display_graph_svg {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+}
+
+#thermalling_display_bars_svg {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+}

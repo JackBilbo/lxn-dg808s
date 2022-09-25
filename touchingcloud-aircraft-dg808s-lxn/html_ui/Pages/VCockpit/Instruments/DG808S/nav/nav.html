@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
       integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
       crossorigin=""/>
+<link rel="stylesheet" href="/Pages/VCockpit/Instruments/DG808S/nav/thermalling_display/thermalling_display.css?a" />
 
 <script type="text/html" id="lxn">
     <div id="Mainframe" class="map_northup">
@@ -175,6 +176,96 @@
 							</div>
 						</div>
 						
+						<div class="page">
+							
+							<!-- ------------------------------- -->
+							<!-- THERMALLING DISPLAY             -->
+							<!-- ------------------------------- -->
+							<div id="thermalling_display">
+								<div id="thermalling_display_left">
+									<div id="thermalling_display_wind">
+										<div id="thermalling_display_wind_speed"><span class="livedata" data-value="wind_spd" showunit="no"></span></div>
+										<div id="thermalling_display_wind_value">
+											<!-- HERE WE DRAW WIND ARROW TO ROTATE IN JS -->
+											<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+											<g id="thermalling_display_wind_line" transform="rotate(180,50,50)">
+												<path d="M50,90 l-15,-30 h11 v-50 h8 v50 h11 z" stroke="#fff" fill="#fff"/>
+											</g>
+											</svg>
+										</div>
+										<div id="thermalling_display_wind_units"></div>
+									</div>
+									<div id="thermalling_display_l_top">
+										<div class="thermalling_display_l_heading">CLIMB</div>
+										<div id="thermalling_display_l_top_value" class="thermalling_display_l_value">X.X</div>
+									</div>
+									<div id="thermalling_display_l_middle">
+										<div class="thermalling_display_l_heading">TRU AVG</div>
+										<div id="thermalling_display_l_middle_value" class="thermalling_display_l_value">- -</div>
+									</div>
+									<div id="thermalling_display_l_bottom">
+										<div class="thermalling_display_l_heading">MC</div>
+										<div id="thermalling_display_l_bottom_value" class="thermalling_display_l_value"><span class="livedata" data-value="mccready" showunit="no"></span></div>
+										<div id="thermalling_display_l_bottom_units" class="thermalling_display_l_units"></div>
+									</div>
+								</div>
+								<div id="thermalling_display_main">
+									<svg width="600" height="600" id="thermalling_display_blobs_svg" xmlns="http://www.w3.org/2000/svg">
+										<g id="thermalling_display_wp_bearing" transform="rotate(15,300,300)">
+											<path d="M300,300 l0,-350" stroke="#FF9D1E" fill="#FF9D1E" stroke-width="2"/>
+										</g>
+									</svg>
+									<div id="thermalling_display_north_up">&#8607;<br/>N</div>
+									<div id="thermalling_display_glider">
+										<!-- HERE WE DRAW GLIDE TO ROTATE IN JS -->
+										<svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+											<g id="thermalling_display_glider_svg" transform="rotate(30,300,300)">
+												  <path d="M300,275 l4,16 h26 l28,4 v4 h-54 l-2,32 h6 v6 h-16 v-6 h6 l-2,-32 h-54 v-4 l28,-4 h26 z" stroke="#000" fill="#000"/>
+											</g>
+										</svg>
+									</div>
+								</div>
+								<div id="thermalling_display_bottom">
+									<!-- Maccready line -->
+									<svg id="thermalling_display_mc_line_svg" width="867" height="300" xmlns="http://www.w3.org/2000/svg">
+										<g id="thermalling_display_bottom_mc" transform="translate(0,0)">
+											<text x="5" y="2">MC</text>
+											<path d="M35,0 h867" stroke="#000" fill="#000" stroke-width="2" stroke-dasharray="10 5"/>
+										</g>
+									</svg>
+									<!-- horizontal zero axis -->
+									<svg id="thermalling_display_0_line_svg" width="867" height="300" xmlns="http://www.w3.org/2000/svg">
+										
+										<path d="M20,150 h875" stroke="#000" fill="#000"/>
+									</svg>
+									<!-- CLIMB STRENGTH GRAPH -->
+									<svg class="thermalling_display_abs" width="867" height="300" xmlns="http://www.w3.org/2000/svg">
+										<path id="thermalling_display_graph_svg" stroke="#000" stroke-width="2" fill-opacity="0" />
+									</svg>
+									<!-- THERMALS BARS GRAPH -->
+									<svg class="thermalling_display_abs" width="867" height="300" xmlns="http://www.w3.org/2000/svg">
+										<path id="thermalling_display_bars_svg" stroke="green" stroke-width="3" fill="green" />
+									</svg>
+									<!-- bars | graph vertical dividing line -->
+									<svg id="thermalling_display_bars_graph_line_svg" width="867" height="300" xmlns="http://www.w3.org/2000/svg">
+										<path d="M433,0 v300" stroke="#000" fill="#000"/>
+									</svg>
+								</div>
+							</div> <!-- end thermalling_display -->	
+
+
+							<div class="datacells_bottom">
+								<div id="cell_1_1_9" class="datacell"><span class="label"></span><div class="value"><span class="number"></span><span class="unit"></span></div></div>
+								<div id="cell_1_1_10" class="datacell"><span class="label"></span><div class="value"><span class="number"></span><span class="unit"></span></div></div>
+								<div id="cell_1_1_11" class="datacell"><span class="label"></span><div class="value"><span class="number"></span><span class="unit"></span></div></div>
+								<div id="cell_1_1_12" class="datacell"><span class="label"></span><div class="value"><span class="number"></span><span class="unit"></span></div></div>
+								<div id="cell_1_1_13" class="datacell" data-default='{"back":"#000000","backneg":"#000000","text":"#ffffff","value":"alt"}' data-userconfig=''><span class="label"></span><div class="value"><span class="number"></span><span class="unit"></span></div></div>
+								<div id="cell_1_1_14" class="datacell" data-default='{"back":"#000000","backneg":"#000000","text":"#ffffff","value":"alt_gnd"}' data-userconfig=''><span class="label"></span><div class="value"><span class="number"></span><span class="unit"></span></div></div>
+								<div id="cell_1_1_15" class="datacell" data-default='{"back":"#000000","backneg":"#000000","text":"#ffffff","value":"wp_arr_msl"}' data-userconfig=''><span class="label"></span><div class="value"><span class="number"></span><span class="unit"></span></div></div>
+								<div id="cell_1_1_16" class="datacell" data-default='{"back":"#000000","backneg":"#000000","text":"#ffffff","value":"wp_arr_agl"}' data-userconfig=''><span class="label"></span><div class="value"><span class="number"></span><span class="unit"></span></div></div>
+							</div>
+
+						</div>
 						
 					</div>
 				</div>
@@ -431,7 +522,23 @@
 												<div class="handle"></div>
 											</div>
 										</div>
-										
+										<div class="config_entry">
+											<div class="config_label">
+												<div class="title">Wind Indicator</div>
+											</div>
+											<div class="config_toggle" state="on" data-callback="toggleHawkdisplay">
+												<div class="handle"></div>
+											</div>
+										</div>
+										<div class="config_entry">
+											<div class="config_label">
+												<div class="title">Auto MacCready</div>
+												<div class="description">Update MC after every thermal</div>
+											</div>
+											<div class="config_toggle" state="off" data-callback="toggleAutoMC">
+												<div class="handle"></div>
+											</div>
+										</div>
 									</div>
 									<div class="configpanel_buttons">
 										<a href="#" class="configpanel_close">CLOSE</a>
@@ -586,4 +693,5 @@
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/interface.js"></script>
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/navpanel.js"></script>
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/configpanel.js?ai"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/thermalling_display/thermalling_display.js?ae"></script>
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/nav.js?ac"></script>

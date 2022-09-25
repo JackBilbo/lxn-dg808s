@@ -1,0 +1,116 @@
+<html>
+<!-- NOTE THIS HTML FILE IS ONLY USED TO TEST THE GAUGE IN A BROWSER -->
+<!-- THIS IS NOT LOADED BY MSFS -->
+<head>
+    <title>LX 9050 Thermalling Display</title>
+    <link rel="stylesheet" href="thermalling_display.css">
+    <style>
+        #altimeter {
+            display: inline-block;
+            width: 70px;
+            border: 1px solid black;
+            font-size: 12px;
+            margin: 2px;
+        }
+        #asi {
+            display: inline-block;
+            width: 70px;
+            border: 1px solid black;
+            font-size: 12px;
+            margin: 2px;
+        }
+    </style>
+    <script src="../../b21_includes/geo.js"></script>
+    <script src="thermalling_display.js"></script>
+</head>
+<body>
+
+<button onclick="clearInterval(thermalling_display.timer)">Stop</button>
+<button onclick="thermalling_display.XX_SPEED_UNITS = thermalling_display.XX_SPEED_UNITS=='kph' ? 'knots' : 'kph' ">Speed Units</button>
+<button onclick="thermalling_display.XX_CLIMB_UNITS = thermalling_display.XX_CLIMB_UNITS=='ms' ? 'knots' : 'ms' ">Climb Units</button>
+<button onclick="thermalling_display.XX_MACCREADY_MS -= 0.2">MC -</button>
+<button onclick="thermalling_display.XX_MACCREADY_MS += 0.2;">MC +</button>
+<button onclick="thermalling_display.user_mode_cruise = !thermalling_display.user_mode_cruise">CRUISE/CLIMB</button>
+<div id="altimeter">alt</div>
+<div id="asi">asi</div>
+
+            <!-- ******************************* -->
+            <!-- THERMALLING DISPLAY             -->
+            <!-- ******************************* -->
+            <div id="thermalling_display">
+                <div id="thermalling_display_left">
+                    <div id="thermalling_display_wind">
+                        <div id="thermalling_display_wind_speed">10</div>
+                        <div id="thermalling_display_wind_value">
+                            <!-- HERE WE DRAW WIND ARROW TO ROTATE IN JS -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+                              <g id="thermalling_display_wind_line" transform="rotate(180,50,50)">
+                                  <path d="M50,90 l-15,-30 h11 v-50 h8 v50 h11 z" stroke="#000" fill="#000"/>
+                              </g>
+                            </svg>
+                        </div>
+                        <div id="thermalling_display_wind_units">XXXXX</div>
+                    </div>
+                    <div id="thermalling_display_l_top">
+                        <div class="thermalling_display_l_heading">CLIMB</div>
+                        <div id="thermalling_display_l_top_value" class="thermalling_display_l_value">X.X</div>
+                    </div>
+                    <div id="thermalling_display_l_middle">
+                        <div class="thermalling_display_l_heading">TRU AVG</div>
+                        <div id="thermalling_display_l_middle_value" class="thermalling_display_l_value">- -</div>
+                    </div>
+                    <div id="thermalling_display_l_bottom">
+                        <div class="thermalling_display_l_heading">MC</div>
+                        <div id="thermalling_display_l_bottom_value" class="thermalling_display_l_value">X.X</div>
+                        <div id="thermalling_display_l_bottom_units" class="thermalling_display_l_units">XXX</div>
+                    </div>
+                </div>
+                <div id="thermalling_display_main">
+                    <svg id="thermalling_display_blobs_svg">
+                        <g id="thermalling_display_wp_bearing" transform="rotate(15,235,230)">
+                            <path d="M235,230 l0,-280" stroke="#000" fill="#000" stroke-width="2" stroke-dasharray="10 5"/>
+                        </g>
+                    </svg>
+                    <div id="thermalling_display_north_up">&#8607;<br/>N</div>
+                    <div id="thermalling_display_glider">
+                        <!-- HERE WE DRAW GLIDE TO ROTATE IN JS -->
+                        <svg width="470" height="460" xmlns="http://www.w3.org/2000/svg">
+                            <g id="thermalling_display_glider_svg" transform="rotate(30,235,230)">
+                                  <path d="M235,214 l4,16 h26 l28,4 v4 h-54 l-2,32 h6 v6 h-16 v-6 h6 l-2,-32 h-54 v-4 l28,-4 h26 z" stroke="#000" fill="#ffffff"/>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <div id="thermalling_display_bottom">
+                    <!-- Maccready line -->
+                    <svg id="thermalling_display_mc_line_svg" width="572" height="112" xmlns="http://www.w3.org/2000/svg">
+                        <g id="thermalling_display_bottom_mc" transform="translate(0,0)">
+                            <text x="5" y="-2">MC</text>
+                            <path d="M35,0 h530" stroke="#000" fill="#000" stroke-width="2" stroke-dasharray="10 5"/>
+                        </g>
+                    </svg>
+                    <!-- horizontal zero axis -->
+                    <svg id="thermalling_display_0_line_svg" width="572" height="112" xmlns="http://www.w3.org/2000/svg">
+                        <text x="5" y="100">0</text>
+                        <path d="M20,85 h545" stroke="#000" fill="#000"/>
+                    </svg>
+                    <!-- CLIMB STRENGTH GRAPH -->
+                    <svg class="thermalling_display_abs" width="572" height="112" xmlns="http://www.w3.org/2000/svg">
+                        <path id="thermalling_display_graph_svg" stroke="#000" stroke-width="2" fill-opacity="0" />
+                    </svg>
+                    <!-- THERMALS BARS GRAPH -->
+                    <svg class="thermalling_display_abs" width="572" height="112" xmlns="http://www.w3.org/2000/svg">
+                        <path id="thermalling_display_bars_svg" stroke="green" stroke-width="3" fill="green" />
+                    </svg>
+                    <!-- bars | graph vertical dividing line -->
+                    <svg id="thermalling_display_bars_graph_line_svg" width="572" height="112" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M402,0 v112" stroke="#000" fill="#000"/>
+                    </svg>
+                </div>
+            </div> <!-- end thermalling_display -->
+
+<script>
+    let thermalling_display = new ThermallingDisplay();
+</script>
+</body>
+</html>

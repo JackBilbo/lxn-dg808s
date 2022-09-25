@@ -42,8 +42,10 @@ class lxn extends NavSystemTouch {
             ballast: { value: 399, label: "Ballast", longlabel: "Current Ballast",category:"weight", baseunit: "lbs"},
             ballast_pct: { value: 100, label: "Ballast %", longlabel: "Current Ballast Percent",category:"percent", baseunit: "%"},
             localtime: { value: 0, label: "Local", longlabel: "Local Time", category: "time_of_day", baseunit: "s"},
-            utctime: { value: 0, label: "UTC", longlabel: "UTC Time", category: "time_of_day", baseunit: "s"},
+            utctime: { value: 0, label: "RL UTC", longlabel: "Real Live UTC Time", category: "plaintext", baseunit: "none"},
             tasktime: { value: 0, label: "Task Time", longlabel: "Task Time", category: "time_of_day", baseunit: "s"},
+            ltherm_gain: { value: 0, label: "LT GAIN", longlabel: "Last thermal gain", category: "alt", baseunit: "ft" },
+            ltherm_avg: { value: 0, label: "LT AVG", longlabel: "Last thermal true average", category: "verticalspeed", baseunit: "kts" },
             sel_apt_icao: { value: "XXXX", label: "APT ICAO", longlabel: "Selected Airport ICAO", category: "plaintext", baseunit: "none" },
             sel_apt_name: { value: "NAME", label: "APT NAME", longlabel: "Selected Airport Name", category: "plaintext", baseunit: "none" },
             sel_apt_alt: { value: 0, label: "APT ALT", longlabel: "Selected Airport Altitude", category: "alt", baseunit: "ft" },
@@ -152,6 +154,8 @@ class lxn extends NavSystemTouch {
         this.jbb_init_calc_polar();
 
         B21_SOARING_ENGINE.register_callback(this, this.engine_event_callback);
+
+        this.thermalling_display = new ThermallingDisplay(this);
         
         this.stallwarner = document.querySelector("#stallwarner");
         this.gearposition = SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool");
@@ -188,11 +192,12 @@ class lxn extends NavSystemTouch {
 
         let LXNAV = this;
         this.TIME_S = SimVar.GetSimVarValue("E:SIMULATION TIME","seconds");
-
+        this.SIM_TIME_S = this.TIME_S;
 
         if(this.tick == 0) {
             this.vars.ias.value = SimVar.GetSimVarValue("A:AIRSPEED INDICATED", "knots");
             this.vars.hdg.value = SimVar.GetSimVarValue("A:PLANE HEADING DEGREES TRUE","degrees");
+            this.PLANE_HEADING_DEG = this.vars.hdg.value; 
             if(this.vars.tas.isUsed) {this.vars.tas.value = SimVar.GetSimVarValue("A:AIRSPEED TRUE", "knots");}
             if(this.vars.trk.isUsed) {this.vars.trk.value = SimVar.GetSimVarValue("GPS GROUND TRUE TRACK","degrees");}
             if(this.vars.gndspd.isUsed) {this.vars.gndspd.value = SimVar.GetSimVarValue("A:GPS GROUND SPEED","knots");}
@@ -229,7 +234,16 @@ class lxn extends NavSystemTouch {
             B21_SOARING_ENGINE.STF_SPEED_0_MS = this.vars.stf.value * 0.5144;
             B21_SOARING_ENGINE.STF_SINK_0_MS = this.vars.sink_stf.value * 0.5144;
 
-            this.jbb_update_hawk();
+            // Additional vars used by thermalling_display
+            this.NETTO_MS = SimVar.GetSimVarValue("L:NETTO","meters per second"); 
+            // this.TE_MS = SimVar.GetSimVarValue("L:B21_TE_MS", "number"); // From model xml
+            this.TE_MS = SimVar.GetSimVarValue("L:TOTAL ENERGY", "meters per second");
+            this.MACCREADY_MS = B21_SOARING_ENGINE.MACCREADY_MS;
+            this.WP_BEARING_DEG = B21_SOARING_ENGINE.current_wp() == null ? null : B21_SOARING_ENGINE.current_wp().bearing_deg;
+
+            if(CONFIGPANEL.displayHawk ) { this.jbb_update_hawk(); }
+
+            this.thermalling_display.update();
             
         }
         
@@ -269,7 +283,7 @@ class lxn extends NavSystemTouch {
 
             if(this.vars.oat.isUsed) {this.vars.oat.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT TEMPERATURE", "fahrenheit"));}
             if(this.vars.localtime.isUsed) {this.vars.localtime.value = SimVar.GetSimVarValue("E:LOCAL TIME","seconds");}
-            if(this.vars.utctime.isUsed) {this.vars.utctime.value = SimVar.GetSimVarValue("E:ZULU TIME","seconds");}
+            if(this.vars.utctime.isUsed) {this.vars.utctime.value = new Date().toUTCString().replace(/.*(\d\d:\d\d:\d).*/,"$1"); }
 
             this.updateLiftdots();
             

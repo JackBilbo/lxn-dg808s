@@ -151,6 +151,19 @@ class configpanel {
         if (val == "on") {  this.stallwarning = true } else {  this.stallwarning = false }
     }
 
+    toggleAutoMC(val) {
+        if (val == "on") {  this.autoMC = true } else {  this.autoMC = false }
+    }
+
+    toggleHawkdisplay(val) {
+        if (val == "on") {  
+            this.displayHawk = true; 
+            document.querySelector("#hawk").classList.add("active") 
+        } else {  
+            this.displayHawk = false; 
+            document.querySelector("#hawk").classList.remove("active") 
+        }
+    }
     
     savePersistentData() {
         let toggledata = {}

@@ -75,8 +75,6 @@ class navmap {
 
                 this.initMap(); 
 
-                NAVPANEL.buildAirportList();
-
                 this.map_instrument_loaded = true;
 
                     let navmap = this;

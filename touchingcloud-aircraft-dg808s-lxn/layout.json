@@ -2,103 +2,118 @@
   "content": [
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/configpanel.js",
-      "size": 13947,
-      "date": 133068863945896248
+      "size": 13520,
+      "date": 133085958583651849
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/interface.js",
-      "size": 11466,
-      "date": 133062720176427910
+      "size": 11085,
+      "date": 133076394168483027
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/mapConfig.json",
       "size": 3409,
-      "date": 133054510414862032
+      "date": 133076394168562429
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.html",
-      "size": 34417,
-      "date": 133069492480832091
+      "size": 41254,
+      "date": 133085961117449650
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.js",
-      "size": 56629,
-      "date": 133068863945906222
+      "size": 57306,
+      "date": 133085963198777366
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navmap.js",
-      "size": 19287,
-      "date": 133058909238062752
+      "size": 18813,
+      "date": 133076394168859265
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navmap_topomap.js",
-      "size": 19665,
-      "date": 133069497018789140
+      "size": 17777,
+      "date": 133085963874421493
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navpanel.js",
-      "size": 6814,
-      "date": 133059993588192861
+      "size": 7438,
+      "date": 133083516969793166
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/touchcloud.png",
       "size": 49493,
-      "date": 133037744850865759
+      "date": 133076394169151251
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_includes/geo.js",
       "size": 5135,
-      "date": 132994449563621107
+      "date": 133076394169286560
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_includes/geo_test.html",
-      "size": 246,
-      "date": 132994449563761672
+      "size": 234,
+      "date": 133076394169384879
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_soaring_engine/b21_settings.js",
-      "size": 1508,
-      "date": 133056700665209924
+      "size": 1469,
+      "date": 133076394169601999
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_soaring_engine/b21_soaring_engine.html",
       "size": 661,
-      "date": 133059180686548353
+      "date": 133076394169712295
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_soaring_engine/b21_soaring_engine.js",
-      "size": 65382,
-      "date": 133067978579021383
+      "size": 63832,
+      "date": 133076394169810101
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_soaring_engine/README.md",
       "size": 1212,
-      "date": 132994449564279554
+      "date": 133076394169517229
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/bignumbers.css",
-      "size": 703,
-      "date": 133065341412961334
+      "size": 667,
+      "date": 133076394169947353
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/nav.css",
-      "size": 23053,
-      "date": 133069486836752807
+      "size": 22875,
+      "date": 133085959091122705
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/task-page.css",
-      "size": 4733,
-      "date": 133065979486687434
+      "size": 4516,
+      "date": 133076394170129085
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/thermalling_display/thermalling_display.css",
+      "size": 2894,
+      "date": 133085648793405199
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/thermalling_display/thermalling_display.html",
+      "size": 6418,
+      "date": 132994449587609552
+    },
+    {
+      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/thermalling_display/thermalling_display.js",
+      "size": 25767,
+      "date": 133085874903510848
     },
     {
       "path": "SimObjects/Airplanes/DG808S/panel/FME.wasm",
       "size": 265353,
-      "date": 133030537123982394
+      "date": 133076394167930083
     },
     {
       "path": "SimObjects/Airplanes/DG808S/panel/PANEL.CFG",
-      "size": 1230,
-      "date": 133059175814799946
+      "size": 1186,
+      "date": 133076394168058298
     }
   ]
 }
