@@ -58,6 +58,8 @@
 .task-state>div { padding: 0.5em; background-color: rgba(255,255,255,0.1); width: 100%; border: 2px solid #222; }
 .task-state .number { font-size: 1.8em;}
 
+.bigdatafields .task-state .number { font-size: 1.4em;}
+
 .task-state>div.finishalt_ok {
     background-color: #0d8b3c;
     color: #fff;

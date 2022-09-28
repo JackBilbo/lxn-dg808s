@@ -125,6 +125,7 @@ class ThermallingDisplay {
     // Called from this.instrument.Update()
     update() {
         this.instrument.climb_units = this.instrument.units.verticalspeed.pref;
+        let isDisplayed = (UI.pagepos_x == 1 && UI.pagepos_y == 1);
 
         this.thermals_init();
 
@@ -135,7 +136,7 @@ class ThermallingDisplay {
         }
         // THERMALS_UPDATE_PERIOD_S is the higher frequency update for the main thermal blobs display
         // THERMALS_NEW_PERIOD_S is the time period between drawning new blobs, and updating number values.
-        if (this.instrument.SIM_TIME_S - this.thermals_update_prev_time_s > this.THERMALS_UPDATE_PERIOD_S) {
+        if (this.instrument.SIM_TIME_S - this.thermals_update_prev_time_s > this.THERMALS_UPDATE_PERIOD_S && isDisplayed) {
             this.thermals_update_prev_time_s = this.instrument.SIM_TIME_S;
 
             this.thermals_update_main();
@@ -149,15 +150,18 @@ class ThermallingDisplay {
         if (new_time_delta_s > this.THERMALS_NEW_PERIOD_S || new_time_delta_s < 0) {
             this.thermals_new_prev_time_s = this.instrument.SIM_TIME_S;
 
-            this.thermals_add_blob({
-                "lat": this.instrument.PLANE_POSITION.lat,
-                "long": this.instrument.PLANE_POSITION.long
-            }, this.thermals_smooth_netto_ms);
+            if(isDisplayed) {
+                this.thermals_add_blob({
+                    "lat": this.instrument.PLANE_POSITION.lat,
+                    "long": this.instrument.PLANE_POSITION.long
+                }, this.thermals_smooth_netto_ms);
+            
+                this.thermals_update_wind();
+                this.thermals_update_bottom();
+            }           
 
-            this.thermals_update_wind();
             this.thermals_update_climb();
-            this.thermals_update_tru_avg();
-            this.thermals_update_bottom();
+            this.thermals_update_tru_avg(); 
         }
     }
 

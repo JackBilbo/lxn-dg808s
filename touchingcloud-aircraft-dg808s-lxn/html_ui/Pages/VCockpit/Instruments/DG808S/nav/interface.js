@@ -234,7 +234,7 @@ class ui {
             document.querySelectorAll(".mapbutton").forEach((e) => {
                 e.style.display = "block";
             })
-            document.querySelector("#hawk").style.display = "block";
+            document.querySelector("#hawk").style.display = document.querySelector("#hawk").classList.contains("active") ? "block" : "none";
             document.querySelector(".speedgauge").style.display = "block";
         } else {
             document.querySelectorAll(".mapbutton").forEach((e) => {

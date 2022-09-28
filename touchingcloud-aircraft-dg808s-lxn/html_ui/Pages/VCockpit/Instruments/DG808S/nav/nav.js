@@ -42,9 +42,9 @@ class lxn extends NavSystemTouch {
             ballast: { value: 399, label: "Ballast", longlabel: "Current Ballast",category:"weight", baseunit: "lbs"},
             ballast_pct: { value: 100, label: "Ballast %", longlabel: "Current Ballast Percent",category:"percent", baseunit: "%"},
             localtime: { value: 0, label: "Local", longlabel: "Local Time", category: "time_of_day", baseunit: "s"},
-            utctime: { value: 0, label: "RL UTC", longlabel: "Real Live UTC Time", category: "plaintext", baseunit: "none"},
+            utctime: { value: 0, label: "RL UTC", longlabel: "Real Life UTC Time", category: "plaintext", baseunit: "none"},
             tasktime: { value: 0, label: "Task Time", longlabel: "Task Time", category: "time_of_day", baseunit: "s"},
-            ltherm_gain: { value: 0, label: "LT GAIN", longlabel: "Last thermal gain", category: "alt", baseunit: "ft" },
+            ltherm_gain: { value: 0, label: "LT GAIN", longlabel: "Last thermal altitude gain", category: "alt", baseunit: "ft" },
             ltherm_avg: { value: 0, label: "LT AVG", longlabel: "Last thermal true average", category: "verticalspeed", baseunit: "kts" },
             sel_apt_icao: { value: "XXXX", label: "APT ICAO", longlabel: "Selected Airport ICAO", category: "plaintext", baseunit: "none" },
             sel_apt_name: { value: "NAME", label: "APT NAME", longlabel: "Selected Airport Name", category: "plaintext", baseunit: "none" },
@@ -283,7 +283,7 @@ class lxn extends NavSystemTouch {
 
             if(this.vars.oat.isUsed) {this.vars.oat.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT TEMPERATURE", "fahrenheit"));}
             if(this.vars.localtime.isUsed) {this.vars.localtime.value = SimVar.GetSimVarValue("E:LOCAL TIME","seconds");}
-            if(this.vars.utctime.isUsed) {this.vars.utctime.value = new Date().toUTCString().replace(/.*(\d\d:\d\d:\d).*/,"$1"); }
+            if(this.vars.utctime.isUsed) {this.vars.utctime.value = new Date().toUTCString().replace(/.*(\d\d:\d\d:\d\d).*/,"$1"); }
 
             this.updateLiftdots();
             
@@ -338,7 +338,7 @@ class lxn extends NavSystemTouch {
         
                     cell.querySelector(".label").innerHTML = LXNAV.vars[currentconfig.value].label;
                     
-                    if(LXNAV.vars[currentconfig.value].category == "time_of_day") {
+                    if(LXNAV.vars[currentconfig.value].category == "time_of_day" || LXNAV.vars[currentconfig.value].label == "RL UTC") {
                         cell.classList.add("smallfont");
                     } else {
                         cell.classList.remove("smallfont");
