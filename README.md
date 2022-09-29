@@ -3,12 +3,19 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 
 <h2>New in this version</h2>
 
-- Various performance optimizations
+- New page: Thermalling Helper (copied B21's code over from AS 33) as subpage under "WPT"
 
-- new displayable variable: UTC time
-- a touch of realism: Altitude is now barometric altitude, so make sure to set correct QNH (or hit "b" ;-))
+- New displayable values from thermalling page:
+  - average climb in current/last thermal
+  - total altitude gain in current/last thermal
+  
+- Optional "Auto MacCready": MC-Value is adjusted after every thermal depending on the total average climb. Default is off, can be activated in "Interface" settings
 
-- Switched Keybind for Waypoint next/prev to stay in sync with AS33
+- Bugfixes: 
+  - UTC time is now displaying real world time as intended
+  - FES-Version is correctly identified and displayes correct ballast values on ballast page
+  - font sizes for time displays adjusted to work correctly in "improved readability" mode
+  
 
 <h2>Installation:</h2>
 Simply drop the included folder "touchingcloud-aircraft-dg808s-lxn" into your community folder. No need to change anything in your existing installation. To uninstall delete the folder and you're "back to normal".
@@ -19,9 +26,9 @@ All Information is organized in „pages“ (horizontally) and „sub-pages“ (
 
 Currently there are five main pages: „APT“ for navigation to the selected Airport, „WPT“ for navigating a task/flightplan, „TASK“ for the current state of the task, "Kinetic Assitant" for launching through KA and „CONFIG“ for Unit switching, ballast management and some system settings.
 
-„APT“ Page automatically selects the nearest Airport as target. On the first subpage there's a bit of info abount that airport includung runway orientation and dimensions. The second subpage features a list of close airports where you can click any airport to select it for navigation. Click the selected airport again to return to "closest airport navigation". On the map a yellow line will be drawn from your glider to the selected airport to show the direction to fly.
+„APT“ Page automatically selects the nearest Airport as target. On the first subpage there's a bit of info about that airport including runway orientation and dimensions. The second subpage features a list of close airports where you can click any airport to select it for navigation. Click the selected airport again to return to "closest airport navigation". On the map a yellow line will be drawn from your glider to the selected airport to show the direction to fly.
 
-"WPT" is similar, except the navigation target is the current waypoint of the loaded flightplan. Using the buttons in the headerbar waypoints can be selected. The map will also show a yellow course-line from your glider to the waypoint to indicate the direction to fly.
+"WPT" is similar, except the navigation target is the current waypoint of the loaded flightplan. Using the buttons in the headerbar waypoints can be selected. The map will also show a yellow course-line from your glider to the waypoint to indicate the direction to fly. As a subpage to "WPT" you find a "thermalling help" page, displaying wind, climb and average climb for the current/last therma (a "thermal" is detected, when circling for more than 25 seconds). The lower section displays a bar chart of all thermals in the löast 40 minutes on the left and a graph of climb/sink values in the right half.
 
 „APT“ and „WPT“ feature a maximum of 16 data fields each, that can be configured in game. The „tools“ button in the upper right hand corner of the map toggles „configuration mode“. Data fields are then marked with a light blue outline. Click any data field to bring up a popup, where you can set background color, text color and Information to be displayed. A second background color can be selected to be displayed when the displayed value <= 0 (e.g. switch background to red when arrival height is negative)
 
