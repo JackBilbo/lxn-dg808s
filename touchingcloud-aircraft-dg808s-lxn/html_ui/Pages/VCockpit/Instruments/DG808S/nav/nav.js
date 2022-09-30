@@ -198,12 +198,12 @@ class lxn extends NavSystemTouch {
             this.vars.ias.value = SimVar.GetSimVarValue("A:AIRSPEED INDICATED", "knots");
             this.vars.hdg.value = SimVar.GetSimVarValue("A:PLANE HEADING DEGREES TRUE","degrees");
             this.PLANE_HEADING_DEG = this.vars.hdg.value; 
-            if(this.vars.tas.isUsed) {this.vars.tas.value = SimVar.GetSimVarValue("A:AIRSPEED TRUE", "knots");}
-            if(this.vars.trk.isUsed) {this.vars.trk.value = SimVar.GetSimVarValue("GPS GROUND TRUE TRACK","degrees");}
-            if(this.vars.gndspd.isUsed) {this.vars.gndspd.value = SimVar.GetSimVarValue("A:GPS GROUND SPEED","knots");}
-            if(this.vars.alt.isUsed) {this.vars.alt.value = SimVar.GetSimVarValue("A:INDICATED ALTITUDE", "feet");}
+            this.vars.tas.value = SimVar.GetSimVarValue("A:AIRSPEED TRUE", "knots");
+            this.vars.trk.value = SimVar.GetSimVarValue("GPS GROUND TRUE TRACK","degrees");
+            this.vars.gndspd.value = SimVar.GetSimVarValue("A:GPS GROUND SPEED","knots");
+            this.vars.alt.value = SimVar.GetSimVarValue("A:INDICATED ALTITUDE", "feet");
             // this.vars.alt_gnd.value = SimVar.GetSimVarValue("A:PLANE ALT ABOVE GROUND", "feet");
-            if(this.vars.alt_gnd.isUsed) {this.vars.alt_gnd.value = this.vars.alt.value - SimVar.GetSimVarValue("GROUND ALTITUDE", "feet");}
+            this.vars.alt_gnd.value = this.vars.alt.value - SimVar.GetSimVarValue("GROUND ALTITUDE", "feet");
 
             this.AIRSPEED_MS = this.vars.ias.value * 0.51444;
             this.AIRSPEED_TRUE_MS = this.vars.tas.value * 0.51444;
