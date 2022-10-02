@@ -3,6 +3,8 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 
 <h2>New in this version</h2>
 
+- Course pointer arrow. Shows you which way to turn for waypoint/airport (can be activated on interface config page)
+
 - New page: Thermalling Helper (copied B21's code over from AS 33) as subpage under "WPT"
 
 - New displayable values from thermalling page:
@@ -11,7 +13,10 @@ Replacement mod for the Touching Cloud DG808s Nav computer
   
 - Optional "Auto MacCready": MC-Value is adjusted after every thermal depending on the total average climb. Default is off, can be activated in "Interface" settings
 
+- map switch trackup/northup is now persistent between flights.
+
 - Bugfixes: 
+  - Ground track working again as intended
   - UTC time is now displaying real world time as intended
   - FES-Version is correctly identified and displayes correct ballast values on ballast page
   - font sizes for time displays adjusted to work correctly in "improved readability" mode
