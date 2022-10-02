@@ -47,12 +47,12 @@ class navmap {
     load_map() {
 
         // Map will be initialised on the 10th update cycle from aircraft load
-        if (this.load_map_called == null || this.load_map_called < 20) {
+        if (this.load_map_called == null || this.load_map_called < 500) {
             this.load_map_called = this.load_map_called == null ? 1 : this.load_map_called + 1;
 
-            document.querySelector(".loader .bar").style.width = (this.load_map_called * 5) + "%";
+            document.querySelector(".loader .bar").style.width = (this.load_map_called * 0.2) + "%";
 
-            if (this.load_map_called == 20) { // this is experimental code to delay the
+            if (this.load_map_called == 500) { // this is experimental code to delay the
                 // Map elements
 
                 this.smallairportIcon = L.icon({
@@ -76,15 +76,18 @@ class navmap {
                 this.initMap(); 
 
                 this.map_instrument_loaded = true;
+                let navmap = this;
+                let storedorientation = GetStoredData("Discus_map_rotation");
 
-                    let navmap = this;
+                    if(storedorientation == "trackup" || storedorientation == "northup" ) {
+                        navmap.set_map_rotation(storedorientation);
+                    }
+
                     document.querySelector("#map_orientation").addEventListener("click", function() {
                         if(navmap.map_rotation == "trackup") {
                             navmap.map_rotation = "northup";
-                            document.querySelector("#battery_required").setAttribute("class","map_northup");
                         } else {
                             navmap.map_rotation = "trackup";
-                            document.querySelector("#battery_required").setAttribute("class","map_trackup");
                         }
                 
                         navmap.set_map_rotation(navmap.map_rotation);
@@ -175,6 +178,8 @@ class navmap {
             case "northup":
                 try {
                     this.map_rotation = "northup";
+                    document.querySelector("#battery_required").setAttribute("class","map_northup");
+                    SetStoredData("Discus_map_rotation","northup");
                 } catch (e) {
                     console.log("setRotationMode NorthUp error",e);
                 }
@@ -183,6 +188,8 @@ class navmap {
             case "trackup":
                 try {
                     this.map_rotation = "trackup";
+                    document.querySelector("#battery_required").setAttribute("class","map_trackup");
+                    SetStoredData("Discus_map_rotation","trackup");
                 } catch (e) {
                     console.log("setRotationMode TrackUp error",e);
                 }
@@ -389,6 +396,48 @@ class navmap {
                 opacity: 1        
             }).addTo(TOPOMAP);
         }
+
+        if(CONFIGPANEL.displayCoursePointer) {
+            this.updateCoursePointer(targetcoords)
+        }
+    }
+
+    updateCoursePointer(targetcoords) {
+        let bearing = Geo.get_bearing_deg({lat: targetcoords[0][0], long: targetcoords[0][1]},{lat: targetcoords[1][0], long: targetcoords[1][1]});
+        let heading_delta = this.instrument.vars.trk.value - bearing;
+        heading_delta = heading_delta < -180 ? heading_delta + 360 : heading_delta;
+        heading_delta = heading_delta > 180 ? heading_delta - 360 : heading_delta;
+
+        if(heading_delta < 0) {
+            document.querySelector("#pointerbar").setAttribute("class","negative");
+        } else {
+            document.querySelector("#pointerbar").setAttribute("class","");
+        }
+
+        if(Math.abs(heading_delta) < 5) {
+            document.querySelector("#pointerbar").setAttribute("class","isStraight");
+            document.querySelector("#pointerbar .arrows").innerHTML = "";
+            document.querySelector("#pointerbar").style.width = 0;
+        } else {
+            document.querySelector("#pointerbar").style.width = Math.min(Math.abs(heading_delta) / 2, 40) + "%";
+
+            if(Math.abs(heading_delta) > 150) {
+                document.querySelector("#pointerbar .arrows").innerHTML = ">>>>>";
+            }  else if (Math.abs(heading_delta) > 120) {
+                document.querySelector("#pointerbar .arrows").innerHTML = ">>>>";
+            } else if (Math.abs(heading_delta) > 90) {
+                document.querySelector("#pointerbar .arrows").innerHTML = ">>>";
+            } else if (Math.abs(heading_delta) > 60) {
+                document.querySelector("#pointerbar .arrows").innerHTML = ">>";
+            } else if (Math.abs(heading_delta) > 30) {
+                document.querySelector("#pointerbar .arrows").innerHTML = ">";
+            } else if (Math.abs(heading_delta) > 10) {
+                document.querySelector("#pointerbar .arrows").innerHTML = "";
+            } else {
+                document.querySelector("#pointerbar .arrows").innerHTML = "";
+            }
+        }
+        
     }
 
     paintAirports(airports) {

@@ -36,3 +36,7 @@
 	top: 80px;
 	height: calc(100% - 80px);
 }
+
+.bigdatafields #coursepointer {
+	top: 310px;
+}

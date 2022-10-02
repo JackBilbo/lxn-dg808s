@@ -194,6 +194,11 @@ class ui {
         document.querySelector("#cellconfig").setAttribute("data-cellrelation", el.getAttribute("id"));
     }
 
+    resetPages() {
+        this.panelframe.style.transform = "translate(0,0)";
+        this.panels[0].querySelector(".pageframe").style.transform = "translate(0px, 0px)";
+    }
+
     pageRight() {
         this.pages[this.pagepos_x][this.pagepos_y].classList.remove("current");
         this.panels[this.pagepos_x].querySelector(".pageframe").style.transform = "translate(0px, 0px)";

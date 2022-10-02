@@ -162,6 +162,8 @@ class lxn extends NavSystemTouch {
 
         this.tick = 0;
 
+        UI.resetPages();
+
         this._isConnected = true;
 	}
 	
@@ -199,8 +201,8 @@ class lxn extends NavSystemTouch {
             this.vars.hdg.value = SimVar.GetSimVarValue("A:PLANE HEADING DEGREES TRUE","degrees");
             this.PLANE_HEADING_DEG = this.vars.hdg.value; 
             this.vars.tas.value = SimVar.GetSimVarValue("A:AIRSPEED TRUE", "knots");
-            this.vars.trk.value = SimVar.GetSimVarValue("GPS GROUND TRUE TRACK","degrees");
             this.vars.gndspd.value = SimVar.GetSimVarValue("A:GPS GROUND SPEED","knots");
+            this.vars.trk.value = this.vars.gndspd.value > 5 ? SimVar.GetSimVarValue("GPS GROUND TRUE TRACK","degrees") : this.vars.hdg.value;
             this.vars.alt.value = SimVar.GetSimVarValue("A:INDICATED ALTITUDE", "feet");
             // this.vars.alt_gnd.value = SimVar.GetSimVarValue("A:PLANE ALT ABOVE GROUND", "feet");
             this.vars.alt_gnd.value = this.vars.alt.value - SimVar.GetSimVarValue("GROUND ALTITUDE", "feet");
@@ -210,6 +212,7 @@ class lxn extends NavSystemTouch {
             this.ALTITUDE_M = this.vars.alt.value * 0.3048;
 
             this.update_speedgauge();
+            NAVMAP.load_map();
         }
         
         
@@ -271,7 +274,7 @@ class lxn extends NavSystemTouch {
                 if(this.vars.task_spd.isUsed) {this.vars.task_spd.value = B21_SOARING_ENGINE.task.avg_task_speed_kts();}
             }
             
-            NAVMAP.load_map();
+            
             NAVPANEL.update()
             CONFIGPANEL.update();
             this.updateKineticAssistant();
@@ -417,10 +420,8 @@ class lxn extends NavSystemTouch {
                 this.prev_knobs_var = this.KNOBS_VAR;
                 if(NAVMAP.map_rotation == "trackup") {
                     NAVMAP.map_rotation = "northup";
-                    document.querySelector("#battery_required").setAttribute("class","map_northup");
                 } else {
                     NAVMAP.map_rotation = "trackup";
-                    document.querySelector("#battery_required").setAttribute("class","map_trackup");
                 }
                 NAVMAP.set_map_rotation(NAVMAP.map_rotation);
              }

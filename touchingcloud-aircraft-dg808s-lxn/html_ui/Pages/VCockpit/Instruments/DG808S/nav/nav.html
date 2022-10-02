@@ -83,6 +83,16 @@
 				</div>
 			</div>
 
+			<div id="coursepointer">
+				<div id="pointerbar" class="isStraight">
+					<svg id="triangle" viewBox="0 0 100 100">
+						<polygon points="50 100, 100 15, 0 15"/>
+					</svg>
+					<span class="arrows"></span>
+				</div>
+				<div id="pointerstraight">|</div>
+			</div>
+
 			<div id="glidericon">
                 <div id="ac_hdg"></div>
                 <div id="ac_trk"></div>
@@ -532,6 +542,14 @@
 										</div>
 										<div class="config_entry">
 											<div class="config_label">
+												<div class="title">Course Pointer Arrow</div>
+											</div>
+											<div class="config_toggle" state="off" data-callback="toggleCoursePointer">
+												<div class="handle"></div>
+											</div>
+										</div>
+										<div class="config_entry">
+											<div class="config_label">
 												<div class="title">Auto MacCready</div>
 												<div class="description">Update MC after every thermal</div>
 											</div>
@@ -694,4 +712,4 @@
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/navpanel.js"></script>
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/configpanel.js?ai"></script>
 <script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/thermalling_display/thermalling_display.js?ae"></script>
-<script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/nav.js?ac"></script>
+<script type="text/html" import-script="/Pages/VCockpit/Instruments/DG808S/nav/nav.js?ad"></script>

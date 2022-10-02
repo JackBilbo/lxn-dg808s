@@ -164,6 +164,16 @@ class configpanel {
             document.querySelector("#hawk").classList.remove("active") 
         }
     }
+
+    toggleCoursePointer(val) {
+        if (val == "on") {  
+            this.displayCoursePointer = true; 
+            document.querySelector("#coursepointer").classList.add("active") 
+        } else {  
+            this.displayCoursePointer = false; 
+            document.querySelector("#coursepointer").classList.remove("active") 
+        }
+    }
     
     savePersistentData() {
         let toggledata = {}
