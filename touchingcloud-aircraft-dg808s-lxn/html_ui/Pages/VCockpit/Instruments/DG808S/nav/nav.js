@@ -102,13 +102,15 @@ class lxn extends NavSystemTouch {
                 kts : 1,
                 kmh : 1.852,
                 mph : 1.15078,
-                ms : 0.51444
+                ms : 0.51444,
+                fs: 1.68781
             },
             verticalspeed: {
                 kts : 1,
                 kmh : 1.852,
                 mph : 1.15078,
-                ms : 0.51444
+                ms : 0.51444,
+                fs: 1.68781
             },
             alt: {
                 ft: 1,
