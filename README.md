@@ -1,26 +1,7 @@
 # lxn-dg808s
 Replacement mod for the Touching Cloud DG808s Nav computer
 
-<h2>New in this version</h2>
-
-- Course pointer arrow. Shows you which way to turn for waypoint/airport (can be activated on interface config page)
-
-- New page: Thermalling Helper (copied B21's code over from AS 33) as subpage under "WPT"
-
-- New displayable values from thermalling page:
-  - average climb in current/last thermal
-  - total altitude gain in current/last thermal
-  
-- Optional "Auto MacCready": MC-Value is adjusted after every thermal depending on the total average climb. Default is off, can be activated in "Interface" settings
-
-- map switch trackup/northup is now persistent between flights.
-
-- Bugfixes: 
-  - Ground track working again as intended
-  - UTC time is now displaying real world time as intended
-  - FES-Version is correctly identified and displayes correct ballast values on ballast page
-  - font sizes for time displays adjusted to work correctly in "improved readability" mode
-  
+ 
 
 <h2>Installation:</h2>
 Simply drop the included folder "touchingcloud-aircraft-dg808s-lxn" into your community folder. No need to change anything in your existing installation. To uninstall delete the folder and you're "back to normal".
@@ -48,7 +29,7 @@ The Config-Page gives you access to various settings:
 - Ballast: A light version of ballast loading system that can even be used in flight - which would be shameless cheating of course!
 - Units: allows you to select the units of measurement to use for various categories or generally "metric" or "imperial" system. Only "metric" or "imperial" settings have an effect on other instruments in the cockpit. Detailled settings only work inside the nav computer.
 - Interface Options: Settings for the Nav Interface. "Readability Mode" can be activated here to get some bigger readouts (and less data fields) and the liftdot-trail on the map can be deactivated
-- Bugs: An experimental feature to control arrival height calculations. In real life gliders dead insects on the wing's leading edge will deteriorate glide perfomance. Therefore a "bug factor" can be used in arrival height calculations. While you won't kill any simulated insects on your simulated wings, you can still use this factor to account for inaccuracies in the flight model or inefficiencies of the pilot. If you find you are constantly arriving lower than the predicted altitude try flying with a lower "bugs" value. This value is not persistent between sessions, because we all know, that you are cleaning your wings after each flight. Values can range from 0 to 100, default for the DG808s is curently 80 - a value that produced acceptable results in na number of test flights. To point that out again: this setting does NOT affect your gliders performance in any way. ONLY the calculated arrival height.
+
 
 All config settings apart from bugs and ballast are persistent between sessions. Just make sure to click "close" after making any changes.
 
