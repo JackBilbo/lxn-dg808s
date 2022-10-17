@@ -513,7 +513,7 @@ input[type="radio"] {
             width: 100%;
         }
 
-        .configpanel_close {
+        .configpanel_close, .servicelink {
             width: 25%;
             background-color: rgb(255, 255, 255);
             border-top-left-radius: 4px;
@@ -721,6 +721,17 @@ input[type="radio"] {
     top: 0;
     left: 0;
 
+}
+
+.rangeinput .label {
+	display: block;
+	float: left;
+	line-height: 4rem;
+	padding: 0 1rem;
+}
+
+.rangeinput .label.placeright {
+	float: right;
 }
 
 /* /range inputs */

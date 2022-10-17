@@ -1,10 +1,11 @@
-let NAVMAP, NAVPANEL, CONFIGPANEL, UI, TOPOMAP;
+let LXN, NAVMAP, NAVPANEL, CONFIGPANEL, UI, TOPOMAP, SN, SOARNET;
 
 class lxn extends NavSystemTouch {
 
     constructor() {
         super();
 
+        LXN = this;
         this.TIMER_05 = 0;
         this.TIMER_1 = 0;
 
@@ -152,6 +153,8 @@ class lxn extends NavSystemTouch {
         CONFIGPANEL = new configpanel(this); CONFIGPANEL.initSystemSettings();
         UI = new ui(this); UI.init();
 
+        SN = new soarnet(this); SN.init();
+
         this.init_speedgauge();
         this.jbb_init_calc_polar();
 
@@ -277,7 +280,7 @@ class lxn extends NavSystemTouch {
             }
             
             
-            NAVPANEL.update()
+            NAVPANEL.update();
             CONFIGPANEL.update();
             this.updateKineticAssistant();
         }
@@ -291,6 +294,7 @@ class lxn extends NavSystemTouch {
             if(this.vars.utctime.isUsed) {this.vars.utctime.value = new Date().toUTCString().replace(/.*(\d\d:\d\d:\d\d).*/,"$1"); }
 
             this.updateLiftdots();
+            SN.update();
             
             if(this.gearposition != SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool")) {
                 if(SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool") == true && this.vars.ballast.value > 150) {
@@ -503,11 +507,12 @@ class lxn extends NavSystemTouch {
 
         /* We'll propably see a huge amount of special formatting exceptions here for various unit types. "+" for AGL e.g. */
         if(category == "time_of_day") {
-            let time = val;
+            let prefix = val < 0 ? "-" : "";
+            let time = Math.abs(val);
 			let seconds = Math.floor(time % 60);
 			let minutes = Math.floor((time / 60) % 60);
 			let hours = Math.floor(Math.min(time / 3600, 99));
-			result = ("0" + hours).substr(-2) + ":" + ("0" + minutes).substr(-2) + ":" + ("0" + seconds).substr(-2);
+			result = prefix + hours + ":" + ("0" + minutes).substr(-2) + ":" + ("0" + seconds).substr(-2);
 			
         }
 
@@ -865,7 +870,9 @@ class lxn extends NavSystemTouch {
 	    
         if(!B21_SOARING_ENGINE.task_finished()) {
             taskheader.querySelector(".task-state .task-timer .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task_time_s(),"s","time_of_day");
-            this.vars.tasktime.value = B21_SOARING_ENGINE.task_time_s();
+            if(B21_SOARING_ENGINE.task_started()) {
+                this.vars.tasktime.value = B21_SOARING_ENGINE.task_time_s();
+            }
         } else {
             taskheader.querySelector(".task-state .task-timer .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.task.finish_time_s - B21_SOARING_ENGINE.task.start_time_s,"s","time_of_day");
             taskheader.querySelector(".task-state .task-average .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.finish_speed_ms(),"ms","speed");

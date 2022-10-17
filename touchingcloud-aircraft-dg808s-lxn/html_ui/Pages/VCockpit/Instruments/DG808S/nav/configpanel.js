@@ -278,12 +278,16 @@ class rangeinput {
         this.rail = document.createElement("div");
         this.rail.setAttribute("class","rail");
 
+        this.label = document.createElement("div");
+        this.label.setAttribute("class","label");
+
         this.handle = document.createElement("div");
         this.handle.setAttribute("class", "handle");
 
         this.interact = document.createElement("div");
         this.interact.setAttribute("class", "interact");
 
+        this.rail.appendChild(this.label);
         this.rail.appendChild(this.handle);
         this.rail.appendChild(this.interact);
         el.appendChild(this.rail);
@@ -333,6 +337,7 @@ class rangeinput {
                 let diff = thisinput.maxvalue - thisinput.minvalue;
                 let value = (( pos / max ) * diff) + thisinput.minvalue;
                 thisinput.outputvalue = value;
+                thisinput.addLabel();
 
                 thisinput.callback(thisinput.outputvalue);
             }
@@ -348,7 +353,19 @@ class rangeinput {
         let pos = (max / diff) * (val - this.minvalue);
         this.handle.style.left = pos + "px";
         this.marker.style.width = (pos + this.handle.clientWidth / 2)  + "px";
+        this.outputvalue = val;
+        this.addLabel();
     }
 
     getValue() { return this.outputvalue; }
+
+    addLabel() {
+        let labelvalue = this.maxvalue == 1 ? (this.outputvalue * 100).toFixed(0) : this.outputvalue.toFixed(0);
+        this.label.innerText = labelvalue;
+        if(parseInt(this.handle.style.left) < 100) {
+            this.label.classList.add("placeright");
+        } else {
+            this.label.classList.remove("placeright"); 
+        }
+    }
 }
