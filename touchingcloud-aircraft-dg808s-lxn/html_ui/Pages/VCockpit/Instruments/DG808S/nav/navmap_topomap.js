@@ -178,7 +178,8 @@ class navmap {
             case "northup":
                 try {
                     this.map_rotation = "northup";
-                    document.querySelector("#battery_required").setAttribute("class","map_northup");
+                    document.querySelector("#battery_required").classList.add("map_northup");
+                    document.querySelector("#battery_required").classList.remove("map_trackup");
                     SetStoredData("Discus_map_rotation","northup");
                 } catch (e) {
                     console.log("setRotationMode NorthUp error",e);
@@ -188,7 +189,8 @@ class navmap {
             case "trackup":
                 try {
                     this.map_rotation = "trackup";
-                    document.querySelector("#battery_required").setAttribute("class","map_trackup");
+                    document.querySelector("#battery_required").classList.add("map_trackup");
+                    document.querySelector("#battery_required").classList.remove("map_northup");
                     SetStoredData("Discus_map_rotation","trackup");
                 } catch (e) {
                     console.log("setRotationMode TrackUp error",e);
