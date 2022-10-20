@@ -1,6 +1,24 @@
 # lxn-dg808s
 Replacement mod for the Touching Cloud DG808s Nav computer
 
+<h2>Fixes and Features:</h2>
+
+- Fixed a bug that caused map orientation change to break readability mode.
+
+- new, experimental Multiplayer feature:
+
+Multiplayer-Info is located as a sub page under the task list - simply page down.
+
+First view asks you to enter a username. As default the aircraft registration is used. You can change that to your pleasing. A good idea would be to use a name short name, as it will later be displayed on other pilots nav map and you don't want to clutter that with a username like "bestpilotinthewholewideworld2338992" ;-) 
+
+Once connected you see a - most likely very short or empty "events" list, showing all available flights. You only see events that use the same task/flightplan you have currently loaded. Click an event to join or click "add new flight" to create your own event and then join it. You need to enter a title and the start time (hour and minutes) in UTC/ZULU time.
+
+Once other pilots join you'll see the list of participants and also see other pilots position on the nav map. If you assigned "task time" to a data field it will now show a countdown to task start.
+
+When a pilot crosses the start line, his/her average speed and flown distance is shown in the list. The list will now be sorted by distance flown, effectively a live ranking of the race. When a pilot crosses the finish line, total task time will be displayed instead of distance flown and used for sorting.
+
+Communication is done via a google cloud service that has a traffic limit, so the feature might not always be available.
+
  
 
 <h2>Installation:</h2>
