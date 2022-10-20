@@ -64,7 +64,6 @@ The map view features a lot of information to help you optimize your flight:
   - the active "leg" of the task is displayed in black/yellow stripes leading from the last waypoiont to the current one.
   - Semi circles indicate the start and finish lines of the task, where the task timer will start and stop automatically.
   - Small pink circles mark the turnpoints of the task. Entering the circle around the current waypoint will trigger the "waypoint ok" message and automatically switch to the next wp. But take a good look on the task page, if there are "Min/Max" values for the waypoint for altitude restrictions (usually for start and/or finish waypoints)
-  - when flying towards a waypoint larger yellow circles will indicate certain distances from the waypoint to give a better orientation.
 
 To make all this soaring task magic work, the flightplan needs to provide more information than usually present in MSFS generated flightplans. Easiest way to achieve that is to use B21's task planner to plan your flights: https://xp-soaring.github.io/tasks/b21_task_planner/index.html
 
@@ -76,11 +75,11 @@ Why use that MacCready setting? There's a lot more theory around that than can b
 
 Several functions can be operated by keybinds from joystick or throttle:
 
-Page left/right:    INCREASE/DECREASE COM1 (WHOLE)
-Page up/down:       INCREASE/DECREASE COM1 (FRACT)
-Waypoint next/prev: INCREASE/DECREASE TRANSPONDER (1000)
-Map Zoom:           INCREASE/DECREASE TRANSPONDER (10)
-Map Orientation:    INCREASE/DECREASE TRANSPONDER (1)
+- Page left/right:    INCREASE/DECREASE COM1 (WHOLE)
+- Page up/down:       INCREASE/DECREASE COM1 (FRACT)
+- Waypoint next/prev: INCREASE/DECREASE TRANSPONDER (1000)
+- Map Zoom:           INCREASE/DECREASE TRANSPONDER (10)
+- Map Orientation:    INCREASE/DECREASE TRANSPONDER (1)
 
 <h2>Known Limitations:</h2>
 
@@ -88,9 +87,6 @@ Changing pages and subpages with "click and drag" in flight requires a lot of mo
 
 The map can not be panned. To avoid collision with „click and drag“ page changing another „mode switch“ would be needed. Considering the current quality of the ingame map, I don’t think it’s worth the added complexity.
 
-„Thermalling help“ through the typical green and red dots is a very basic „quick and dirty“ implementation. So far it can not be toggled. As soon as you are in the air the dotted trail will show.
-
-If you don't use a flightplan, the waypoint page uses the starting waypoint as "Home". This waypoint currently has no altitude, screwing up the estimation of arrival height above ground level in thie constellation.
 
 <h2>Conflicts with other mods</h2>
 
