@@ -415,6 +415,12 @@ input[type="radio"] {
 	stroke-width: 5px;
 }
 
+.mpglidericon svg {
+	fill: #fff;
+	stroke: #000; 
+	stroke-width: 5px;
+}
+
 #glidericon #ac_hdg, #glidericon #ac_trk {
     width: 3px;
     height: 1000px;
