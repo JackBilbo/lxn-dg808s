@@ -497,7 +497,11 @@ class navmap {
 
     wipeMultiplayers() {
         for (var marker in this.mpMarker) {
-            TOPOMAP.removeLayer(this.mpMarker[marker]);
+            try {
+                TOPOMAP.removeLayer(this.mpMarker[marker]);
+            } catch(e) {
+                console.log(e)
+            }
         }
         this.mpMarker = {}
     }

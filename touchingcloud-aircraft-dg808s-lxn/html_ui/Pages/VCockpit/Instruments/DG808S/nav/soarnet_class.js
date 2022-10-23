@@ -37,6 +37,10 @@ class soarnet {
 
         document.getElementById("addEvent").addEventListener("submit", function(e) {
             e.preventDefault();
+            if(document.getElementById("utchours").value > 23 || document.getElementById("utcmin").value > 59 || document.getElementById("eventtitle").value == "") {
+                return false;
+            }
+
             SN.currentEvent = SOARNET.createEvent({
                 "title": document.getElementById("eventtitle").value,
                 "time": SOARNET.creatUTCstarttime_s(document.getElementById("utchours").value, document.getElementById("utcmin").value),
@@ -155,7 +159,12 @@ SOARNET.displayUserList = function(){
         }
             
         if(typeof(TOPOMAP.addLayer) == "function" && user != this.userId) {
-            NAVMAP.paintMultiplayers(user, SOARNET.eventusers[user]);
+            try {
+                NAVMAP.paintMultiplayers(user, SOARNET.eventusers[user]);
+            } catch(e) {
+                console.log(e);
+                NAVMAP.wipeMultiplayers();
+            } 
         }
              
     }
