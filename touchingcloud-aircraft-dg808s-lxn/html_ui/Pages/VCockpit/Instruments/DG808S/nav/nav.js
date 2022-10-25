@@ -767,12 +767,13 @@ class lxn extends NavSystemTouch {
         }
         
         let current_wind_speed = this.vars.wind_spd.value;
-        this.jbb_avg_wind_speed = ((0.99 * this.jbb_avg_wind_speed) + (0.01 * current_wind_speed));
+        this.hawkwindspeed = this.hawkwindspeed != null ? (0.9 * this.hawkwindspeed) + (0.1 * current_wind_speed) : current_wind_speed; 
+        this.jbb_avg_wind_speed = this.jbb_avg_wind_speed != null ? ((0.99 * this.jbb_avg_wind_speed) + (0.01 * this.hawkwindspeed)) : this.hawkwindspeed;
 
         this.querySelector("#hawk #arrow_avg").style.transform = "rotate(" + averageindicator + "deg)";
         this.querySelector("#hawk #arrow_current").style.transform = "rotate(" + current_wind_direction + "deg)";
 
-        let wv = Math.min(600, current_wind_speed * 10 + 150);
+        let wv = Math.min(600, this.hawkwindspeed * 10 + 150);
         this.querySelector("#hawk #arrow_current").style.height = wv +"px";
         this.querySelector("#hawk #arrow_current").style.top = -wv/2 +"px";
 
