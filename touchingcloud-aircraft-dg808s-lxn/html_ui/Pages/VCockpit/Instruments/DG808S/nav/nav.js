@@ -223,7 +223,7 @@ class lxn extends NavSystemTouch {
         
         if(this.tick == 1) {
             this.vars.wind_spd.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT WIND VELOCITY", "knots"));
-            this.vars.wind_direction.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees"));
+            this.vars.wind_direction.value = this.vars.wind_direction.value != null ? (0.9 * this.vars.wind_direction.value) + (0.1 * SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees")) : SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees");
             this.vars.wind_vertical.value = SimVar.GetSimVarValue("A:AMBIENT WIND Y", "knots");
             this.vars.current_netto.value = (this.vars.current_netto.value * 0.9) + (SimVar.GetSimVarValue("L:NETTO", "knots") * 0.1);
             if(this.vars.aoa.isUsed) {this.vars.aoa.value = SimVar.GetSimVarValue("INCIDENCE ALPHA", "radians") * (180/Math.PI);}
@@ -756,22 +756,18 @@ class lxn extends NavSystemTouch {
 
     jbb_update_hawk() {
         let current_wind_direction = this.vars.wind_direction.value;
-
-        this.jbb_avg_wind_direction = this.jbb_avg_wind_direction != null ? ((0.99 * this.jbb_avg_wind_direction) + (0.01 * current_wind_direction)) : current_wind_direction;
+        this.hawkwinddir = this.hawkwinddir != null ? (0.9 * this.hawkwinddir) + (0.1 * current_wind_direction) : current_wind_direction;
+        this.jbb_avg_wind_direction = this.jbb_avg_wind_direction != null ? ((0.99 * this.jbb_avg_wind_direction) + (0.01 * this.hawkwinddir)) : this.hawkwinddir;
 
         let averageindicator = this.jbb_avg_wind_direction;
-
-        if(NAVMAP.map_rotation == "trackup") {
-            current_wind_direction = current_wind_direction - this.vars.hdg.value;
-            averageindicator = averageindicator - this.vars.hdg.value;
-        }
-        
+       
         let current_wind_speed = this.vars.wind_spd.value;
         this.hawkwindspeed = this.hawkwindspeed != null ? (0.9 * this.hawkwindspeed) + (0.1 * current_wind_speed) : current_wind_speed; 
         this.jbb_avg_wind_speed = this.jbb_avg_wind_speed != null ? ((0.99 * this.jbb_avg_wind_speed) + (0.01 * this.hawkwindspeed)) : this.hawkwindspeed;
 
-        this.querySelector("#hawk #arrow_avg").style.transform = "rotate(" + averageindicator + "deg)";
-        this.querySelector("#hawk #arrow_current").style.transform = "rotate(" + current_wind_direction + "deg)";
+        document.querySelector("#hawk #arrow_avg").style.transform = "rotate(" + (NAVMAP.map_rotation == "trackup" ? averageindicator - this.vars.hdg.value : averageindicator) + "deg)";
+        document.querySelector("#hawk #arrow_current").style.transform = "rotate(" + (NAVMAP.map_rotation == "trackup" ? this.hawkwinddir - this.vars.hdg.value : this.hawkwinddir) + "deg)";
+
 
         let wv = Math.min(600, this.hawkwindspeed * 10 + 150);
         this.querySelector("#hawk #arrow_current").style.height = wv +"px";

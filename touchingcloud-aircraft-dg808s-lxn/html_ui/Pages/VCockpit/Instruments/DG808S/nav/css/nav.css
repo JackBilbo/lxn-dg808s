@@ -943,7 +943,6 @@ input[type="radio"] {
 	width: 100%;
 	height: 0;
 	background-color: #0d8b3c;
-	transition: height 0.2s;
 }
 
 #hawkbar svg {

@@ -992,6 +992,7 @@ class WP {
         this.distance_m = 0; // User plane to WP Distance (meters)
         this.tailwind_ms = 0; // User plane to WP tailwind (ms)
         this.arrival_height_msl_m = 0; // Predicted arrival height at this WP (meters)
+        this.ete_s = 0 // Estimated time to waypoint 
 
         // Updating values related to task
         this.task_distance_m = 0; // Distance (meters) from user plane, around task, to WP
@@ -1199,6 +1200,7 @@ class Task {
                 // The arrival height calculation for THIS waypoint assumes you start the leg from the arrival height at the PREVIOUS waypoint.
                 wp.arrival_height_msl_m = previous_wp.arrival_height_msl_m - height_needed_m;
             }
+            wp.ete_s = time_to_wp_s;
         }
         this.instrument.ex = "Task.9";
     }
