@@ -52,7 +52,7 @@
 }
 
 #userlist .mpusername {
-	max-width: 7.5em;
+	max-width: 5.5em;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -177,5 +177,7 @@
     font-size: 1rem;
     line-height: 1.2em;
     transform-origin: 50% 50%;
+    text-overflow: ellipsis;
+    max-width: 5.5em;
 }
 
