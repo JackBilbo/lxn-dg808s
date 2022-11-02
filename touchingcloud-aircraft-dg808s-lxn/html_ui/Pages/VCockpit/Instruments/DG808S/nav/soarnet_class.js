@@ -94,14 +94,14 @@ class soarnet {
              
             if(!SOARNET.isSolo) {
                 this.updateUserdata();
-                document.querySelector("#mp_info").innerHTML = SOARNET.eventDetails[this.currentEvent].title;
+                document.querySelector("#mp_info").innerHTML = (SOARNET.eventDetails && SOARNET.eventDetails[this.currentEvent]) ? SOARNET.eventDetails[this.currentEvent].title : "";
             } else {
                 document.querySelector("#mp_info").innerHTML = "Waiting for pilots to connect";
             }
 
             SOARNET.displayUserList();
             
-            let time_to_start = SOARNET.getTimetostart_s(SOARNET.eventDetails[this.currentEvent].time);  
+            let time_to_start = (SOARNET.eventDetails && SOARNET.eventDetails[this.currentEvent]) ? SOARNET.getTimetostart_s(SOARNET.eventDetails[this.currentEvent].time) : 0; 
             if (time_to_start <= 0 && !B21_SOARING_ENGINE.task_started()) {
                 this.instrument.vars.tasktime.value = time_to_start;
                 if(time_to_start >= -10) {
