@@ -5,7 +5,7 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 
 The map has now an additional layer showing Aitports, Navaids and Airspaces. Can be toggled in interface settings on the config page
 
-Limited the lenght of Usernames in Multiplayer table and map labels.
+Limited the length of Usernames in Multiplayer table and map labels.
  
 
 <h2>Installation:</h2>
