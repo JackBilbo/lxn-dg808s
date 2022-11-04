@@ -101,7 +101,7 @@ class soarnet {
 
             SOARNET.displayUserList();
             
-            let time_to_start = (SOARNET.eventDetails && SOARNET.eventDetails[this.currentEvent]) ? SOARNET.getTimetostart_s(SOARNET.eventDetails[this.currentEvent].time) : 0; 
+            let time_to_start = (SOARNET.eventDetails && SOARNET.eventDetails[this.currentEvent]) ? SOARNET.getTimetostart_s(SOARNET.eventDetails[this.currentEvent].time) : 1; 
             if (time_to_start <= 0 && !B21_SOARING_ENGINE.task_started()) {
                 this.instrument.vars.tasktime.value = time_to_start;
                 if(time_to_start >= -10) {
@@ -113,7 +113,9 @@ class soarnet {
                     }
                     
                 }
-            } 
+            } else {
+                this.instrument.vars.tasktime.value = 0;
+            }
         }
     }
 
