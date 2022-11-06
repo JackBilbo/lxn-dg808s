@@ -113,7 +113,7 @@ class soarnet {
                     }
                     
                 }
-            } else {
+            } else if (!B21_SOARING_ENGINE.task_started()) {
                 this.instrument.vars.tasktime.value = 0;
             }
         }
