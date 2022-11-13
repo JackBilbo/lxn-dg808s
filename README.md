@@ -3,9 +3,9 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 
 <h2>Fixes and Features:</h2>
 
-The map has now an additional layer showing Aitports, Navaids and Airspaces. Can be toggled in interface settings on the config page
+Added aircraft.cfg and ai.cfg to allow the plane to be listed as "glider" and use msfs launch functions.
 
-Limited the length of Usernames in Multiplayer table and map labels.
+Winch launch is not working out of the box, therefore deactivated. If you want to experiment with it, open SimObjects/aircraft/DG808s/ai.cfg and set "allowWinchLaunch" in the glider section to 1.
  
 
 <h2>Installation:</h2>
