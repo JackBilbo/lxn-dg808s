@@ -2,8 +2,8 @@
   "content": [
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/configpanel.js",
-      "size": 13870,
-      "date": 133091839252280722
+      "size": 14697,
+      "date": 133115068150765163
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/interface.js",
@@ -17,13 +17,13 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.html",
-      "size": 43757,
-      "date": 133105104989185051
+      "size": 44182,
+      "date": 133120630994338217
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.js",
-      "size": 57177,
-      "date": 133092040487696466
+      "size": 57808,
+      "date": 133115085876956917
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navmap.js",
@@ -32,8 +32,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navmap_topomap.js",
-      "size": 20309,
-      "date": 133091969133908787
+      "size": 24176,
+      "date": 133115067917374732
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navpanel.js",
@@ -47,8 +47,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/soarnet_class.js",
-      "size": 9752,
-      "date": 133105094468155290
+      "size": 10372,
+      "date": 133122345470816299
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/touchcloud.png",
@@ -77,8 +77,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_soaring_engine/b21_soaring_engine.js",
-      "size": 63832,
-      "date": 133076394169810101
+      "size": 63624,
+      "date": 133115091673067597
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/b21_soaring_engine/README.md",
@@ -92,13 +92,13 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/nav.css",
-      "size": 24092,
-      "date": 133091845730714903
+      "size": 24311,
+      "date": 133115086124850348
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/soarnet.css",
-      "size": 2875,
-      "date": 133105094468115296
+      "size": 2980,
+      "date": 133117034804573425
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/task-page.css",
@@ -119,6 +119,16 @@
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/thermalling_display/thermalling_display.js",
       "size": 25943,
       "date": 133088699656656962
+    },
+    {
+      "path": "SimObjects/Airplanes/DG808S/ai.cfg",
+      "size": 1331,
+      "date": 133128206311472202
+    },
+    {
+      "path": "SimObjects/Airplanes/DG808S/aircraft.cfg",
+      "size": 7986,
+      "date": 133128143593526693
     },
     {
       "path": "SimObjects/Airplanes/DG808S/panel/FME.wasm",
