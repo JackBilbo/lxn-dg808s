@@ -48,14 +48,8 @@ class navmap {
     // load_map called from Update(), only executes once
     load_map() {
 
-        // Map will be initialised on the 10th update cycle from aircraft load
-        if (this.load_map_called == null || this.load_map_called < 500) {
-            this.load_map_called = this.load_map_called == null ? 1 : this.load_map_called + 1;
-
-            document.querySelector(".loader .bar").style.width = (this.load_map_called * 0.2) + "%";
-
-            if (this.load_map_called == 500) { // this is experimental code to delay the
                 // Map elements
+                this.map_instrument_loaded = true;
 
                 this.smallairportIcon = L.icon({
                     iconUrl: '/Pages/VCockpit/Instruments/Shared/Map/Images/ICON_MAP_AIRPORT_NON_TOWERED_NON_SERVICED_PINK.png',
@@ -85,7 +79,7 @@ class navmap {
 
                 this.initMap(); 
 
-                this.map_instrument_loaded = true;
+                
                 let navmap = this;
                 let storedorientation = GetStoredData("Discus_map_rotation");
 
@@ -112,34 +106,24 @@ class navmap {
                     })
                 
                 this.maptimer = this.instrument.TIME_S;
-                
-            }
-
-                
-        }
-
-        if (this.map_instrument_loaded) {
-            // this.update_sim_time();
-            this.update_map();
-
-            if(this.map_rotation == "northup") {
-                document.getElementById("glidericon").style.transform = "rotate(" + this.instrument.vars.hdg.value + "deg)";
-                document.getElementById("Map").style.transform = "rotate(0deg) scale(3)";
-            } else {
-                document.getElementById("glidericon").style.transform = "rotate(0deg)";
-                document.getElementById("Map").style.transform = "rotate(-" + this.instrument.vars.hdg.value + "deg) scale(3)";
-            }
-
-            if(this.instrument.vars.ias.value > 20) {
-                document.getElementById("ac_trk").style.transform = "rotate(" + (this.instrument.vars.trk.value - this.instrument.vars.hdg.value) + "deg)";
-            } 
-            
-        } 
+                 
     }
 
     // Update contents of the Map div, i.e. the MapInstrument, bing-map and Task overlay
     // Called from Update() only if this.map_instrument_loaded is true.
     update_map() {
+
+        if(this.map_rotation == "northup") {
+            document.getElementById("glidericon").style.transform = "rotate(" + this.instrument.vars.hdg.value + "deg)";
+            document.getElementById("Map").style.transform = "rotate(0deg) scale(3)";
+        } else {
+            document.getElementById("glidericon").style.transform = "rotate(0deg)";
+            document.getElementById("Map").style.transform = "rotate(-" + this.instrument.vars.hdg.value + "deg) scale(3)";
+        }
+
+        if(this.instrument.vars.ias.value > 20) {
+            document.getElementById("ac_trk").style.transform = "rotate(" + (this.instrument.vars.trk.value - this.instrument.vars.hdg.value) + "deg)";
+        } 
 
         this.update_map_center();
         this.draw_courseline();

@@ -41,6 +41,7 @@ class navpanel {
         
         if(this.listerisloading && this.airportlister.loadState == 6) {
             // Airportlister finished updating
+            this.airportsloaded = true;
             this.buildAirportList();
             this.listerisloading = false;
         }
@@ -143,6 +144,7 @@ class navpanel {
             if(typeof(TOPOMAP.addLayer) == "function") {
                 let icon = this.airportlister.airports[i].airportClass == 1 ? NAVMAP.bigairportIcon : NAVMAP.smallairportIcon; 
 
+                try {
                 airporticons.push({
                     "type": "Feature",
                     "geometry": {
@@ -156,6 +158,10 @@ class navpanel {
                       "myicon": icon
                     }
                   })
+                } catch(e) {
+                    console.log("Nearest Airports List not ready. Retrying...");
+                }
+
             }
             
             aptlist.appendChild(item);
