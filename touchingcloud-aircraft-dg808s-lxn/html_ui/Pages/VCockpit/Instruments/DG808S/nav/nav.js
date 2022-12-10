@@ -812,7 +812,7 @@ class lxn extends NavSystemTouch {
         document.querySelector("#hawk #arrow_current").style.transform = "rotate(" + (NAVMAP.map_rotation == "trackup" ? this.hawkwinddir - this.vars.hdg.value : this.hawkwinddir) + "deg)";
 
         document.querySelector("#hawkwinddirection").innerText = this.hawkwinddir.toFixed(0);
-        document.querySelector("#hawkwindspeed").innerText = this.jbb_avg_wind_speed.toFixed(1);
+        document.querySelector("#hawkwindspeed").innerText = this.displayValue(this.jbb_avg_wind_speed, 'kts', 'windspeed');
 
         let wv = Math.min(600, this.hawkwindspeed * 10 + 150);
         this.querySelector("#hawk #arrow_current").style.height = wv +"px";
