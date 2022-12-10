@@ -17,13 +17,13 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.html",
-      "size": 44182,
-      "date": 133120630994338217
+      "size": 42231,
+      "date": 133150779035790482
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.js",
-      "size": 57808,
-      "date": 133115085876956917
+      "size": 60500,
+      "date": 133150807953435173
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navmap.js",
@@ -32,13 +32,13 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navmap_topomap.js",
-      "size": 24176,
-      "date": 133115067917374732
+      "size": 23518,
+      "date": 133150770925317771
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navpanel.js",
-      "size": 7373,
-      "date": 133096356696764374
+      "size": 7564,
+      "date": 133150775829441255
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/soarnet.js",
@@ -92,13 +92,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/nav.css",
-      "size": 24311,
-      "date": 133115086124850348
-    },
-    {
-      "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/soarnet.css",
-      "size": 2980,
-      "date": 133117034804573425
+      "size": 24280,
+      "date": 133150780318247390
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/task-page.css",
@@ -123,12 +118,17 @@
     {
       "path": "SimObjects/Airplanes/DG808S/ai.cfg",
       "size": 1331,
-      "date": 133128206311472202
+      "date": 133128312113065537
     },
     {
       "path": "SimObjects/Airplanes/DG808S/aircraft.cfg",
-      "size": 7986,
-      "date": 133128143593526693
+      "size": 7974,
+      "date": 133128219089406111
+    },
+    {
+      "path": "SimObjects/Airplanes/DG808S/reference_points.cfg",
+      "size": 982,
+      "date": 133150839469068894
     },
     {
       "path": "SimObjects/Airplanes/DG808S/panel/FME.wasm",
