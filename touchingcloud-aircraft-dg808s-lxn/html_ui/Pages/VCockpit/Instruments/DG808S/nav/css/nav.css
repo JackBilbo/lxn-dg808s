@@ -1341,3 +1341,26 @@ input[type="radio"] {
 	15% { opacity: 0 }
 	100% { opacity: 0 }
 }
+
+/* Splashscreen */
+
+#splashscreen {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: #222;
+	text-align: center;
+	font-size: 3rem;
+	z-index: 10000;
+}
+
+#logo {
+	width: 60%;
+	margin: 4rem auto 2rem;
+}
+
+#splashscreen h1 {
+	font-style: italic;
+}

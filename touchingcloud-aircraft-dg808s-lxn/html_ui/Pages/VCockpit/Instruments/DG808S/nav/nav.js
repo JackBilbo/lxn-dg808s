@@ -225,6 +225,7 @@ class lxn extends NavSystemTouch {
                 NAVMAP.update_map();
             } else if(NAVPANEL.airportsloaded) {
                 NAVMAP.load_map();
+                document.querySelector("#splashscreen").style.display = "none";
             } 
 
         }
@@ -810,6 +811,8 @@ class lxn extends NavSystemTouch {
         document.querySelector("#hawk #arrow_avg").style.transform = "rotate(" + (NAVMAP.map_rotation == "trackup" ? averageindicator - this.vars.hdg.value : averageindicator) + "deg)";
         document.querySelector("#hawk #arrow_current").style.transform = "rotate(" + (NAVMAP.map_rotation == "trackup" ? this.hawkwinddir - this.vars.hdg.value : this.hawkwinddir) + "deg)";
 
+        document.querySelector("#hawkwinddirection").innerText = this.hawkwinddir.toFixed(0);
+        document.querySelector("#hawkwindspeed").innerText = this.jbb_avg_wind_speed.toFixed(1);
 
         let wv = Math.min(600, this.hawkwindspeed * 10 + 150);
         this.querySelector("#hawk #arrow_current").style.height = wv +"px";
