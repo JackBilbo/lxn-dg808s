@@ -657,12 +657,12 @@ class lxn extends NavSystemTouch {
         var minspeed_kph = 60;
         var stallspeed_kph = 80;
         var maneuverspeed_kph = 200;
-        var maxspeed_kph = 300;
+        var maxspeed_kph = 270;
 
         var minspeed_kts = 30;
         var stallspeed_kts = 43;
         var maneuverspeed_kts = 108;
-        var maxspeed_kts = 160;
+        var maxspeed_kts = 150;
 
         for(let i = minspeed_kph; i <= maxspeed_kph + 20; i+=5) {
             let t = document.createElement("span");
