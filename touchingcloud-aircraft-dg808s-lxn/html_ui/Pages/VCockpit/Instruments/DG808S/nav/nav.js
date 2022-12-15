@@ -310,21 +310,23 @@ class lxn extends NavSystemTouch {
 
             this.updateLiftdots();
             
-            if(this.gearposition != SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool")) {
-                if(SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool") == true && this.vars.ballast.value > 150) {
-                    this.popalert("Gear Down. Check Ballast","");
+            if(CONFIGPANEL.cockpitwarnings) {
+                if(this.gearposition != SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool")) {
+                    if(SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool") == true && this.vars.ballast.value > 150) {
+                        this.popalert("Gear Down. Check Ballast","");
+                    }
+                    this.gearposition = SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool")
                 }
-                this.gearposition = SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool")
-            }
-    
-            
-            if(SimVar.GetSimVarValue("A:SPOILERS HANDLE POSITION","percent over 100") > 0.1 && this.gearposition != true && this.vars.alt_gnd.value < 800) {
-                if(!this.gearwarnsilenced) {
-                    this.popalert("CHECK GEAR","");
-                    this.gearwarnsilenced = true; 
+        
+                
+                if(SimVar.GetSimVarValue("A:SPOILERS HANDLE POSITION","percent over 100") > 0.1 && this.gearposition != true && this.vars.alt_gnd.value < 800) {
+                    if(!this.gearwarnsilenced) {
+                        this.popalert("CHECK GEAR","");
+                        this.gearwarnsilenced = true; 
+                    }
+                    let instrument = this;
+                    window.setTimeout(function() { instrument.gearwarnsilenced = false }, 10000);
                 }
-                let instrument = this;
-                window.setTimeout(function() { instrument.gearwarnsilenced = false }, 10000);
             }
         }
 
