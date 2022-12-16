@@ -21,7 +21,8 @@ class lxn extends NavSystemTouch {
         this.jbb_lift_dot_delay = 3;
         this.lift_dots = [];
         this.lift_dots_max = 40;
-        this.te = { v: 0, h: 0, t: 0, te: 0}
+        this.te = { v: 0, h: 0, t: 0, te: 0};
+        this.log = { isStarted: false };
 
        	
         this.vars = {            
@@ -72,6 +73,10 @@ class lxn extends NavSystemTouch {
             polar_sink: { value: 0, label: "Polar Sink", longlabel: "Polar Sink at current speed", category: "verticalspeed", baseunit: "kts" },
             total_energy: { value: 0, label: "TE", longlabel: "Total Energy", category: "verticalspeed", baseunit: "kts" },
             calc_netto: { value: 0, label: "NET", longlabel: "Calculated Netto", category: "verticalspeed", baseunit: "kts" },
+            log_time:{ value: 0, label: "LOG TIME", longlabel: "Log Time", category: "time_of_day", baseunit: "hms24" },
+            log_climb: { value: 0, label: "LOG CLB", longlabel: "Log Accumulated Climb", category: "alt", baseunit: "m"},
+            log_avg: { value: 0, label: "LOG AVG", longlabel: "Log Average TGroundspeed", category: "speed", baseunit: "kmh"},
+            log_dist: { value: 0, label: "LOG DIST", longlabel: "Log Distance", category: "dist", baseunit: "km" }
         }
         
         this.units = {
@@ -309,6 +314,13 @@ class lxn extends NavSystemTouch {
             if(this.vars.utctime.isUsed) {this.vars.utctime.value = new Date().toUTCString().replace(/.*(\d\d:\d\d:\d\d).*/,"$1"); }
 
             this.updateLiftdots();
+
+            if(this.vars.alt_gnd.value > 100) { this.log.isStarted = true; }
+            if(this.vars.gndspd.value < 20 && this.log.isStarted == true) { this.log.isStarted = false; }
+
+            if(this.log.isStarted && this.log.isActive) {
+                this.updateLog();
+            }
             
             if(CONFIGPANEL.cockpitwarnings) {
                 if(this.gearposition != SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool")) {
@@ -876,7 +888,36 @@ class lxn extends NavSystemTouch {
         if(!this.showLiftdots) { this.lift_dots = []; }
     }
 
+    updateLog() {
+        if(this.log.time == null) { this.log.time = this.SIM_TIME_S; }
+        this.vars.log_time.value = this.vars.log_time.value + (this.SIM_TIME_S - this.log.time); 
+        this.log.time = this.SIM_TIME_S;
+
+        if(this.log.pos == null) { this.log.pos = B21_SOARING_ENGINE.get_position(); }
+        let distance = Geo.get_distance_m(B21_SOARING_ENGINE.get_position(), this.log.pos);
+        this.vars.log_dist.value =  this.vars.log_dist.value + distance / 1000 ;
     
+        if(this.log.alt == null) { this.log.alt = this.vars.alt.value; }
+        let deltaalt = this.vars.alt.value > this.log.alt ? this.vars.alt.value - this.log.alt : 0;
+        this.vars.log_climb.value = this.vars.log_climb.value + deltaalt;
+    
+        this.vars.log_avg.value =  this.vars.log_dist.value / (this.vars.log_time.value / 3600);
+    
+        this.log.pos = B21_SOARING_ENGINE.get_position();
+        this.log.alt = this.vars.alt.value;
+    }
+
+    resetLog() {
+        this.log = {
+            time: null,
+            alt: null,
+            pos: null
+        }
+        this.vars.log_time.value = 0;
+        this.vars.log_dist.value = 0;
+        this.vars.log_avg.value = 0;
+        this.vars.log_climb.value = 0;
+    }
 
     initKineticAssistant() {
         let instrument = this;
