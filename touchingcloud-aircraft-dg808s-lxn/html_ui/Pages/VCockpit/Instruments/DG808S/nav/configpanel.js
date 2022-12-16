@@ -3,6 +3,7 @@ class configpanel {
         this.instrument = instrument;
 
         this.ballastIsInit = false;
+        this.cockpitwarnings = true;
 
         this.unitstore = SimVar.GetSimVarValue("L:UNITS_IMPERIAL","percent");
     }
@@ -58,8 +59,7 @@ class configpanel {
         document.getElementById("conf_units_metric").addEventListener("click", function(e) {
             CONFIGPANEL.setUnitPrefs("metric");
         })
-      
-        
+              
         document.querySelectorAll(".config_toggle .handle").forEach((el)=> {
             el.addEventListener("click", (e)=> {
                 let el = e.target.parentNode;
@@ -157,6 +157,14 @@ class configpanel {
 
     toggleAipLayer(val) {
         if (val == "on") { NAVMAP.hasAipLayer = true; if(typeof(TOPOMAP.addLayer) == "function") { NAVMAP.addAipLayer() } } else { NAVMAP.removeAipLayer(); NAVMAP.hasAipLayer = false; }
+    }
+
+    toggleCockpitwarnings(val) {
+        if (val == "on") { this.cockpitwarnings = true; } else { this.cockpitwarnings = false; }
+    }
+
+    toggleAutolog(val) {
+        if (val == "on") { this.instrument.log.isActive = true; } else { this.instrument.log.isActive = false; this.instrument.resetLog(); }
     }
 
     toggleHawkdisplay(val) {
