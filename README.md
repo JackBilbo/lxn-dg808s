@@ -3,9 +3,13 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 
 <h2>Fixes and Features:</h2>
 
-Added aircraft.cfg and ai.cfg to allow the plane to be listed as "glider" and use msfs launch functions.
+New method to initialize the map. No more loading bar and no more blank screen due to long loading times.
 
-Winch launch is not working out of the box, therefore deactivated. If you want to experiment with it, open SimObjects/aircraft/DG808s/ai.cfg and set "allowWinchLaunch" in the glider section to 1.
+Automatic flight log: when activated in interface settings will log time, distance, average groundspeed and climbed altitude for the current session. Can be displayed in any data field.
+
+Gear and ballast warnings can now be deactivated in interface settings.
+
+More data to display: polar sink at stf, netto, total energy.
  
 
 <h2>Installation:</h2>
