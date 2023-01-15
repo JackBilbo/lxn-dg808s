@@ -462,30 +462,33 @@ class lxn extends NavSystemTouch {
                 }
                 NAVMAP.set_map_rotation(NAVMAP.map_rotation);
              }
-                       
-             this.COMCODE = SimVar.GetSimVarValue("COM ACTIVE FREQUENCY:1","MHz").toFixed(3).toString().split(".");
-             if(this.prevcomcode == null) { this.prevcomcode = this.COMCODE;}
-    
-             if(parseInt(this.prevcomcode[0]) < parseInt(this.COMCODE[0])) {
-                this.prevcomcode[0] = this.COMCODE[0];
+           
+            this.pageselector = SimVar.GetSimVarValue("A:AUTOPILOT ALTITUDE LOCK VAR","number");
+            if(this.prevpageselector == null) { this.prevpageselector = this.pageselector;}
+    	         
+            if(this.prevpageselector < this.pageselector) {
+                this.prevpageselector = this.pageselector;
                 UI.pageRight();
              }
     
-             if(parseInt(this.prevcomcode[0]) > parseInt(this.COMCODE[0])) {
-                this.prevcomcode[0] = this.COMCODE[0];
+             if(this.prevpageselector > this.pageselector) {
+                this.prevpageselector = this.pageselector;
                 UI.pageLeft();
              }
-    
-             if(parseInt(this.prevcomcode[1]) < parseInt(this.COMCODE[1])) {
-                this.prevcomcode[1] = this.COMCODE[1];
+
+             this.subpageselector = SimVar.GetSimVarValue("A:AUTOPILOT VERTICAL HOLD VAR","number");
+            if(this.subprevpageselector == null) { this.subprevpageselector = this.subpageselector;}
+    	         
+            if(this.subprevpageselector > this.subpageselector) {
+                this.subprevpageselector = this.subpageselector;
                 UI.pageDown();
              }
     
-             if(parseInt(this.prevcomcode[1]) > parseInt(this.COMCODE[1])) {
-                this.prevcomcode[1] = this.COMCODE[1];
+             if(this.subprevpageselector < this.subpageselector) {
+                this.subprevpageselector = this.subpageselector;
                 UI.pageUp();
              }
-    	           
+
         /* Warnings and alerts */
 
         if(CONFIGPANEL.stallwarning && SimVar.GetSimVarValue("STALL WARNING", "bool") == "1") {
@@ -730,7 +733,10 @@ class lxn extends NavSystemTouch {
                 if(e.target.classList.contains("dec")) {
                     that.vars.mccready.value = that.vars.mccready.value <= 0 ? 0 : that.vars.mccready.value - 0.2;
                 }
+
+                SimVar.SetSimVarValue("L:BEZEL_CAL","percent", that.vars.mccready.value * 10 );
             })
+            
         })
 
         this.setFlapSpeeds();
