@@ -373,7 +373,7 @@ class lxn extends NavSystemTouch {
                     } 
                     LXNAV.vars[currentconfig.value].isUsed = true; 
                     
-                    cell.style.backgroundColor = displaynumber > 0 ? currentconfig.back + "BB" : currentconfig.backneg + "BB";
+                    cell.style.backgroundColor = (LXNAV.vars[currentconfig.value].category == "temperature" ? displaynumber : LXNAV.vars[currentconfig.value].value) > 0 ? currentconfig.back + "BB" : currentconfig.backneg + "BB";
                     cell.style.color = currentconfig.text;
         
                     cell.querySelector(".label").innerHTML = LXNAV.vars[currentconfig.value].label;
