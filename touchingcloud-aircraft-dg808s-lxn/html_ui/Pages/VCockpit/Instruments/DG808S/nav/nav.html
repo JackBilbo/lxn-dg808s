@@ -466,13 +466,14 @@
 									<div id="ground_crew_winch">WINCH LAUNCH</div>
 									<div id="ground_crew_push">GROUND HANDLING</div>
 									<div id="ground_crew_tow">REQUEST TOWPLANE</div>
-									<div id="ground_crew_info">
-										1. Launch KineticAssistant<br />
-										2. Press CONNECT<br />
-										3. Minimize KineticAssistant
-									</div>
 									<div id="touching_cloud">
-									<img src="/Pages/VCockpit/Instruments/DG808S/nav/touchcloud.png"/>
+										<u>NOTICE:</u><br/>
+										These Options Require Kinetic Assistant. Please use the built-in options if you are not using Kinetic Assistant.<br/>
+									</div>
+									<div id="ground_crew_info">
+										1: Launch Kinetic Assistant<br/>
+										2: Press Connect<br/>
+										3: Minimize Kinetic Assistant<br/>
 									</div>
 								</div>
 							</div>
@@ -489,9 +490,9 @@
 						<div class="page">
 							<div id="systemconfig">
 								<div class="buttonwrapper">
-									<button class="lxconfigbtn" id="conf_wb" aria-controls="conf_panel_wb">Ballast</button>
+									<button class="lxconfigbtn" id="conf_wb" aria-controls="conf_panel_wb">Water Ballast System</button>
 									<!-- button class="lxconfigbtn" id="conf_system" aria-controls="conf_panel_system">System Settings</button -->
-									<button class="lxconfigbtn" id="conf_units" aria-controls="conf_panel_units">Units</button>
+									<button class="lxconfigbtn" id="conf_units" aria-controls="conf_panel_units">Units of Measurement</button>
 									<button class="lxconfigbtn" id="conf_interface" aria-controls="conf_panel_interface">Interface Options</button>
 									<!--
 									<button class="lxconfigbtn" id="conf_bugs" aria-controls="conf_panel_bugs">Bugs</button>
@@ -499,7 +500,7 @@
 									-->	
 								</div>
 								<div class="configpanel" id="conf_panel_wb" aria-controlledby="conf_wb">
-									<header>Water Ballast</header>
+									<header>Water Ballast System</header>
 									<div class="configpanel_content">
 										<div class="configpanel_content">
 											<div class="tanks">
@@ -529,7 +530,7 @@
 										<a href="#" class="configpanel_close">CLOSE</a>
 									</div>
 								</div>
-								<div class="configpanel" id="conf_panel_units" aria-controlledby="conf_units"><header>Units</header>
+								<div class="configpanel" id="conf_panel_units" aria-controlledby="conf_units"><header>Units of Measurement</header>
 									<div class="configpanel_content">
 										<div class="quickselect">
 											<button class="lxsettingsbtn" id="conf_units_imperial">Imperial</button>
@@ -558,7 +559,7 @@
 										<div class="config_entry">
 											<div class="config_label">
 												<div class="title">Improved Readability</div>
-												<div class="description">Less but much larger datafields</div>
+												<div class="description">Less but Larger Datafields</div>
 											</div>
 											<div class="config_toggle" state="off" data-callback="toggleDatafieldSize">
 												<div class="handle"></div>
@@ -574,7 +575,7 @@
 										</div>
 										<div class="config_entry">
 											<div class="config_label">
-												<div class="title">Visual Stallwarning</div>
+												<div class="title">Visual Stall Warning</div>
 											</div>
 											<div class="config_toggle" state="off" data-callback="toggleStallwarning">
 												<div class="handle"></div>
@@ -773,7 +774,8 @@
 			<img src="/Pages/VCockpit/Instruments/DG808S/nav/touchcloud.png"/>
 			</div>
 			<h1>DG 808 S</h1>
-			<h2>Welcome</h2>
+			<h2>LXN Navigation</h2>
+			<h3>By JackBilbo</h3>
 		</div>
 
 	</div>
