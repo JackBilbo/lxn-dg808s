@@ -2,14 +2,17 @@
 Replacement mod for the Touching Cloud DG808s Nav computer
 
 <h2>Fixes and Features:</h2>
+Mod adapted for Discus Version 2.0.6
 
-New method to initialize the map. No more loading bar and no more blank screen due to long loading times.
+CHANGED KEYBINDS: some users experienced problems with binding to com frequencies. Changeing pages left/right and up/down are now bound to autopilot altitude and vertical speed settings:
 
-Automatic flight log: when activated in interface settings will log time, distance, average groundspeed and climbed altitude for the current session. Can be displayed in any data field.
+Page left/right: INCREASE/DECREASE AUTOPILOT REFERENCE ALTITUDE
+Page up/down: INCREASE/DECREASE AUTOPILOT REFERENCE VS
+Please adjust your keybinds
 
-Gear and ballast warnings can now be deactivated in interface settings.
+Fixed a bug where conditional background colors in data fields failed for altitude values >10k
 
-More data to display: polar sink at stf, netto, total energy.
+Lots of text corrections ported over from the discus version.
  
 
 <h2>Installation:</h2>
@@ -81,8 +84,8 @@ Why use that MacCready setting? There's a lot more theory around that than can b
 
 Several functions can be operated by keybinds from joystick or throttle:
 
-- Page left/right:    INCREASE/DECREASE COM1 (WHOLE)
-- Page up/down:       INCREASE/DECREASE COM1 (FRACT)
+- Page left/right: INCREASE/DECREASE AUTOPILOT REFERENCE ALTITUDE
+- Page up/down: INCREASE/DECREASE AUTOPILOT REFERENCE VS
 - Waypoint next/prev: INCREASE/DECREASE TRANSPONDER (1000)
 - Map Zoom:           INCREASE/DECREASE TRANSPONDER (10)
 - Map Orientation:    INCREASE/DECREASE TRANSPONDER (1)
