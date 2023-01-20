@@ -13,6 +13,19 @@ Please adjust your keybinds
 Fixed a bug where conditional background colors in data fields failed for altitude values >10k
 
 Lots of text corrections.
+
+Map loading should be stable now. No more silly loading bar.
+
+New feature: automatic log. If activated in interface settings the log will autostart once you reach 100m AGL. You can display log distance, time, altitude climbed and average ground speed. For people like me, who like to fly around without flightplan and still like to see some statistics :-)
+
+Some new info selectable for data fields: total energy, netto, glide ratios.
+
+For more in depth info about setting up glider flights, planning and using this mod for navigation check out David Aldrich's excellent video:
+
+https://www.youtube.com/watch?v=Ftn-_smpZ0c&t=1537s
+
+(the multiplayer function mentioned in the video is an experimental feature, that is not included in this release)
+
  
 
 <h2>Installation:</h2>
