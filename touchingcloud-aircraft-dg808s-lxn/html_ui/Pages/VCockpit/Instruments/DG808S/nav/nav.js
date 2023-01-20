@@ -164,8 +164,6 @@ class lxn extends NavSystemTouch {
         CONFIGPANEL = new configpanel(this); CONFIGPANEL.initSystemSettings();
         UI = new ui(this); UI.init();
 
-        SN = new soarnet(this); SN.init();
-
         this.init_speedgauge();
         this.jbb_init_calc_polar();
 
@@ -316,7 +314,6 @@ class lxn extends NavSystemTouch {
             if(this.vars.utctime.isUsed) {this.vars.utctime.value = new Date().toUTCString().replace(/.*(\d\d:\d\d:\d\d).*/,"$1"); }
 
             this.updateLiftdots();
-            SN.update();
 
             if(this.vars.alt_gnd.value > 100) { this.log.isStarted = true; }
             if(this.vars.gndspd.value < 20 && this.log.isStarted == true) { this.log.isStarted = false; }
