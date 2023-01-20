@@ -2,17 +2,17 @@
 Replacement mod for the Touching Cloud DG808s Nav computer
 
 <h2>Fixes and Features:</h2>
-Mod adapted for Discus Version 2.0.6
 
-CHANGED KEYBINDS: some users experienced problems with binding to com frequencies. Changeing pages left/right and up/down are now bound to autopilot altitude and vertical speed settings:
+CHANGED KEYBINDS: some users experienced problems with binding to com frequencies. Changing pages left/right and up/down are now bound to autopilot altitude and vertical speed settings:
 
-Page left/right: INCREASE/DECREASE AUTOPILOT REFERENCE ALTITUDE
-Page up/down: INCREASE/DECREASE AUTOPILOT REFERENCE VS
+- Page left/right: INCREASE/DECREASE AUTOPILOT REFERENCE ALTITUDE
+- Page up/down: INCREASE/DECREASE AUTOPILOT REFERENCE VS
+
 Please adjust your keybinds
 
 Fixed a bug where conditional background colors in data fields failed for altitude values >10k
 
-Lots of text corrections ported over from the discus version.
+Lots of text corrections.
  
 
 <h2>Installation:</h2>
