@@ -12,7 +12,7 @@ Please adjust your keybinds
 
 Fixed a bug where conditional background colors in data fields failed for altitude values >10k
 
-Lots of text corrections ported over from the discus version.
+Some text corrections.
  
 
 <h2>Installation:</h2>
