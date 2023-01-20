@@ -261,7 +261,6 @@ class configpanel {
                     if(this.instrument.units[unit].options[i] == this.instrument.units[unit].pref) { option.classList.add("selected"); }
                     option.innerHTML = this.instrument.units[unit].options[i];
                     option.addEventListener("click", (e) => { 
-                        console.log(e.target);
                         let unit = e.target.parentNode.getAttribute("data-unit");
                         CONFIGPANEL.instrument.units[unit].pref = e.target.getAttribute("data-value");
                         inputwrapper.querySelector(".selected").classList.remove("selected");
