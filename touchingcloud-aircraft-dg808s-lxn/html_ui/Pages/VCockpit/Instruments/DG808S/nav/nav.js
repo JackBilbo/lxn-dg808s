@@ -64,10 +64,12 @@ class lxn extends NavSystemTouch {
             wp_arr_agl: { value: 0, label: "WP ARR (AGL)", longlabel: "Waypoint Arrival AGL (WP-Height)", category: "alt", baseunit: "ft" },
             wp_arr_wpmin: { value: 0, label: "WP &#916; MIN", longlabel: "Waypoint Arrival (WP) incl. min-height", category: "alt", baseunit: "ft" },
             wp_arr_msl: { value: 0, label: "WP ARR (MSL)", longlabel: "Waypoint Arrival (MSL)", category: "alt", baseunit: "ft" },
+            wp_min: { value: 0, label: "WP MIN", longlabel: "Waypoint Min (if available)", category: "alt", baseunit: "ft", condition_to_hide: ()=> { return this.vars.wp_min.value == 0 } },
+            wp_max: { value: 0, label: "WP MAX", longlabel: "Waypoint Max (if available)", category: "alt", baseunit: "ft", condition_to_hide: ()=> { return this.vars.wp_max.value == 0 } },
             wp_ete: { value: 0, label: "WP ETE", longlabel: "Waypoint Time Enroute", category: "time", baseunit: "min" },
             task_arr_agl: { value: 0, label: "TSK FIN (AGL)", longlabel: "Task Finish Altitude (AGL)", category: "alt", baseunit: "ft" },
             task_arr_msl: { value: 0, label: "TSK FIN (MSL)", longlabel: "Task Finish Altitude (MSL)", category: "alt", baseunit: "ft" },
-            task_spd: { value: 0, label: "TSK SPD", longlabel: "Task Speed", category: "speed", baseunit: "kts"},
+            task_spd: { value: 0, label: "TSK SPD", longlabel: "Task Avg Speed", category: "speed", baseunit: "kts"},
             current_gr: { value: 0, label: "GR", longlabel: "Glide Ratio", category: "plaintext", baseunit: "none"},
             stf_gr: { value: 0, label: "STF GR", longlabel: "Glide Ratio at STF", category: "plaintext", baseunit: "none"},
             polar_sink: { value: 0, label: "Polar Sink", longlabel: "Polar Sink at current speed", category: "verticalspeed", baseunit: "kts" },
@@ -75,7 +77,7 @@ class lxn extends NavSystemTouch {
             calc_netto: { value: 0, label: "NET", longlabel: "Calculated Netto", category: "verticalspeed", baseunit: "kts" },
             log_time:{ value: 0, label: "LOG TIME", longlabel: "Log Time", category: "time_of_day", baseunit: "hms24" },
             log_climb: { value: 0, label: "LOG CLB", longlabel: "Log Accumulated Climb", category: "alt", baseunit: "m"},
-            log_avg: { value: 0, label: "LOG AVG", longlabel: "Log Average TGroundspeed", category: "speed", baseunit: "kmh"},
+            log_avg: { value: 0, label: "LOG AVG", longlabel: "Log Average Groundspeed", category: "speed", baseunit: "kmh"},
             log_dist: { value: 0, label: "LOG DIST", longlabel: "Log Distance", category: "dist", baseunit: "km" }
         }
         
@@ -294,6 +296,8 @@ class lxn extends NavSystemTouch {
                 if(this.vars.task_arr_msl.isUsed) {this.vars.task_arr_msl.value = B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m / 0.3048;}
                 if(this.vars.task_arr_agl.isUsed) {this.vars.task_arr_agl.value = (B21_SOARING_ENGINE.task.finish_wp().arrival_height_msl_m - (B21_SOARING_ENGINE.task.finish_wp().min_alt_m != null ? B21_SOARING_ENGINE.task.finish_wp().min_alt_m : B21_SOARING_ENGINE.task.finish_wp().alt_m)) / 0.3048;}
                 if(this.vars.task_spd.isUsed) {this.vars.task_spd.value = B21_SOARING_ENGINE.task.avg_task_speed_kts();}
+                if(this.vars.wp_min.isUsed) {this.vars.wp_min.value = B21_SOARING_ENGINE.task.current_wp().min_alt_m / 0.3048;}
+                if(this.vars.wp_max.isUsed) {this.vars.wp_max.value = B21_SOARING_ENGINE.task.current_wp().max_alt_m / 0.3048;}
             }
             
             
@@ -375,6 +379,14 @@ class lxn extends NavSystemTouch {
                     
                     cell.style.backgroundColor = (LXNAV.vars[currentconfig.value].category == "temperature" ? displaynumber : LXNAV.vars[currentconfig.value].value) > 0 ? currentconfig.back + "BB" : currentconfig.backneg + "BB";
                     cell.style.color = currentconfig.text;
+
+                    if(currentconfig.value == "wp_min" ) {
+                        cell.style.backgroundColor = LXNAV.vars["wp_arr_msl"].value > LXNAV.vars["wp_min"].value ? currentconfig.back + "BB" : currentconfig.backneg + "BB";                    
+                    }
+
+                    if(currentconfig.value == "wp_max" ) {
+                        cell.style.backgroundColor = LXNAV.vars["wp_arr_msl"].value < LXNAV.vars["wp_max"].value ? currentconfig.back + "BB" : currentconfig.backneg + "BB";                    
+                    }
         
                     cell.querySelector(".label").innerHTML = LXNAV.vars[currentconfig.value].label;
                     
@@ -391,6 +403,15 @@ class lxn extends NavSystemTouch {
                         cell.querySelector(".number").innerHTML = LXNAV.vars[currentconfig.value].value;
                         cell.querySelector(".unit").innerHTML = "";
                     }
+
+                    /* Optional "condition_to_hide" - hide datafields completelybelow a certain value (invented for WP min/max) */
+                    if(LXNAV.vars[currentconfig.value].condition_to_hide) {
+                        if( LXNAV.vars[currentconfig.value].condition_to_hide() ) {
+                            cell.style.backgroundColor = "transparent";
+                            cell.style.color = "transparent";
+                        }
+                    }
+
                 } else {
                     cell.style.backgroundColor = "transparent";
                     cell.style.color = "transparent";
