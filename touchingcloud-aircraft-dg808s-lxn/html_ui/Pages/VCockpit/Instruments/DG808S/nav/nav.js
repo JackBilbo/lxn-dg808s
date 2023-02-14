@@ -349,7 +349,7 @@ class lxn extends NavSystemTouch {
 		    
 		//OVERSPEED Warn by LeNinjaHD
                 if(SimVar.GetSimVarValue("A:AIRSPEED TRUE", "knots") > 140) {
-                    this.popalert("OVERSPEED!!! CURRENT TAS: " + this.displayValue(this.vars.tas.value, "kts", "speed"), "")
+                    this.popalert("OVERSPEED!!! CURRENT TAS: " + this.displayValue(this.vars.tas.value, "kts", "speed") + this.units.speed.pref, "")
 
                 }
             }
