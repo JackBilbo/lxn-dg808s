@@ -347,10 +347,14 @@ class lxn extends NavSystemTouch {
                     window.setTimeout(function() { instrument.gearwarnsilenced = false }, 10000);
                 }
 		    
-		//OVERSPEED Warn by LeNinjaHD
-                if(SimVar.GetSimVarValue("A:AIRSPEED TRUE", "knots") > 140) {
-                    this.popalert("OVERSPEED!!! CURRENT TAS: " + this.displayValue(this.vars.tas.value, "kts", "speed") + this.units.speed.pref, "")
-
+		        //OVERSPEED Warn by LeNinjaHD
+                if(this.vars.tas.value > 155) {
+                    if(!this.overspeedsilencer) {
+                        this.popalert("OVERSPEED!<br />CURRENT TAS: " + this.displayValue(this.vars.tas.value, "kts", "speed") + this.units.speed.pref, "")
+                        this.overspeedsilencer = true;
+                    }
+                } else {
+                    this.overspeedsilencer = false;
                 }
             }
         }
