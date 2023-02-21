@@ -178,6 +178,10 @@ class lxn extends NavSystemTouch {
         this.stallwarner = document.querySelector("#stallwarner");
         this.gearposition = SimVar.GetSimVarValue("A:GEAR HANDLE POSITION", "bool");
 
+        this.overspeedenter = 0;
+        this.overspeedexit = 0;
+        this.overspeedtotal = 0;
+
         this.tick = 0;
 
         UI.resetPages();
@@ -346,17 +350,31 @@ class lxn extends NavSystemTouch {
                     let instrument = this;
                     window.setTimeout(function() { instrument.gearwarnsilenced = false }, 10000);
                 }
-		    
-		        //OVERSPEED Warn by LeNinjaHD
-                if(this.vars.tas.value > 155) {
-                    if(!this.overspeedsilencer) {
-                        this.popalert("OVERSPEED!<br />CURRENT TAS: " + this.displayValue(this.vars.tas.value, "kts", "speed") + this.units.speed.pref, "")
-                        this.overspeedsilencer = true;
-                    }
-                } else {
-                    this.overspeedsilencer = false;
-                }
             }
+
+            //OVERSPEED Warn by LeNinjaHD
+            if(this.vars.tas.value > 152) {
+                if(!this.overspeedsilencer) {
+                        this.overspeedenter = this.TIME_S;
+                        this.overspeedsilencer = true;
+
+                        if(CONFIGPANEL.cockpitwarnings) {
+                            this.popalert("OVERSPEED!<br />CURRENT TAS: " + this.displayValue(this.vars.tas.value, "kts", "speed") + this.units.speed.pref, "")
+                        }
+                    }
+            } else {
+                if(this.overspeedenter > 0) {
+                    this.overspeedexit = this.TIME_S;
+                    if(this.overspeedexit > this.overspeedenter) {
+                        this.overspeedtotal += this.overspeedexit - this.overspeedenter;
+                        console.log("Total time in overspeed: " + this.overspeedtotal + " seconds");
+                    }
+                    this.overspeedenter = 0;
+                }
+                
+                this.overspeedsilencer = false;
+            }
+
         }
 
         if(this.lift_dots_timer_prev == null) {
