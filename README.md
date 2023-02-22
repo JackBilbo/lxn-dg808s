@@ -3,16 +3,16 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 
 <h2>Fixes and Features:</h2>
 
+<strong>Overspeed Warning:</strong>
 
-CHANGED KEYBINDS: some users experienced problems with binding to com frequencies. Changeing pages left/right and up/down are now bound to autopilot altitude and vertical speed settings:
+Coded and contributed bei LeNinjaHD - thanks for that! Gives you a red warning if exceeding 152 knots true airspeed. Depending on altitude that can be way before reaching the red line on the VSI.
 
-Page left/right: INCREASE/DECREASE AUTOPILOT REFERENCE ALTITUDE
-Page up/down: INCREASE/DECREASE AUTOPILOT REFERENCE VS
-Please adjust your keybinds
+The message will pop up each time you pass the threshold for ten seconds and the disappear without any harm. Connected to the "Cockpit Warnigns"-Switch in "Interface options" so can be deactivated. Or even is if you have deactivated those gear and ballast warnings. 
 
-Fixed a bug where conditional background colors in data fields failed for altitude values >10k
+<strong>New type of datafields</strong>
 
-Some text corrections.
+Two new variables: "Waypoint Min Altitude" and "Waypoint Max Altitude". These behave differently from all other vars: Fields will only be displayed, if a min/max value is present at the current waypoint. Otherwise the fields will be invisible, de-cluttering the interface. Now that the technique is there, it might be reused for other variables in the future.
+
  
 
 <h2>Installation:</h2>
