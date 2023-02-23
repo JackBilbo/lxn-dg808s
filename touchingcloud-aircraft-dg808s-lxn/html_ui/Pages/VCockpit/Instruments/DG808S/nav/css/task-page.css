@@ -35,7 +35,7 @@
 }
 
 #tasklist .headline span { display: none; margin-bottom: 0.5em;}
-.task-failures, .task-alerts { display: none; }
+.task-failures, .task-alerts { text-align: center; display: none; font-size: 1.2em; }
 #tasklist.task_not_started .headline span.header_prestart { display: block; font-size: 2em;}
 #tasklist.task_not_started .task-timer, #tasklist.task_not_started .task-distanceleft, #tasklist.task_not_started .task-average { display: none; }
 
@@ -51,8 +51,8 @@
 #tasklist.task_failed .headline span.header_failed { display: block; font-size: 2em; }
 #tasklist.task_failed .task-state>div { display: none; }
 #tasklist.task_failed .task-state .task-failures { display: block; }
-#tasklist.task_failed header { background-color: #cc0000; }
-#tasklist.task_failed .task-state>div { border-color: #cc0000; }
+#tasklist.task_failed header, #tasklist.task_overspeed header { background-color: #cc0000; }
+#tasklist.task_failed .task-state>div, #tasklist.task_overspeed .task-state>div { border-color: #cc0000; }
 
 .task-state { display: flex; justify-content: space-around; }
 .task-state>div { padding: 0.5em; background-color: rgba(255,255,255,0.1); width: 100%; border: 2px solid #222; }
