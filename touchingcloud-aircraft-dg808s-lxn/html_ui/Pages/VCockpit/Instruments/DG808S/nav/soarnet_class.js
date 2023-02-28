@@ -115,6 +115,8 @@ class soarnet {
                 }
             } else if (!B21_SOARING_ENGINE.task_started()) {
                 this.instrument.vars.tasktime.value = 0;
+            } else if(B21_SOARING_ENGINE.task_started()) {
+                document.getElementById("countdown").style.display = "none";
             }
         }
     }
