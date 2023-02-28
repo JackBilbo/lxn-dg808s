@@ -7,7 +7,11 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 
 Coded and contributed bei LeNinjaHD - thanks for that! Gives you a red warning if exceeding 152 knots true airspeed. Depending on altitude that can be way before reaching the red line on the VSI.
 
-The message will pop up each time you pass the threshold for ten seconds and the disappear without any harm. Connected to the "Cockpit Warnigns"-Switch in "Interface options" so can be deactivated. Or even is if you have deactivated those gear and ballast warnings. 
+The message will pop up each time you pass the threshold for ten seconds and the disappear without any harm. Connected to the "Cockpit Warnigns"-Switch in "Interface options" so can be deactivated. Or even is if you have deactivated those gear and ballast warnings.
+
+No matter if deactivated, exceeding Vne will be recorded and evaluated at the end of the current task.
+
+The speedtape gauge also shows a dynamic estimation of Vne translated to indicated airspeed as "red zone". This estimation will always be a little on the "pessimistic" side, placing the red overspeed line a little lower than the popup trigger to give you an early warning.
 
 <strong>New type of datafields</strong>
 
