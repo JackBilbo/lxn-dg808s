@@ -1,4 +1,4 @@
-let LXN, NAVMAP, NAVPANEL, CONFIGPANEL, UI, TOPOMAP, SN, SOARNET;
+let LXN, NAVMAP, NAVPANEL, CONFIGPANEL, UI, TOPOMAP;
 
 class lxn extends NavSystemTouch {
 
@@ -101,7 +101,7 @@ class lxn extends NavSystemTouch {
                 kts : 1,
                 kmh : 1.852,
                 mph : 1.15078,
-                ms : 0.51444
+                ms : 0.51444424416
             },
             dist: {
                 nm : 1,
@@ -165,8 +165,6 @@ class lxn extends NavSystemTouch {
         NAVPANEL = new navpanel(this); NAVPANEL.init();
         CONFIGPANEL = new configpanel(this); CONFIGPANEL.initSystemSettings();
         UI = new ui(this); UI.init();
-
-        SN = new soarnet(this); SN.init();
 
         this.init_speedgauge();
         this.jbb_init_calc_polar();
@@ -324,7 +322,6 @@ class lxn extends NavSystemTouch {
             if(this.vars.utctime.isUsed) {this.vars.utctime.value = new Date().toUTCString().replace(/.*(\d\d:\d\d:\d\d).*/,"$1"); }
 
             this.updateLiftdots();
-            SN.update();
 
             if(this.vars.alt_gnd.value > 100) { this.log.isStarted = true; }
             if(this.vars.gndspd.value < 20 && this.log.isStarted == true) { this.log.isStarted = false; }
@@ -373,6 +370,14 @@ class lxn extends NavSystemTouch {
                 
                 this.overspeedsilencer = false;
             }
+
+            /*
+            let ambient_temp_kelvin = SimVar.GetSimVarValue("AMBIENT TEMPERATURE", "kelvin");
+            let ambient_pressure = SimVar.GetSimVarValue("AMBIENT PRESSURE", "millibar");
+    
+            let tcal_ms = (this.vars.ias.value * 0.51444424416) / Math.sqrt(288.15 / ambient_temp_kelvin * ambient_pressure / 1013.25);
+            this.vars.tas_calc.value = tcal_ms * 1.9438452;
+            */
 
         }
 
@@ -803,13 +808,12 @@ class lxn extends NavSystemTouch {
         let ambient_pressure = SimVar.GetSimVarValue("AMBIENT PRESSURE", "millibar");
 
         let vne_ias_ms = 78.25 * Math.sqrt(288.15 / ambient_temp_kelvin * ambient_pressure / 1013.25);
-        // let vne_ias_ms = (152 / (1 + (this.vars.alt.value/1000 * 0.02))) / 1.944;
         
         let b21factor_kts = 120 - vne_ias_ms;
         let b21factor_kmh = 150 - vne_ias_ms;
 
         this.querySelector(".speedband").setAttribute("class", (units ? "speedband kts" : "speedband kmh"));
-        this.querySelector(".currentspeed span").innerHTML = this.displayValue(this.vars.ias.value, "kts", "speed");
+        this.querySelector(".currentspeed span").innerHTML = this.displayValue(IAS/1.852, "kts", "speed");
 
         if(IAS > 60 && IAS < 350) {
             document.querySelector(".speedladder.kmh").style.transform = "translate(0," + (speedbandoffset + (IAS - 60) * 10) +  "px)";
@@ -817,6 +821,8 @@ class lxn extends NavSystemTouch {
 
             document.querySelector(".speedladder.kmh .vnemarker").style.transform = "translate(0," + (((vne_ias_ms * 3.6 - 60) * -10) + b21factor_kmh) + "px)";
             document.querySelector(".speedladder.kts .vnemarker").style.transform = "translate(0," + (((vne_ias_ms * 1.944 - 30) * -10) + b21factor_kts ) + "px)";
+            // document.querySelector(".speedladder.kmh .vnemarker").style.transform = "translate(0," + (((vne_ias_ms * 3.6 - 60) * -10)) + "px)";
+            // document.querySelector(".speedladder.kts .vnemarker").style.transform = "translate(0," + (((vne_ias_ms * 1.944 - 30) * -10)) + "px)";
 
             this.querySelector(".speedladder.kmh .stfmarker").style.transform = "translate(0,-" + ((this.vars.stf.value * 1.852 - 60) * 10) +  "px)";
             this.querySelector(".speedladder.kts .stfmarker").style.transform = "translate(0,-" + ((this.vars.stf.value - 30) * 10) +  "px)";
