@@ -280,6 +280,7 @@ class lxn extends NavSystemTouch {
         if(this.TIME_S - this.TIMER_05 > 0.5) {
             /* Stuff happening twice per second  */
             this.TIMER_05 = this.TIME_S;
+            this.ENGINE_RUNNING = SimVar.GetSimVarValue("A:GENERAL ENG COMBUSTION:1","boolean") ? true : false;
 
             this.jbb_update_stf();
 
@@ -311,6 +312,24 @@ class lxn extends NavSystemTouch {
             this.vars.polar_sink.value = this.jbb_getPolarSink_kts(this.vars.ias.value);
             this.vars.total_energy.value = this.jbb_getTotalEnergy() / 0.51444;
             this.vars.calc_netto.value = this.vars.total_energy.value - this.vars.polar_sink.value;
+
+            // Detect SLEWED, TIME_NEGATIVE
+            if (B21_SOARING_ENGINE.task_active() &&
+                B21_SOARING_ENGINE.task_started() &&
+                ! B21_SOARING_ENGINE.task_finished()) {
+
+                 if (this.ENGINE_RUNNING) {
+                    this.SIM_TIME_ENGINE = true;
+                    if(!this.enginewarnsilencer) {
+                        if(CONFIGPANEL.cockpitwarnings) {
+                                this.popalert("Engine running - Task failed", "", 5)
+                        }
+                        this.enginewarnsilencer = true;
+                    }
+                } else {
+                        this.enginewarnsilencer = false;
+                }   
+            }
         }
 
         if(this.TIME_S - this.TIMER_1 > 1) {
