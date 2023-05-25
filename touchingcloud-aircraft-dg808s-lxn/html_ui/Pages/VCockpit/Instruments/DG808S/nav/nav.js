@@ -180,6 +180,7 @@ class lxn extends NavSystemTouch {
         this.overspeedexit = 0;
         this.overspeedtotal = 0;
 
+        this.avg_wind_direction = [];
         this.tick = 0;
 
         UI.resetPages();
@@ -215,6 +216,30 @@ class lxn extends NavSystemTouch {
         let LXNAV = this;
         this.TIME_S = SimVar.GetSimVarValue("E:SIMULATION TIME","seconds");
         this.SIM_TIME_S = this.TIME_S;
+        this.SLEW_MODE = SimVar.GetSimVarValue("IS SLEW ACTIVE", "bool") ? true : false;
+        this.ENGINE_RUNNING = SimVar.GetSimVarValue("A:GENERAL ENG COMBUSTION:1","boolean") ? true : false;
+
+        // Detect SLEWED, TIME_NEGATIVE
+        if (B21_SOARING_ENGINE.task_active() &&
+        B21_SOARING_ENGINE.task_started() &&
+        ! B21_SOARING_ENGINE.task_finished()) {
+
+            if (this.ENGINE_RUNNING) {
+                this.SIM_TIME_ENGINE = true;
+                if(!this.enginewarnsilencer) {
+                    if(CONFIGPANEL.cockpitwarnings) {
+                            this.popalert("Engine running - Task failed", "", 5)
+                    }
+                    this.enginewarnsilencer = true;
+                }
+            } else {
+                    this.enginewarnsilencer = false;
+            }
+            
+            if (this.SLEW_MODE) {
+                this.SIM_TIME_SLEWED = true;
+            }
+        }
 
         if(this.tick == 0) {
             this.vars.ias.value = SimVar.GetSimVarValue("A:AIRSPEED INDICATED", "knots");
@@ -244,7 +269,7 @@ class lxn extends NavSystemTouch {
         
         if(this.tick == 1) {
             this.vars.wind_spd.value = parseFloat(SimVar.GetSimVarValue("A:AMBIENT WIND VELOCITY", "knots"));
-            this.vars.wind_direction.value = this.vars.wind_direction.value != null ? (0.9 * this.vars.wind_direction.value) + (0.1 * SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees")) : SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees");
+            this.vars.wind_direction.value = parseInt(SimVar.GetSimVarValue("A:AMBIENT WIND DIRECTION", "degrees"));
             this.vars.wind_vertical.value = SimVar.GetSimVarValue("A:AMBIENT WIND Y", "knots");
             this.vars.current_netto.value = (this.vars.current_netto.value * 0.9) + (SimVar.GetSimVarValue("L:NETTO", "knots") * 0.1);
             if(this.vars.aoa.isUsed) {this.vars.aoa.value = SimVar.GetSimVarValue("INCIDENCE ALPHA", "radians") * (180/Math.PI);}
@@ -280,8 +305,7 @@ class lxn extends NavSystemTouch {
         if(this.TIME_S - this.TIMER_05 > 0.5) {
             /* Stuff happening twice per second  */
             this.TIMER_05 = this.TIME_S;
-            this.ENGINE_RUNNING = SimVar.GetSimVarValue("A:GENERAL ENG COMBUSTION:1","boolean") ? true : false;
-
+            
             this.jbb_update_stf();
 
             if (B21_SOARING_ENGINE.task_active()) {
@@ -313,23 +337,6 @@ class lxn extends NavSystemTouch {
             this.vars.total_energy.value = this.jbb_getTotalEnergy() / 0.51444;
             this.vars.calc_netto.value = this.vars.total_energy.value - this.vars.polar_sink.value;
 
-            // Detect SLEWED, TIME_NEGATIVE
-            if (B21_SOARING_ENGINE.task_active() &&
-                B21_SOARING_ENGINE.task_started() &&
-                ! B21_SOARING_ENGINE.task_finished()) {
-
-                 if (this.ENGINE_RUNNING) {
-                    this.SIM_TIME_ENGINE = true;
-                    if(!this.enginewarnsilencer) {
-                        if(CONFIGPANEL.cockpitwarnings) {
-                                this.popalert("Engine running - Task failed", "", 5)
-                        }
-                        this.enginewarnsilencer = true;
-                    }
-                } else {
-                        this.enginewarnsilencer = false;
-                }   
-            }
         }
 
         if(this.TIME_S - this.TIMER_1 > 1) {
@@ -910,26 +917,21 @@ class lxn extends NavSystemTouch {
 
     jbb_update_hawk() {
         let current_wind_direction = this.vars.wind_direction.value;
-        this.hawkwinddir = this.hawkwinddir != null ? (0.9 * this.hawkwinddir) + (0.1 * current_wind_direction) : current_wind_direction;
-        this.jbb_avg_wind_direction = this.jbb_avg_wind_direction != null ? ((0.99 * this.jbb_avg_wind_direction) + (0.01 * this.hawkwinddir)) : this.hawkwinddir;
-
-        let averageindicator = this.jbb_avg_wind_direction;
-       
         let current_wind_speed = this.vars.wind_spd.value;
-        this.hawkwindspeed = this.hawkwindspeed != null ? (0.9 * this.hawkwindspeed) + (0.1 * current_wind_speed) : current_wind_speed; 
-        this.jbb_avg_wind_speed = this.jbb_avg_wind_speed != null ? ((0.99 * this.jbb_avg_wind_speed) + (0.01 * this.hawkwindspeed)) : this.hawkwindspeed;
+        this.avg_wind_speed = this.avg_wind_speed != null ? ((0.99 * this.avg_wind_speed) + (0.01 * current_wind_speed)) : current_wind_speed;
+
+        this.avg_wind_direction.push(current_wind_direction);
+        if(this.avg_wind_direction.length > 45) { this.avg_wind_direction.shift() } // 10 sec average on wind direction
+        let averageindicator = this.meanAngleDeg(this.avg_wind_direction);
 
         document.querySelector("#hawk #arrow_avg").style.transform = "rotate(" + (NAVMAP.map_rotation == "trackup" ? averageindicator - this.vars.hdg.value : averageindicator) + "deg)";
-        document.querySelector("#hawk #arrow_current").style.transform = "rotate(" + (NAVMAP.map_rotation == "trackup" ? this.hawkwinddir - this.vars.hdg.value : this.hawkwinddir) + "deg)";
+        document.querySelector("#hawk #arrow_current").style.transform = "rotate(" + (NAVMAP.map_rotation == "trackup" ? current_wind_direction - this.vars.hdg.value : current_wind_direction) + "deg)";
 
-        document.querySelector("#hawkwinddirection").innerText = this.hawkwinddir.toFixed(0);
-        document.querySelector("#hawkwindspeed").innerText = this.displayValue(this.jbb_avg_wind_speed, 'kts', 'windspeed');
-
-        let wv = Math.min(600, this.hawkwindspeed * 10 + 150);
+        let wv = Math.min(600, current_wind_speed * 10 + 150);
         this.querySelector("#hawk #arrow_current").style.height = wv +"px";
         this.querySelector("#hawk #arrow_current").style.top = -wv/2 +"px";
 
-        let wvavg = Math.min(600, this.jbb_avg_wind_speed * 10 + 150);
+        let wvavg = Math.min(600, this.avg_wind_speed * 10 + 150);
         this.querySelector("#hawk #arrow_avg").style.height = wvavg +"px";
         this.querySelector("#hawk #arrow_avg").style.top = -wvavg/2 +"px";
         
@@ -944,6 +946,25 @@ class lxn extends NavSystemTouch {
 
         this.querySelector("#hawkbar").style.height =  Math.abs(this.vars.wind_vertical.value * 18) + "px";
     }
+
+    sum(a) {
+        var s = 0;
+        for (var i = 0; i < a.length; i++) s += a[i];
+        return s;
+    } 
+    
+    degToRad(a) {
+        return Math.PI / 180 * a;
+    }
+    
+    meanAngleDeg(a) {
+        return 180 / Math.PI * Math.atan2(
+            this.sum(a.map(this.degToRad).map(Math.sin)) / a.length,
+            this.sum(a.map(this.degToRad).map(Math.cos)) / a.length
+        );
+    }
+
+
 
     addLiftdot() {
         let position = this.get_position();

@@ -17,13 +17,13 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.html",
-      "size": 43055,
-      "date": 133238909433145899
+      "size": 43112,
+      "date": 133292566952018170
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.js",
-      "size": 67821,
-      "date": 133220859089747566
+      "size": 69186,
+      "date": 133292587890533798
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navmap.js",
@@ -82,8 +82,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/nav.css",
-      "size": 24748,
-      "date": 133216661837569696
+      "size": 24768,
+      "date": 133292572184048905
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/soarnet.css",
@@ -113,12 +113,17 @@
     {
       "path": "SimObjects/Airplanes/DG808S/ai.cfg",
       "size": 1331,
-      "date": 133186972259499659
+      "date": 133294771468236393
     },
     {
       "path": "SimObjects/Airplanes/DG808S/aircraft.cfg",
       "size": 7974,
       "date": 133186972259499659
+    },
+    {
+      "path": "SimObjects/Airplanes/DG808S/flight_model.cfg",
+      "size": 10573,
+      "date": 133060085883067023
     },
     {
       "path": "SimObjects/Airplanes/DG808S/reference_points.cfg",
