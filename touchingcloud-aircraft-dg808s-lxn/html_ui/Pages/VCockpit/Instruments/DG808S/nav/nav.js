@@ -388,7 +388,7 @@ class lxn extends NavSystemTouch {
             } else {
                 if(this.overspeedenter > 0) {
                     this.overspeedexit = this.TIME_S;
-                    if((this.overspeedexit > this.overspeedenter + 5) && B21_SOARING_ENGINE.task_started()) {
+                    if((this.overspeedexit > this.overspeedenter + 5) && B21_SOARING_ENGINE.task_started() && !B21_SOARING_ENGINE.task_finished()) {
                         this.overspeedtotal += this.overspeedexit - this.overspeedenter;
                     }
                     this.overspeedenter = 0;
@@ -1121,7 +1121,7 @@ class lxn extends NavSystemTouch {
         if (B21_SOARING_ENGINE.task_finished()) {
             document.getElementById("tasklist").setAttribute("class","task_finished hasScrollbars");
             
-            if(document.querySelector(".task-alerts").style.display = "block") {
+            if(document.querySelector(".task-alerts").style.display == "block") {
                 document.getElementById("tasklist").classList.add("task_overspeed");
             } 
             
