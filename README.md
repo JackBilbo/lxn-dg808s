@@ -3,19 +3,14 @@ Replacement mod for the Touching Cloud DG808s Nav computer
 
 <h2>Fixes and Features:</h2>
 
+<strong>Check for slew and engine use</strong>
+
+Using the engine or slew mode during a task will now be registered and invalidate the task. Using either before start or after finish line will have no consequences.
+
 <strong>Overspeed Warning:</strong>
 
-Coded and contributed bei LeNinjaHD - thanks for that! Gives you a red warning if exceeding 152 knots true airspeed. Depending on altitude that can be way before reaching the red line on the VSI.
+The speedtape gauge  shows a dynamic estimation of Vne translated to indicated airspeed as "red zone". Additionally the background of the speed tape will gradually turn orange as your speed ghet's closer to Vne.
 
-The message will pop up each time you pass the threshold for ten seconds and the disappear without any harm. Connected to the "Cockpit Warnigns"-Switch in "Interface options" so can be deactivated. Or even is if you have deactivated those gear and ballast warnings.
-
-No matter if deactivated, exceeding Vne will be recorded and evaluated at the end of the current task.
-
-The speedtape gauge also shows a dynamic estimation of Vne translated to indicated airspeed as "red zone". This estimation will always be a little on the "pessimistic" side, placing the red overspeed line a little lower than the popup trigger to give you an early warning.
-
-<strong>New type of datafields</strong>
-
-Two new variables: "Waypoint Min Altitude" and "Waypoint Max Altitude". These behave differently from all other vars: Fields will only be displayed, if a min/max value is present at the current waypoint. Otherwise the fields will be invisible, de-cluttering the interface. Now that the technique is there, it might be reused for other variables in the future.
 
  
 
