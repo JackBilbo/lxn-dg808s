@@ -397,14 +397,6 @@ class lxn extends NavSystemTouch {
                 this.overspeedsilencer = false;
             }
 
-            /*
-            let ambient_temp_kelvin = SimVar.GetSimVarValue("AMBIENT TEMPERATURE", "kelvin");
-            let ambient_pressure = SimVar.GetSimVarValue("AMBIENT PRESSURE", "millibar");
-    
-            let tcal_ms = (this.vars.ias.value * 0.51444424416) / Math.sqrt(288.15 / ambient_temp_kelvin * ambient_pressure / 1013.25);
-            this.vars.tas_calc.value = tcal_ms * 1.9438452;
-            */
-
         }
 
         if(this.lift_dots_timer_prev == null) {
@@ -858,6 +850,17 @@ class lxn extends NavSystemTouch {
             document.querySelector(".speedladder.kts").style.transform = "translate(0, " + speedbandoffset +  "px)";
         }
 
+        if(this.vars.tas.value > 123) {
+            let op = Math.abs((124 - this.vars.tas.value) / 30);
+            document.querySelectorAll(".speedladder").forEach((e)=> {
+                e.style.backgroundColor = "rgba(255,125,0," + op + ")";
+            })
+        } else {
+            document.querySelectorAll(".speedladder").forEach((e)=> {
+                e.style.backgroundColor = "transparent";
+            })
+        }
+
         // Update Flap-Indication
         let flapindex = SimVar.GetSimVarValue("A:FLAPS HANDLE INDEX", "number");
         if(this.lastBallastfactor != this.vars.ballast_pct.value) {
@@ -1081,19 +1084,16 @@ class lxn extends NavSystemTouch {
             taskheader.querySelector(".task-state .task-average .number").innerHTML = this.displayValue(B21_SOARING_ENGINE.finish_speed_ms(),"ms","speed");
             taskheader.querySelector(".task-state .task-average .unit").innerHTML = this.units.speed.pref;
             
-            this.vars.tasktime.value = B21_SOARING_ENGINE.task.finish_time_s - B21_SOARING_ENGINE.task.start_time_s;
-
-            taskheader.querySelector(".task-failures").innerHTML = this.overspeedtotal.toFixed(0) + "s in Overspeed";
-            taskheader.querySelector(".task-failures").style.display = "block";
-            
+            this.vars.tasktime.value = B21_SOARING_ENGINE.task.finish_time_s - B21_SOARING_ENGINE.task.start_time_s;            
         }
 
         /* Cheat-Warnings */
-        if (this.SIM_TIME_PAUSED || this.SIM_TIME_SLEWED || this.SIM_TIME_NEGATIVE || this.SIM_TIME_ENGINE) {
+        if (this.SIM_TIME_PAUSED || this.SIM_TIME_SLEWED || this.SIM_TIME_NEGATIVE || this.SIM_TIME_ENGINE || this.overspeedtotal > 0) {
             let alert_msg = this.SIM_TIME_PAUSED ? "+PAUSED " : "";
             alert_msg += this.SIM_TIME_SLEWED ? "+SLEWED " : "";
             alert_msg += this.SIM_TIME_NEGATIVE ? "+TIME_SLIDE " : "";
             alert_msg += this.SIM_TIME_ENGINE ? "+MOTOR" : "";
+            alert_msg += this.overspeedtotal > 0 ? "+" + this.overspeedtotal.toFixed(0) + "s OVERSPEED" : "";
 		
 	        document.querySelector(".task-alerts").innerHTML = alert_msg;
 	        document.querySelector(".task-alerts").style.display = "block";    
@@ -1119,11 +1119,11 @@ class lxn extends NavSystemTouch {
         } 
         
         if (B21_SOARING_ENGINE.task_finished()) {
-            if(this.overspeedtotal > 0) {
-                document.getElementById("tasklist").setAttribute("class","task_finished task_overspeed hasScrollbars");
-            } else {
-                document.getElementById("tasklist").setAttribute("class","task_finished hasScrollbars");
-            }
+            document.getElementById("tasklist").setAttribute("class","task_finished hasScrollbars");
+            
+            if(document.querySelector(".task-alerts").style.display = "block") {
+                document.getElementById("tasklist").classList.add("task_overspeed");
+            } 
             
         }
 
@@ -1371,12 +1371,12 @@ class lxn extends NavSystemTouch {
     message_task_finish(wp, finish_speed_ms, completion_time_s) {
         // Display "TASK COMPLETED" message
         let hl = "TASK COMPLETED ";
-        let msg_str = this.displayValue(finish_speed_ms,"ms","speed") + this.units.speed.pref + " (" + this.overspeedtotal.toFixed(0) + "s Overspeed)<br/>";
+        let msg_str = this.displayValue(finish_speed_ms,"ms","speed") + this.units.speed.pref + "<br/>";
         msg_str += this.displayValue(this.vars.localtime.value,"s","time_of_day")+"<br/>";
         msg_str += wp.name+"<br/>";
         msg_str += "SEE TASK PAGE.";
         // this.task_message(msg_str, 10); // Display start message for 3 seconds
-        let popcolor = this.overspeedtotal > 0 ? "#cc0000" : "#26783c";
+        let popcolor = document.querySelector(".task-alerts").style.display == "block" ? "#cc0000" : "#26783c";
         this.popalert(hl,msg_str,10,popcolor);
     }
 

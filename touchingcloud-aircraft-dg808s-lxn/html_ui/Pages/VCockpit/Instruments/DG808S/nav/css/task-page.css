@@ -29,9 +29,9 @@
 
 .task-alerts {
     padding: 0.5em;
-    background-color: #e7a508;
-    color: #000;
-        margin-bottom: 0.5em;
+    background-color: #cc0000;
+    color: #ffffff;
+    margin-bottom: 0.5em;
 }
 
 #tasklist .headline span { display: none; margin-bottom: 0.5em;}
@@ -144,6 +144,7 @@
 }
 
 .bigdatafields .click-indicator { display: block; }
+.bigdatafields .wp-ok .click-indicator { display: none; }
 
 .expanded .click-indicator {
     transform: rotate(180deg);
