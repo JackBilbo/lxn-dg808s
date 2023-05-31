@@ -1089,11 +1089,11 @@ class lxn extends NavSystemTouch {
 
         /* Cheat-Warnings */
         if (this.SIM_TIME_PAUSED || this.SIM_TIME_SLEWED || this.SIM_TIME_NEGATIVE || this.SIM_TIME_ENGINE || this.overspeedtotal > 0) {
-            let alert_msg = this.SIM_TIME_PAUSED ? "+PAUSED " : "";
-            alert_msg += this.SIM_TIME_SLEWED ? "+SLEWED " : "";
-            alert_msg += this.SIM_TIME_NEGATIVE ? "+TIME_SLIDE " : "";
-            alert_msg += this.SIM_TIME_ENGINE ? "+MOTOR" : "";
-            alert_msg += this.overspeedtotal > 0 ? "+" + this.overspeedtotal.toFixed(0) + "s OVERSPEED" : "";
+            let alert_msg = this.SIM_TIME_PAUSED ? "+ PAUSED " : "";
+            alert_msg += this.SIM_TIME_SLEWED ? "+ SLEWED " : "";
+            alert_msg += this.SIM_TIME_NEGATIVE ? "+ TIME_SLIDE " : "";
+            alert_msg += this.SIM_TIME_ENGINE ? "+ MOTOR " : "";
+            alert_msg += this.overspeedtotal > 0 ? "+ " + this.overspeedtotal.toFixed(0) + "s OVERSPEED" : "";
 		
 	        document.querySelector(".task-alerts").innerHTML = alert_msg;
 	        document.querySelector(".task-alerts").style.display = "block";    
