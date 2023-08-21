@@ -74,13 +74,14 @@ class configpanel {
         this.rangesliders = []
        
         this.maxballast = {
-                left: 125,
-                right: 125,
+                left: 210,
+                right: 210,
                 center: 123,
                 back: 26,
-                total: 399
-         }
+                total: 569
+        }
 
+        
         this.ballastslider = new rangeinput(document.querySelector("#ballastslider"), function(val) {
             instrument.vars.ballast_pct.value = val;
 
@@ -99,7 +100,7 @@ class configpanel {
     update() {
         if(!this.systeminitReady) { this.initSystemSettings(); return; }
 
-        this.instrument.vars.ballast.value = parseFloat(SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:3", "pounds") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:4", "pounds") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:6", "pounds") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:5", "pounds"));
+        this.instrument.vars.ballast.value = parseFloat(SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:3", "lbs") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:4", "lbs") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:6", "lbs") + SimVar.GetSimVarValue("PAYLOAD STATION WEIGHT:5", "lbs"));
         this.instrument.vars.ballast_pct.value = this.instrument.vars.ballast.value / this.maxballast.total * 100;
         
         if(UI.pagepos_x == 4) {
