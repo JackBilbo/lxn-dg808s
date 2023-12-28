@@ -2,8 +2,8 @@
   "content": [
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/configpanel.js",
-      "size": 15425,
-      "date": 133193892692779833
+      "size": 15422,
+      "date": 133345995269369045
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/interface.js",
@@ -17,13 +17,13 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.html",
-      "size": 43112,
-      "date": 133292566952018170
+      "size": 43022,
+      "date": 133298408247161155
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/nav.js",
-      "size": 69186,
-      "date": 133292587890533798
+      "size": 70159,
+      "date": 133435982179727263
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/navmap.js",
@@ -82,8 +82,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/nav.css",
-      "size": 24768,
-      "date": 133292572184048905
+      "size": 24770,
+      "date": 133298256214896533
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/soarnet.css",
@@ -92,8 +92,8 @@
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/css/task-page.css",
-      "size": 4860,
-      "date": 133216541034507308
+      "size": 4918,
+      "date": 133298342132779472
     },
     {
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/thermalling_display/thermalling_display.css",
@@ -109,26 +109,6 @@
       "path": "html_ui/Pages/VCockpit/Instruments/DG808S/nav/thermalling_display/thermalling_display.js",
       "size": 26482,
       "date": 133186972259779799
-    },
-    {
-      "path": "SimObjects/Airplanes/DG808S/ai.cfg",
-      "size": 1331,
-      "date": 133294771468236393
-    },
-    {
-      "path": "SimObjects/Airplanes/DG808S/aircraft.cfg",
-      "size": 7974,
-      "date": 133186972259499659
-    },
-    {
-      "path": "SimObjects/Airplanes/DG808S/flight_model.cfg",
-      "size": 10573,
-      "date": 133060085883067023
-    },
-    {
-      "path": "SimObjects/Airplanes/DG808S/reference_points.cfg",
-      "size": 982,
-      "date": 133186972259529658
     },
     {
       "path": "SimObjects/Airplanes/DG808S/panel/FME.wasm",

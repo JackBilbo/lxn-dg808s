@@ -15,7 +15,7 @@ class lxn extends NavSystemTouch {
 
         this.jbb_mccready = 0;
         this.jbb_mccready_ms = 0;
-        this.jbb_refwt = 779;
+        this.jbb_refwt = 773;
         this.jbb_avg_wind_speed = 0;   
         
         this.jbb_lift_dot_delay = 3;
@@ -40,7 +40,7 @@ class lxn extends NavSystemTouch {
             wind_vertical: { value: 0, label: "Wind Vert.", longlabel: "Vertical Windspeed", category: "windspeed", baseunit: "kts" },
             mccready: { value: 0, label: "MC", longlabel: "McCready Value", category: "verticalspeed", baseunit: "kts"},
             alt: { value: 0, label: "ALT", longlabel: "Altitude", category: "alt", baseunit: "ft" },
-            alt_gnd: { value: 0, label: "ALT (GND)", longlabel: "Altitude above Ground", category: "alt", baseunit: "ft" },
+            alt_gnd: { value: 0, label: "ALT AGL", longlabel: "Altitude above Ground", category: "alt", baseunit: "ft" },
             oat: { value: 0, label: "OAT", longlabel: "Outside Air Temperature",category:"temperature", baseunit: "F"},
             ballast: { value: 399, label: "Ballast", longlabel: "Current Ballast",category:"weight", baseunit: "lbs"},
             ballast_pct: { value: 100, label: "Ballast %", longlabel: "Current Ballast Percent",category:"percent", baseunit: "%"},
@@ -186,6 +186,9 @@ class lxn extends NavSystemTouch {
         UI.resetPages();
 
         document.getElementById("vignettage").style.border = "1px solid transparent";
+
+        this.registerKeyListeners();
+
         this._isConnected = true;
 	}
 	
@@ -196,7 +199,6 @@ class lxn extends NavSystemTouch {
     get isInteractive() {
         return true;
     }  
-
     onUpdate(_deltaTime) {
         super.onUpdate(_deltaTime);
 
@@ -560,30 +562,7 @@ class lxn extends NavSystemTouch {
                 this.subprevpageselector = this.subpageselector;
                 UI.pageUp();
              }
-
-/*
-             this.macselector = Math.round(SimVar.GetSimVarValue("VARIOMETER MAC CREADY SETTING:1","knots") * 10) / 10;
-
-             if(this.macselector == 0) { 
-                 SimVar.SetSimVarValue("VARIOMETER MAC CREADY SETTING:1","knots", 1)
-             }
- 
-             if(this.macselector > 1) {
-                 console.log("MC up" + this.vars.mccready.value);
-
-                 this.vars.mccready.value += 0.2;                  
-
-                 SimVar.SetSimVarValue("VARIOMETER MAC CREADY SETTING:1","knots", 1);
-             }
- 
-             if(this.macselector < 1) {
-                console.log("MC down" + this.vars.mccready.value);
-
-                this.vars.mccready.value = this.vars.mccready.value <= 0 ? 0 : this.vars.mccready.value - 0.2;
-
-                SimVar.SetSimVarValue("VARIOMETER MAC CREADY SETTING:1","knots", 1);
-             }
-*/             
+             
         /* Warnings and alerts */
 
         if(CONFIGPANEL.stallwarning && SimVar.GetSimVarValue("STALL WARNING", "bool") == "1") {
@@ -667,6 +646,10 @@ class lxn extends NavSystemTouch {
             result = result < 10 ? result.toFixed(1) : result.toFixed(0);
         }
 
+        if(category == "verticalspeed" && this.units.verticalspeed.pref == "ms" && val == this.vars.mccready.value) {
+            result = (Math.round(result * 2) / 2).toFixed(1);
+        }
+
         /* if no formatting has messed with our result up to this point, simply make it a whole number */
         if(typeof(result) == "number") { result = result.toFixed(0); }
 
@@ -684,16 +667,16 @@ class lxn extends NavSystemTouch {
         // polar values from Vario-Script:
 
         // Speed and sink in knots at Minimum Sink
-        let c4 = 48;
-        let d4 = -0.83585;
+        let c4 = 40;
+        let d4 = -0.9136;
 
         // Speed and sink in knots at best glide
-        let c5 = 57;
-        let d5 = -0.9136;
+        let c5 = 49;
+        let d5 = -0.9919;
 
         // Speed and sink in knots at "fast speed" - around 92kts/170kmh
-        let c6 = 92;
-        let d6 = -1.94384;
+        let c6 = 81;
+        let d6 = -2.527;
  
          let atop = (c6-c5) * (d4-d5) + (c5-c4) * (d6-d5);
          let abottom = c4 * c4 * (c6 -c5) + c6 * c6 * (c5-c4) + c5 * c5 * (c4-c6);
@@ -826,13 +809,11 @@ class lxn extends NavSystemTouch {
             e.addEventListener("click", function (e) {
 
                 if(e.target.classList.contains("inc")) {
-                    that.vars.mccready.value += 0.2;
+                    LXN.mcincrease();
                 }
                 if(e.target.classList.contains("dec")) {
-                    that.vars.mccready.value = that.vars.mccready.value <= 0 ? 0 : that.vars.mccready.value - 0.2;
+                    LXN.mcdecrease();  
                 }
-
-                SimVar.SetSimVarValue("L:BEZEL_CAL","percent", that.vars.mccready.value * 10 );
             })
             
         })
@@ -1438,6 +1419,34 @@ class lxn extends NavSystemTouch {
         this.power_status = new_power_status;
     }
 
+
+    registerKeyListeners() {
+        this.keyListener = RegisterViewListener('JS_LISTENER_KEYEVENT', () => {
+            Coherent.call('INTERCEPT_KEY_EVENT', 'MAC_CREADY_SETTING_INC', 1);
+            Coherent.call('INTERCEPT_KEY_EVENT', 'MAC_CREADY_SETTING_DEC', 1);
+            this.keyListener.on('keyIntercepted', (key, value1, value0, value2)=>{
+                switch (key) {
+                    case 'MAC_CREADY_SETTING_INC': this.mcincrease(); break;    
+                    case 'MAC_CREADY_SETTING_DEC': this.mcdecrease(); break;
+                }
+            });
+        });
+
+    }
+
+    mcincrease() {
+        let currentmc = Math.round(SimVar.GetSimVarValue("L:BEZEL_CAL","percent") / 10) * 10;
+        let newmc = currentmc <= 90 ? currentmc + 10 : 100;
+        SimVar.SetSimVarValue("L:BEZEL_CAL","percent", newmc ); 
+        LXN.vars.mccready.value = newmc / 10;
+    }
+        
+    mcdecrease() {
+        let currentmc = Math.round(SimVar.GetSimVarValue("L:BEZEL_CAL","percent") / 10) * 10;
+        let newmc = currentmc >=10 ? currentmc - 10 : 0
+        SimVar.SetSimVarValue("L:BEZEL_CAL","percent", newmc);
+        LXN.vars.mccready.value = newmc / 10;
+    }
 }
 
 
